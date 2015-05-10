@@ -1,0 +1,30 @@
+﻿Build started 5/10/2015 2:55:09 PM.
+     1>Project "D:\bullet3-master\build3\vs2010\Bullet3Dynamics.vcxproj" on node 4 (build target(s)).
+     1>PrepareForBuild:
+         Creating directory "..\..\bin\".
+       InitializeBuildStatus:
+         Creating "obj\x32\Release\Bullet3Dynamics\Bullet3Dynamics.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\Bullet3Dynamics\\" /Fd"obj\x32\Release\Bullet3Dynamics\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\Bullet3Dynamics\b3CpuRigidBodyPipeline.cpp ..\..\src\Bullet3Dynamics\ConstraintSolver\b3FixedConstraint.cpp ..\..\src\Bullet3Dynamics\ConstraintSolver\b3Generic6DofConstraint.cpp ..\..\src\Bullet3Dynamics\ConstraintSolver\b3PgsJacobiSolver.cpp ..\..\src\Bullet3Dynamics\ConstraintSolver\b3Point2PointConstraint.cpp ..\..\src\Bullet3Dynamics\ConstraintSolver\b3TypedConstraint.cpp /MP 
+         b3CpuRigidBodyPipeline.cpp
+         b3FixedConstraint.cpp
+         b3Generic6DofConstraint.cpp
+         b3PgsJacobiSolver.cpp
+         b3Point2PointConstraint.cpp
+         b3TypedConstraint.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\Bullet3Dynamics_vs2010.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\Bullet3Dynamics\b3CpuRigidBodyPipeline.obj
+         obj\x32\Release\Bullet3Dynamics\b3FixedConstraint.obj
+         obj\x32\Release\Bullet3Dynamics\b3Generic6DofConstraint.obj
+         obj\x32\Release\Bullet3Dynamics\b3PgsJacobiSolver.obj
+         obj\x32\Release\Bullet3Dynamics\b3Point2PointConstraint.obj
+         obj\x32\Release\Bullet3Dynamics\b3TypedConstraint.obj
+         Bullet3Dynamics.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\Bullet3Dynamics_vs2010.lib
+       FinalizeBuildStatus:
+         Deleting file "obj\x32\Release\Bullet3Dynamics\Bullet3Dynamics.unsuccessfulbuild".
+         Touching "obj\x32\Release\Bullet3Dynamics\Bullet3Dynamics.lastbuildstate".
+     1>Done Building Project "D:\bullet3-master\build3\vs2010\Bullet3Dynamics.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:11.64

@@ -1,0 +1,32 @@
+﻿Build started 5/10/2015 2:55:09 PM.
+     1>Project "D:\bullet3-master\build3\vs2010\LinearMath.vcxproj" on node 8 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "obj\x32\Release\LinearMath\LinearMath.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\LinearMath\\" /Fd"obj\x32\Release\LinearMath\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\LinearMath\btAlignedAllocator.cpp ..\..\src\LinearMath\btConvexHull.cpp ..\..\src\LinearMath\btConvexHullComputer.cpp ..\..\src\LinearMath\btGeometryUtil.cpp ..\..\src\LinearMath\btPolarDecomposition.cpp ..\..\src\LinearMath\btQuickprof.cpp ..\..\src\LinearMath\btSerializer.cpp ..\..\src\LinearMath\btVector3.cpp /MP 
+         btAlignedAllocator.cpp
+         btConvexHull.cpp
+         btConvexHullComputer.cpp
+         btGeometryUtil.cpp
+         btPolarDecomposition.cpp
+         btQuickprof.cpp
+         btSerializer.cpp
+         btVector3.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\LinearMath_vs2010.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\LinearMath\btAlignedAllocator.obj
+         obj\x32\Release\LinearMath\btConvexHull.obj
+         obj\x32\Release\LinearMath\btConvexHullComputer.obj
+         obj\x32\Release\LinearMath\btGeometryUtil.obj
+         obj\x32\Release\LinearMath\btPolarDecomposition.obj
+         obj\x32\Release\LinearMath\btQuickprof.obj
+         obj\x32\Release\LinearMath\btSerializer.obj
+         obj\x32\Release\LinearMath\btVector3.obj
+         LinearMath.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\LinearMath_vs2010.lib
+       FinalizeBuildStatus:
+         Deleting file "obj\x32\Release\LinearMath\LinearMath.unsuccessfulbuild".
+         Touching "obj\x32\Release\LinearMath\LinearMath.lastbuildstate".
+     1>Done Building Project "D:\bullet3-master\build3\vs2010\LinearMath.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.12

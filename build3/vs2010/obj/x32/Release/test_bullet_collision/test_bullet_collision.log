@@ -1,0 +1,36 @@
+﻿Build started 5/10/2015 2:55:43 PM.
+     1>Project "D:\bullet3-master\build3\vs2010\test_bullet_collision.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "obj\x32\Release\test_bullet_collision\test_bullet_collision.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\test\collision /I..\..\src /I"..\..\test\gtest-1.7.0\include" /nologo /W3 /WX- /Ox /Oy- /D _VARIADIC_MAX=10 /D _MBCS /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\test_bullet_collision\\" /Fd"obj\x32\Release\test_bullet_collision\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\test\collision\main.cpp ..\..\src\BulletCollision\NarrowPhaseCollision\btVoronoiSimplexSolver.cpp ..\..\src\BulletCollision\CollisionShapes\btSphereShape.cpp ..\..\src\BulletCollision\CollisionShapes\btMultiSphereShape.cpp ..\..\src\BulletCollision\CollisionShapes\btPolyhedralConvexShape.cpp ..\..\src\BulletCollision\CollisionShapes\btConvexShape.cpp ..\..\src\BulletCollision\CollisionShapes\btConvexInternalShape.cpp ..\..\src\BulletCollision\CollisionShapes\btCollisionShape.cpp ..\..\src\BulletCollision\CollisionShapes\btConvexPolyhedron.cpp /MP 
+         main.cpp
+         btVoronoiSimplexSolver.cpp
+         btSphereShape.cpp
+         btMultiSphereShape.cpp
+         btPolyhedralConvexShape.cpp
+         btConvexShape.cpp
+         btConvexInternalShape.cpp
+         btCollisionShape.cpp
+         btConvexPolyhedron.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\test_bullet_collision_vs2010.exe" /INCREMENTAL:NO /NOLOGO ..\..\bin\LinearMath_vs2010.lib ..\..\bin\gtest_vs2010.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"obj\x32\Release\test_bullet_collision\test_bullet_collision_vs2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"D:\bullet3-master\bin\test_bullet_collision_vs2010.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\test_bullet_collision_vs2010.lib" /MACHINE:X86 obj\x32\Release\test_bullet_collision\main.obj
+         obj\x32\Release\test_bullet_collision\btVoronoiSimplexSolver.obj
+         obj\x32\Release\test_bullet_collision\btSphereShape.obj
+         obj\x32\Release\test_bullet_collision\btMultiSphereShape.obj
+         obj\x32\Release\test_bullet_collision\btPolyhedralConvexShape.obj
+         obj\x32\Release\test_bullet_collision\btConvexShape.obj
+         obj\x32\Release\test_bullet_collision\btConvexInternalShape.obj
+         obj\x32\Release\test_bullet_collision\btCollisionShape.obj
+         obj\x32\Release\test_bullet_collision\btConvexPolyhedron.obj
+         test_bullet_collision.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\test_bullet_collision_vs2010.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"..\..\bin\test_bullet_collision_vs2010.exe;#1" /manifest obj\x32\Release\test_bullet_collision\test_bullet_collision_vs2010.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "obj\x32\Release\test_bullet_collision\test_bullet_collision.unsuccessfulbuild".
+         Touching "obj\x32\Release\test_bullet_collision\test_bullet_collision.lastbuildstate".
+     1>Done Building Project "D:\bullet3-master\build3\vs2010\test_bullet_collision.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:12.76

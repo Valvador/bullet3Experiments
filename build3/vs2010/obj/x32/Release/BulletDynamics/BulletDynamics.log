@@ -1,0 +1,80 @@
+﻿Build started 5/10/2015 2:55:16 PM.
+     1>Project "D:\bullet3-master\build3\vs2010\BulletDynamics.vcxproj" on node 7 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "obj\x32\Release\BulletDynamics\BulletDynamics.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\BulletDynamics\\" /Fd"obj\x32\Release\BulletDynamics\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp ..\..\src\BulletDynamics\Dynamics\btRigidBody.cpp ..\..\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp ..\..\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btContactConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btFixedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBody.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointMotor.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyPoint2Point.cpp ..\..\src\BulletDynamics\MLCPSolvers\btDantzigLCP.cpp ..\..\src\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.cpp ..\..\src\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp ..\..\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp ..\..\src\BulletDynamics\Vehicle\btWheelInfo.cpp ..\..\src\BulletDynamics\Character\btKinematicCharacterController.cpp /MP 
+         btDiscreteDynamicsWorld.cpp
+         btRigidBody.cpp
+         btSimpleDynamicsWorld.cpp
+         btConeTwistConstraint.cpp
+         btContactConstraint.cpp
+         btFixedConstraint.cpp
+         btGearConstraint.cpp
+         btGeneric6DofConstraint.cpp
+         btGeneric6DofSpring2Constraint.cpp
+         btGeneric6DofSpringConstraint.cpp
+         btHinge2Constraint.cpp
+         btHingeConstraint.cpp
+         btNNCGConstraintSolver.cpp
+         btPoint2PointConstraint.cpp
+         btSequentialImpulseConstraintSolver.cpp
+         btSliderConstraint.cpp
+         btSolve2LinearConstraint.cpp
+         btTypedConstraint.cpp
+         btUniversalConstraint.cpp
+         btMultiBody.cpp
+         btMultiBodyConstraint.cpp
+         btMultiBodyConstraintSolver.cpp
+         btMultiBodyDynamicsWorld.cpp
+         btMultiBodyJointLimitConstraint.cpp
+         btMultiBodyJointMotor.cpp
+         btMultiBodyPoint2Point.cpp
+         btDantzigLCP.cpp
+         btLemkeAlgorithm.cpp
+         btMLCPSolver.cpp
+         btRaycastVehicle.cpp
+         btWheelInfo.cpp
+         btKinematicCharacterController.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\BulletDynamics_vs2010.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\BulletDynamics\btDiscreteDynamicsWorld.obj
+         obj\x32\Release\BulletDynamics\btRigidBody.obj
+         obj\x32\Release\BulletDynamics\btSimpleDynamicsWorld.obj
+         obj\x32\Release\BulletDynamics\btConeTwistConstraint.obj
+         obj\x32\Release\BulletDynamics\btContactConstraint.obj
+         obj\x32\Release\BulletDynamics\btFixedConstraint.obj
+         obj\x32\Release\BulletDynamics\btGearConstraint.obj
+         obj\x32\Release\BulletDynamics\btGeneric6DofConstraint.obj
+         obj\x32\Release\BulletDynamics\btGeneric6DofSpring2Constraint.obj
+         obj\x32\Release\BulletDynamics\btGeneric6DofSpringConstraint.obj
+         obj\x32\Release\BulletDynamics\btHinge2Constraint.obj
+         obj\x32\Release\BulletDynamics\btHingeConstraint.obj
+         obj\x32\Release\BulletDynamics\btNNCGConstraintSolver.obj
+         obj\x32\Release\BulletDynamics\btPoint2PointConstraint.obj
+         obj\x32\Release\BulletDynamics\btSequentialImpulseConstraintSolver.obj
+         obj\x32\Release\BulletDynamics\btSliderConstraint.obj
+         obj\x32\Release\BulletDynamics\btSolve2LinearConstraint.obj
+         obj\x32\Release\BulletDynamics\btTypedConstraint.obj
+         obj\x32\Release\BulletDynamics\btUniversalConstraint.obj
+         obj\x32\Release\BulletDynamics\btMultiBody.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyConstraint.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyConstraintSolver.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyDynamicsWorld.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyJointLimitConstraint.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyJointMotor.obj
+         obj\x32\Release\BulletDynamics\btMultiBodyPoint2Point.obj
+         obj\x32\Release\BulletDynamics\btDantzigLCP.obj
+         obj\x32\Release\BulletDynamics\btLemkeAlgorithm.obj
+         obj\x32\Release\BulletDynamics\btMLCPSolver.obj
+         obj\x32\Release\BulletDynamics\btRaycastVehicle.obj
+         obj\x32\Release\BulletDynamics\btWheelInfo.obj
+         obj\x32\Release\BulletDynamics\btKinematicCharacterController.obj
+         BulletDynamics.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\BulletDynamics_vs2010.lib
+       FinalizeBuildStatus:
+         Deleting file "obj\x32\Release\BulletDynamics\BulletDynamics.unsuccessfulbuild".
+         Touching "obj\x32\Release\BulletDynamics\BulletDynamics.lastbuildstate".
+     1>Done Building Project "D:\bullet3-master\build3\vs2010\BulletDynamics.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:01:03.05
