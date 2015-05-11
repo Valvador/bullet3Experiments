@@ -68,7 +68,7 @@ static void SimpleKeyboardCallback(int key, int state)
         gApp->m_window->setRequestExit();
     } else
     {
-        //gApp->defaultKeyboardCallback(key,state);
+        gApp->defaultKeyboardCallback(key,state);
     }
 }
 

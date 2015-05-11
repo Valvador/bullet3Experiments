@@ -97,14 +97,23 @@ struct CommonGraphicsApp
 			bool isAltPressed = m_window->isModifierKeyPressed(B3G_ALT);
 			bool isControlPressed = m_window->isModifierKeyPressed(B3G_CONTROL);
 			
+			float pitch = camera->getCameraPitch();
+			float yaw = camera->getCameraYaw();
+			float xDelta = x-m_mouseXpos;
+			float yDelta = y-m_mouseYpos;
+
+			// Modified Rightclick Logic
+			if (m_rightMouseButton)
+			{
+				pitch -= xDelta*m_mouseMoveMultiplier;
+				yaw += yDelta*m_mouseMoveMultiplier;
+				camera->setCameraPitch(pitch);
+				camera->setCameraYaw(yaw);
+			}
 			
 			if (isAltPressed || isControlPressed)
 			{
-				float xDelta = x-m_mouseXpos;
-				float yDelta = y-m_mouseYpos;
 				float cameraDistance = camera->getCameraDistance();
-				float pitch = camera->getCameraPitch();
-				float yaw = camera->getCameraYaw();
 
 				float targPos[3];
 				float	camPos[3];
@@ -144,6 +153,8 @@ struct CommonGraphicsApp
 					cameraTargetPosition += side * xDelta*0.01;
 
 				}
+				// Bullet Original Logic
+				/*
 				if (m_rightMouseButton)
 				{
 						cameraDistance -= xDelta*0.01f;
@@ -152,7 +163,7 @@ struct CommonGraphicsApp
 							cameraDistance=1;
 						if (cameraDistance>1000)
 							cameraDistance=1000;
-				}
+				}*/
 				camera->setCameraDistance(cameraDistance);
 				camera->setCameraPitch(pitch);
 				camera->setCameraYaw(yaw);
@@ -166,9 +177,54 @@ struct CommonGraphicsApp
 		m_mouseYpos = y;
 		m_mouseInitialized = true;
 	}
-//	void defaultKeyboardCallback(int key, int state)
-//	{
-//	}
+
+	void defaultKeyboardCallback(int key, int state)
+	{
+		// Letter to KeyInt
+		// w = 119
+		// a = 97
+		// s = 115
+		// d = 100
+		const float moveVelocity = .5;
+
+		if (m_window && m_renderer)
+		{
+			int sideMotion = 0;
+			int forwardMotion = 0;
+			if (key == 'w')
+			{
+				forwardMotion = 1;
+			}
+			if (key == 'a')
+			{
+				sideMotion = 1;
+			}
+			if (key == 's')
+			{
+				forwardMotion = -1;
+			}
+			if (key == 'd')
+			{
+				sideMotion = -1;
+			}
+
+			b3Vector3 cameraTargetPosition, cameraPosition, cameraUp = b3MakeVector3(0,0,0);
+			cameraUp[getUpAxis()] = 1;
+			CommonCameraInterface* camera = m_renderer->getActiveCamera();
+			camera->getCameraPosition(cameraPosition);
+			camera->getCameraTargetPosition(cameraTargetPosition);
+			
+			b3Vector3 fwd = cameraTargetPosition-cameraPosition;
+			fwd.normalize();
+			b3Vector3 side = cameraUp.cross(fwd);
+			side.normalize();
+
+			cameraTargetPosition += fwd * forwardMotion * moveVelocity;
+			cameraTargetPosition += side * sideMotion * moveVelocity;
+			camera->setCameraTargetPosition(cameraTargetPosition[0],cameraTargetPosition[1],cameraTargetPosition[2]);			
+		}
+	}
+
 	void defaultWheelCallback( float deltax, float deltay)
 	{
 
@@ -177,7 +233,7 @@ struct CommonGraphicsApp
 			b3Vector3 cameraTargetPosition, cameraPosition, cameraUp = b3MakeVector3(0,0,0);
 			cameraUp[getUpAxis()] = 1;
 			CommonCameraInterface* camera = m_renderer->getActiveCamera();
-			
+	
 			camera->getCameraPosition(cameraPosition);
 			camera->getCameraTargetPosition(cameraTargetPosition);
 			

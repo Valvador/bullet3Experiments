@@ -115,52 +115,56 @@ void MyKeyboardCallback(int key, int state)
 	//checkout: is it desired to ignore keys, if the demo already handles them?
 	//if (handled)
 	//	return;
+	bool isControlPressed = s_window->isModifierKeyPressed(B3G_CONTROL);
 
-	if (key=='a' && state)
+	if (isControlPressed)
 	{
-		gDebugDrawFlags ^= btIDebugDraw::DBG_DrawAabb;
-	}
-	if (key=='c' && state)
-	{
-		gDebugDrawFlags ^= btIDebugDraw::DBG_DrawConstraints;
-		gDebugDrawFlags ^= btIDebugDraw::DBG_DrawContactPoints;
-	}
-	if (key == 'd' && state)
-	{
-		gDebugDrawFlags ^= btIDebugDraw::DBG_NoDeactivation;
-		gDisableDeactivation = ((gDebugDrawFlags & btIDebugDraw::DBG_NoDeactivation) != 0);
-	}
-	if (key=='l' && state)
-	{
-		gDebugDrawFlags ^= btIDebugDraw::DBG_DrawConstraintLimits;
-	}
-	if (key=='w' && state)
-	{
-		visualWireframe=!visualWireframe;
-		gDebugDrawFlags ^= btIDebugDraw::DBG_DrawWireframe;
-	}
-
-
-	if (key=='v' && state)
-	{
-		renderVisualGeometry = !renderVisualGeometry;
-	}
-	if (key=='g' && state)
-	{
-		renderGrid = !renderGrid;
-	}
+		if (key=='a' && state)
+		{
+			gDebugDrawFlags ^= btIDebugDraw::DBG_DrawAabb;
+		}
+		if (key=='c' && state)
+		{
+			gDebugDrawFlags ^= btIDebugDraw::DBG_DrawConstraints;
+			gDebugDrawFlags ^= btIDebugDraw::DBG_DrawContactPoints;
+		}
+		if (key == 'd' && state)
+		{
+			gDebugDrawFlags ^= btIDebugDraw::DBG_NoDeactivation;
+			gDisableDeactivation = ((gDebugDrawFlags & btIDebugDraw::DBG_NoDeactivation) != 0);
+		}
+		if (key=='l' && state)
+		{
+			gDebugDrawFlags ^= btIDebugDraw::DBG_DrawConstraintLimits;
+		}
+		if (key=='w' && state)
+		{
+			visualWireframe=!visualWireframe;
+			gDebugDrawFlags ^= btIDebugDraw::DBG_DrawWireframe;
+		}
 
 
-	if (key=='i' && state)
-	{
-		pauseSimulation = !pauseSimulation;
-	}
+		if (key=='v' && state)
+		{
+			renderVisualGeometry = !renderVisualGeometry;
+		}
+		if (key=='g' && state)
+		{
+			renderGrid = !renderGrid;
+		}
+
+
+		if (key=='i' && state)
+		{
+			pauseSimulation = !pauseSimulation;
+		}
 #ifndef NO_OPENGL3
-	if (key=='s' && state)
-	{
-		useShadowMap=!useShadowMap;
-	}
+		if (key=='s' && state)
+		{
+			useShadowMap=!useShadowMap;
+		}
 #endif
+	}
 	if (key==B3G_ESCAPE && s_window)
 	{
 		s_window->setRequestExit();

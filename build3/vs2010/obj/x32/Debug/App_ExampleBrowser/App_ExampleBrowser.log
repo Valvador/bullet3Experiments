@@ -1,0 +1,374 @@
+﻿Build started 5/10/2015 6:19:34 PM.
+     1>Project "D:\bullet3-master\build3\vs2010\App_ExampleBrowser.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src\clew /I..\..\examples\ExampleBrowser /I..\..\src /I..\..\examples\ThirdPartyLibs /I..\..\examples\ThirdPartyLibs\Glew /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D B3_USE_CLEW /D GLEW_STATIC /D INCLUDE_CLOTH_DEMOS /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\App_ExampleBrowser\\" /Fd"..\..\bin\App_ExampleBrowser_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\BasicDemo\BasicExample.cpp ..\..\examples\Benchmarks\BenchmarkDemo.cpp ..\..\examples\Constraints\ConstraintDemo.cpp ..\..\examples\Constraints\ConstraintPhysicsSetup.cpp ..\..\examples\Constraints\Dof6Spring2Setup.cpp ..\..\examples\DynamicControlDemo\MotorDemo.cpp ..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp ..\..\examples\ExampleBrowser\OpenGLGuiHelper.cpp ..\..\examples\ForkLift\ForkLiftDemo.cpp ..\..\examples\FractureDemo\FractureDemo.cpp ..\..\examples\GyroscopicDemo\GyroscopicSetup.cpp ..\..\examples\Importers\ImportBsp\ImportBspExample.cpp ..\..\examples\Importers\ImportBullet\SerializeSetup.cpp ..\..\examples\Importers\ImportColladaDemo\ImportColladaSetup.cpp ..\..\examples\Importers\ImportObjDemo\ImportObjExample.cpp ..\..\examples\Importers\ImportObjDemo\Wavefront2GLInstanceGraphicsShape.cpp ..\..\examples\Importers\ImportSTLDemo\ImportSTLSetup.cpp ..\..\examples\Importers\ImportURDFDemo\ImportURDFSetup.cpp ..\..\examples\MultiBody\MultiDofDemo.cpp ..\..\examples\MultiBody\TestJointTorqueSetup.cpp ..\..\examples\OpenCL\broadphase\PairBench.cpp ..\..\examples\OpenCL\rigidbody\GpuConvexScene.cpp ..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp ..\..\examples\Planar2D\Planar2D.cpp ..\..\examples\Raycast\RaytestDemo.cpp ..\..\examples\RenderingExamples\CoordinateSystemDemo.cpp ..\..\examples\RenderingExamples\RaytracerSetup.cpp ..\..\examples\RenderingExamples\RenderInstancingDemo.cpp ..\..\examples\RollingFrictionDemo\RollingFrictionDemo.cpp ..\..\examples\SoftDemo\SoftDemo.cpp ..\..\examples\Vehicles\Hinge2Vehicle.cpp ..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp /MP 
+         BasicExample.cpp
+         BenchmarkDemo.cpp
+         ConstraintDemo.cpp
+         ConstraintPhysicsSetup.cpp
+         Dof6Spring2Setup.cpp
+         MotorDemo.cpp
+         OpenGLExampleBrowser.cpp
+         OpenGLGuiHelper.cpp
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\examplebrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\examplebrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\constraints\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\dynamiccontroldemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\basicdemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\constraints\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\DynamicControlDemo\MotorDemo.cpp(166): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\examples\DynamicControlDemo\MotorDemo.cpp(206): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\examples\DynamicControlDemo\MotorDemo.cpp(341): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\examples\DynamicControlDemo\MotorDemo.cpp(359): warning C4244: 'initializing' : conversion from 'double' to 'btScalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\constraints\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         ForkLiftDemo.cpp
+         FractureDemo.cpp
+     1>..\..\examples\Constraints\Dof6Spring2Setup.cpp(364): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\Constraints\Dof6Spring2Setup.cpp(404): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\Constraints\Dof6Spring2Setup.cpp(423): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+         GyroscopicSetup.cpp
+         ImportBspExample.cpp
+         SerializeSetup.cpp
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\benchmarks\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Benchmarks\BenchmarkDemo.cpp(1276): warning C4099: 'CommonExampleInterface' : type name first seen using 'class' now seen using 'struct'
+                 d:\bullet3-master\examples\commoninterfaces\CommonExampleInterface.h(25) : see declaration of 'CommonExampleInterface'
+         ImportColladaSetup.cpp
+     1>D:\bullet3-master\src\Bullet3Common/b3CommandLineArgs.h(85): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(25): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(45): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         ImportObjExample.cpp
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(236): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(319): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(330): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(334): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(626): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(634): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(851): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\ExampleBrowser\OpenGLExampleBrowser.cpp(892): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\fracturedemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\gyroscopicdemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\forklift\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\forklift\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\Importers\ImportBsp\ImportBspExample.cpp(190): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\Importers\ImportBsp\ImportBspExample.cpp(191): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\ForkLift\ForkLiftDemo.cpp(535): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\ForkLift\ForkLiftDemo.cpp(538): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\ForkLift\ForkLiftDemo.cpp(541): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\ForkLift\ForkLiftDemo.cpp(544): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\Importers\ImportBullet\SerializeSetup.cpp(67): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\Importers\ImportBullet\SerializeSetup.cpp(68): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Importers\ImportBullet\SerializeSetup.cpp(99): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Importers\ImportBsp\ImportBspExample.cpp(288): warning C4099: 'CommonExampleInterface' : type name first seen using 'class' now seen using 'struct'
+                 d:\bullet3-master\examples\commoninterfaces\CommonExampleInterface.h(25) : see declaration of 'CommonExampleInterface'
+         Wavefront2GLInstanceGraphicsShape.cpp
+         ImportSTLSetup.cpp
+         ImportURDFSetup.cpp
+         MultiDofDemo.cpp
+         TestJointTorqueSetup.cpp
+         PairBench.cpp
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(25): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(45): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(25): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>D:\bullet3-master\src\Bullet3Common/b3FileUtils.h(45): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(377): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(377): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\broadphase\PairBench.cpp(377): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+         GpuConvexScene.cpp
+         GpuRigidBodyDemo.cpp
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Importers\ImportObjDemo\ImportObjExample.cpp(68): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\Importers\ImportObjDemo\ImportObjExample.cpp(69): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\MultiBody\TestJointTorqueSetup.cpp(229): warning C4244: 'argument' : conversion from 'double' to 'btScalar', possible loss of data
+     1>..\..\examples\MultiBody\TestJointTorqueSetup.cpp(262): warning C4244: 'argument' : conversion from 'double' to 'btScalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\importers\importstldemo\LoadMeshFromSTL.h(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>D:\bullet3-master\examples\ExampleBrowser\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Importers\ImportSTLDemo\ImportSTLSetup.cpp(64): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\Importers\ImportSTLDemo\ImportSTLSetup.cpp(65): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\opencl\rigidbody\GpuRigidBodyDemoInternalData.h(20): warning C4099: 'b3DynamicBvhBroadphase' : type name first seen using 'struct' now seen using 'class'
+                 D:\bullet3-master\src\Bullet3OpenCL/RigidBody/b3GpuRigidBodyPipeline.h(35) : see declaration of 'b3DynamicBvhBroadphase'
+     1>d:\bullet3-master\examples\opencl\rigidbody\GpuRigidBodyDemoInternalData.h(20): warning C4099: 'b3DynamicBvhBroadphase' : type name first seen using 'struct' now seen using 'class'
+                 D:\bullet3-master\src\Bullet3OpenCL/RigidBody/b3GpuRigidBodyPipeline.h(35) : see declaration of 'b3DynamicBvhBroadphase'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuConvexScene.cpp(285): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuConvexScene.cpp(285): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuConvexScene.cpp(285): warning C4244: 'argument' : conversion from 'double' to 'b3Scalar', possible loss of data
+         Planar2D.cpp
+     1>..\..\examples\Importers\ImportURDFDemo\ImportURDFSetup.cpp(100): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Importers\ImportURDFDemo\ImportURDFSetup.cpp(108): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
+     1>..\..\examples\Importers\ImportURDFDemo\ImportURDFSetup.cpp(125): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\Importers\ImportURDFDemo\ImportURDFSetup.cpp(228): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+         RaytestDemo.cpp
+         CoordinateSystemDemo.cpp
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(338): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(339): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(321): warning C4101: 'rightOffset' : unreferenced local variable
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(391): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(391): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(424): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\examples\OpenCL\rigidbody\GpuRigidBodyDemo.cpp(424): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+         RaytracerSetup.cpp
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+         RenderInstancingDemo.cpp
+         RollingFrictionDemo.cpp
+     1>..\..\examples\RenderingExamples\CoordinateSystemDemo.cpp(159): warning C4099: 'CommonExampleInterface' : type name first seen using 'class' now seen using 'struct'
+                 d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonExampleInterface.h(25) : see declaration of 'CommonExampleInterface'
+         SoftDemo.cpp
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\renderingexamples\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(56): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(56): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(56): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(96): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(96): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RenderInstancingDemo.cpp(96): warning C4244: 'argument' : conversion from 'int' to 'b3Scalar', possible loss of data
+         Hinge2Vehicle.cpp
+         VoronoiFractureDemo.cpp
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\planar2d\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(106): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(261): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(302): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(337): warning C4244: 'initializing' : conversion from 'btScalar' to 'unsigned char', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(338): warning C4244: 'initializing' : conversion from 'btScalar' to 'unsigned char', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(339): warning C4244: 'initializing' : conversion from 'btScalar' to 'unsigned char', possible loss of data
+     1>..\..\examples\RenderingExamples\RaytracerSetup.cpp(294): warning C4101: 'y' : unreferenced local variable
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\raycast\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Raycast\RaytestDemo.cpp(74): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\examples\Raycast\RaytestDemo.cpp(252): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\rollingfrictiondemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\softdemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\bullet3-master\examples\vehicles\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\vehicles\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\vehicles\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\Vehicles\Hinge2Vehicle.cpp(574): warning C4101: 'i' : unreferenced local variable
+     1>..\..\examples\Vehicles\Hinge2Vehicle.cpp(573): warning C4101: 'm' : unreferenced local variable
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(426): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(523): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(524): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(528): warning C4244: '=' : conversion from 'double' to 'btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(579): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(676): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(713): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(869): warning C4244: '=' : conversion from 'double' to 'btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(936): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(1294): warning C4244: 'argument' : conversion from 'int' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(1466): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(1478): warning C4244: 'argument' : conversion from 'double' to 'btScalar', possible loss of data
+     1>..\..\examples\SoftDemo\SoftDemo.cpp(1482): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>d:\bullet3-master\examples\voronoifracture\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(722): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(722): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(722): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(729): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(729): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(729): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(729): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(737): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(737): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+     1>..\..\examples\VoronoiFracture\VoronoiFractureDemo.cpp(737): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\App_ExampleBrowser_vs2010_debug.exe" /INCREMENTAL /NOLOGO ..\..\bin\gwen_vs2010_debug.lib ..\..\bin\OpenGL_Window_vs2010_debug.lib ..\..\lib\BulletSoftBody_vs2010_debug.lib ..\..\bin\BulletDynamics_vs2010_debug.lib ..\..\bin\BulletCollision_vs2010_debug.lib ..\..\bin\LinearMath_vs2010_debug.lib ..\..\bin\Bullet3Common_vs2010_debug.lib opengl32.lib glu32.lib ..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib ..\..\bin\Bullet3Dynamics_vs2010_debug.lib ..\..\bin\Bullet3Collision_vs2010_debug.lib ..\..\bin\Bullet3Geometry_vs2010_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser_vs2010_debug.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\bullet3-master\bin\App_ExampleBrowser_vs2010_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\App_ExampleBrowser_vs2010_debug.lib" /MACHINE:X86 obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser_vs2010_debug.exe.embed.manifest.res
+         obj\x32\Debug\App_ExampleBrowser\clew.obj
+         obj\x32\Debug\App_ExampleBrowser\glew.obj
+         obj\x32\Debug\App_ExampleBrowser\ExampleEntries.obj
+         obj\x32\Debug\App_ExampleBrowser\GL_ShapeDrawer.obj
+         obj\x32\Debug\App_ExampleBrowser\main.obj
+         obj\x32\Debug\App_ExampleBrowser\OpenGLExampleBrowser.obj
+         obj\x32\Debug\App_ExampleBrowser\OpenGLGuiHelper.obj
+         obj\x32\Debug\App_ExampleBrowser\GraphingTexture.obj
+         obj\x32\Debug\App_ExampleBrowser\GwenParameterInterface.obj
+         obj\x32\Debug\App_ExampleBrowser\GwenProfileWindow.obj
+         obj\x32\Debug\App_ExampleBrowser\GwenTextureWindow.obj
+         obj\x32\Debug\App_ExampleBrowser\gwenUserInterface.obj
+         obj\x32\Debug\App_ExampleBrowser\BasicExample.obj
+         obj\x32\Debug\App_ExampleBrowser\BenchmarkDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\ForkLiftDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\BspConverter.obj
+         obj\x32\Debug\App_ExampleBrowser\BspLoader.obj
+         obj\x32\Debug\App_ExampleBrowser\ImportBspExample.obj
+         obj\x32\Debug\App_ExampleBrowser\SerializeSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\ImportColladaSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\LoadMeshFromCollada.obj
+         obj\x32\Debug\App_ExampleBrowser\ImportObjExample.obj
+         obj\x32\Debug\App_ExampleBrowser\LoadMeshFromObj.obj
+         obj\x32\Debug\App_ExampleBrowser\Wavefront2GLInstanceGraphicsShape.obj
+         obj\x32\Debug\App_ExampleBrowser\ImportSTLSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\ImportURDFSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\MyMultiBodyCreator.obj
+         obj\x32\Debug\App_ExampleBrowser\MyURDFImporter.obj
+         obj\x32\Debug\App_ExampleBrowser\URDF2Bullet.obj
+         obj\x32\Debug\App_ExampleBrowser\btBulletWorldImporter.obj
+         obj\x32\Debug\App_ExampleBrowser\btWorldImporter.obj
+         obj\x32\Debug\App_ExampleBrowser\bChunk.obj
+         obj\x32\Debug\App_ExampleBrowser\bDNA.obj
+         obj\x32\Debug\App_ExampleBrowser\bFile.obj
+         obj\x32\Debug\App_ExampleBrowser\btBulletFile.obj
+         obj\x32\Debug\App_ExampleBrowser\Planar2D.obj
+         obj\x32\Debug\App_ExampleBrowser\CoordinateSystemDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\RaytracerSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\RenderInstancingDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\btConvexConvexMprAlgorithm.obj
+         obj\x32\Debug\App_ExampleBrowser\VoronoiFractureDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\SoftDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\RollingFrictionDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\btFractureBody.obj
+         obj\x32\Debug\App_ExampleBrowser\btFractureDynamicsWorld.obj
+         obj\x32\Debug\App_ExampleBrowser\FractureDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\MotorDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\ConstraintDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\ConstraintPhysicsSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\Dof6Spring2Setup.obj
+         obj\x32\Debug\App_ExampleBrowser\Hinge2Vehicle.obj
+         obj\x32\Debug\App_ExampleBrowser\RaytestDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\MultiDofDemo.obj
+         obj\x32\Debug\App_ExampleBrowser\TestJointTorqueSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\stb_image.obj
+         obj\x32\Debug\App_ExampleBrowser\tiny_obj_loader.obj
+         obj\x32\Debug\App_ExampleBrowser\tinystr.obj
+         obj\x32\Debug\App_ExampleBrowser\tinyxml.obj
+         obj\x32\Debug\App_ExampleBrowser\tinyxmlerror.obj
+         obj\x32\Debug\App_ExampleBrowser\tinyxmlparser.obj
+         obj\x32\Debug\App_ExampleBrowser\b3Clock.obj
+         obj\x32\Debug\App_ExampleBrowser\GyroscopicSetup.obj
+         obj\x32\Debug\App_ExampleBrowser\pose.obj
+         obj\x32\Debug\App_ExampleBrowser\model.obj
+         obj\x32\Debug\App_ExampleBrowser\link.obj
+         obj\x32\Debug\App_ExampleBrowser\joint.obj
+         obj\x32\Debug\App_ExampleBrowser\printf_console.obj
+         obj\x32\Debug\App_ExampleBrowser\string_split.obj
+         obj\x32\Debug\App_ExampleBrowser\PairBench.obj
+         obj\x32\Debug\App_ExampleBrowser\GpuConvexScene.obj
+         obj\x32\Debug\App_ExampleBrowser\GpuRigidBodyDemo.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser_vs2010_debug.exe.embed.manifest" /manifest obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser_vs2010_debug.exe.intermediate.manifest
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         App_ExampleBrowser.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\App_ExampleBrowser_vs2010_debug.exe
+       FinalizeBuildStatus:
+         Deleting file "obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser.unsuccessfulbuild".
+         Touching "obj\x32\Debug\App_ExampleBrowser\App_ExampleBrowser.lastbuildstate".
+     1>Done Building Project "D:\bullet3-master\build3\vs2010\App_ExampleBrowser.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.15
