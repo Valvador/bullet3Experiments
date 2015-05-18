@@ -1,52 +1,17 @@
-﻿Build started 5/10/2015 2:55:09 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\BulletSoftBody.vcxproj" on node 2 (build target(s)).
-     1>PrepareForBuild:
-         Creating directory "..\..\lib\".
-       InitializeBuildStatus:
+﻿Build started 5/17/2015 7:29:30 PM.
+     1>Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletSoftBody.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
          Creating "obj\x32\Release\BulletSoftBody\BulletSoftBody.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\BulletSoftBody\\" /Fd"obj\x32\Release\BulletSoftBody\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\BulletSoftBody\btDefaultSoftBodySolver.cpp ..\..\src\BulletSoftBody\btSoftBody.cpp ..\..\src\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp ..\..\src\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.cpp ..\..\src\BulletSoftBody\btSoftRigidCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftRigidDynamicsWorld.cpp ..\..\src\BulletSoftBody\btSoftSoftCollisionAlgorithm.cpp /MP 
-         btDefaultSoftBodySolver.cpp
-         btSoftBody.cpp
-         btSoftBodyConcaveCollisionAlgorithm.cpp
-         btSoftBodyHelpers.cpp
-         btSoftBodyRigidBodyCollisionConfiguration.cpp
-         btSoftRigidCollisionAlgorithm.cpp
-         btSoftRigidDynamicsWorld.cpp
-         btSoftSoftCollisionAlgorithm.cpp
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(444): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(445): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(449): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(450): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(1128): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(1129): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(1138): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(1184): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp(1195): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
+         All outputs are up-to-date.
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\lib\BulletSoftBody_vs2010.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\BulletSoftBody\btDefaultSoftBodySolver.obj
-         obj\x32\Release\BulletSoftBody\btSoftBody.obj
-         obj\x32\Release\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.obj
-         obj\x32\Release\BulletSoftBody\btSoftBodyHelpers.obj
-         obj\x32\Release\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.obj
-         obj\x32\Release\BulletSoftBody\btSoftRigidCollisionAlgorithm.obj
-         obj\x32\Release\BulletSoftBody\btSoftRigidDynamicsWorld.obj
-         obj\x32\Release\BulletSoftBody\btSoftSoftCollisionAlgorithm.obj
-         BulletSoftBody.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\lib\BulletSoftBody_vs2010.lib
+         All outputs are up-to-date.
+         BulletSoftBody.vcxproj -> C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\lib\BulletSoftBody_vs2010.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Release\BulletSoftBody\BulletSoftBody.unsuccessfulbuild".
          Touching "obj\x32\Release\BulletSoftBody\BulletSoftBody.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\BulletSoftBody.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletSoftBody.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:27.10
+Time Elapsed 00:00:00.13

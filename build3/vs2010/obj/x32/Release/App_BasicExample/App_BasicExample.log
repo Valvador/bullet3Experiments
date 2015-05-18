@@ -1,24 +1,17 @@
-﻿Build started 5/10/2015 2:56:27 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\App_BasicExample.vcxproj" on node 7 (build target(s)).
+﻿Build started 5/17/2015 7:29:30 PM.
+     1>Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\App_BasicExample.vcxproj" on node 4 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Release\App_BasicExample\App_BasicExample.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\App_BasicExample\\" /Fd"obj\x32\Release\App_BasicExample\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\BasicDemo\BasicExample.cpp ..\..\examples\BasicDemo\main.cpp /MP 
-         BasicExample.cpp
-         main.cpp
-     1>d:\bullet3-master\examples\basicdemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\App_BasicExample_vs2010.exe" /INCREMENTAL:NO /NOLOGO ..\..\bin\BulletDynamics_vs2010.lib ..\..\bin\BulletCollision_vs2010.lib ..\..\bin\LinearMath_vs2010.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"obj\x32\Release\App_BasicExample\App_BasicExample_vs2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"D:\bullet3-master\bin\App_BasicExample_vs2010.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\App_BasicExample_vs2010.lib" /MACHINE:X86 obj\x32\Release\App_BasicExample\BasicExample.obj
-         obj\x32\Release\App_BasicExample\main.obj
-         App_BasicExample.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\App_BasicExample_vs2010.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"..\..\bin\App_BasicExample_vs2010.exe;#1" /manifest obj\x32\Release\App_BasicExample\App_BasicExample_vs2010.exe.intermediate.manifest
+         All outputs are up-to-date.
+         App_BasicExample.vcxproj -> C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\App_BasicExample_vs2010.exe
        FinalizeBuildStatus:
          Deleting file "obj\x32\Release\App_BasicExample\App_BasicExample.unsuccessfulbuild".
          Touching "obj\x32\Release\App_BasicExample\App_BasicExample.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\App_BasicExample.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\App_BasicExample.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.62
+Time Elapsed 00:00:00.03

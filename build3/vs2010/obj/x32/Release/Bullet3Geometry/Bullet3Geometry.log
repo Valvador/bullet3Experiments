@@ -1,20 +1,17 @@
-﻿Build started 5/10/2015 2:55:09 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\Bullet3Geometry.vcxproj" on node 6 (build target(s)).
+﻿Build started 5/17/2015 7:29:30 PM.
+     1>Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Geometry.vcxproj" on node 4 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Release\Bullet3Geometry\Bullet3Geometry.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\Bullet3Geometry\\" /Fd"obj\x32\Release\Bullet3Geometry\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\Bullet3Geometry\b3ConvexHullComputer.cpp ..\..\src\Bullet3Geometry\b3GeometryUtil.cpp /MP 
-         b3ConvexHullComputer.cpp
-         b3GeometryUtil.cpp
+         All outputs are up-to-date.
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\Bullet3Geometry_vs2010.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\Bullet3Geometry\b3ConvexHullComputer.obj
-         obj\x32\Release\Bullet3Geometry\b3GeometryUtil.obj
-         Bullet3Geometry.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\Bullet3Geometry_vs2010.lib
+         All outputs are up-to-date.
+         Bullet3Geometry.vcxproj -> C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\Bullet3Geometry_vs2010.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Release\Bullet3Geometry\Bullet3Geometry.unsuccessfulbuild".
          Touching "obj\x32\Release\Bullet3Geometry\Bullet3Geometry.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\Bullet3Geometry.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Geometry.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:08.91
+Time Elapsed 00:00:00.03
