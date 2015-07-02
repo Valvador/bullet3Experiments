@@ -1,17 +1,17 @@
-﻿Build started 5/17/2015 7:29:30 PM.
-     1>Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletCollision.vcxproj" on node 2 (build target(s)).
+﻿Build started 6/28/2015 6:17:24 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletCollision.vcxproj" on node 8 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Release\BulletCollision\BulletCollision.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Lib:
          All outputs are up-to-date.
-         BulletCollision.vcxproj -> C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\BulletCollision_vs2010.lib
+         BulletCollision.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\BulletCollision_vs2010.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Release\BulletCollision\BulletCollision.unsuccessfulbuild".
          Touching "obj\x32\Release\BulletCollision\BulletCollision.lastbuildstate".
-     1>Done Building Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletCollision.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletCollision.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:00:00.45

@@ -1,18 +1,97 @@
-﻿Build started 5/17/2015 7:29:31 PM.
-     1>Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\App_ExampleBrowser.vcxproj" on node 3 (build target(s)).
+﻿Build started 6/28/2015 6:17:24 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\App_ExampleBrowser.vcxproj" on node 4 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Release\App_ExampleBrowser\App_ExampleBrowser.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src\clew /I..\..\examples\ExampleBrowser /I..\..\src /I..\..\examples\ThirdPartyLibs /I..\..\examples\ThirdPartyLibs\Glew /nologo /W3 /WX- /Ox /Oy- /D B3_USE_CLEW /D GLEW_STATIC /D INCLUDE_CLOTH_DEMOS /D _MBCS /GF /Gm- /EHsc /MT /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Release\App_ExampleBrowser\\" /Fd"obj\x32\Release\App_ExampleBrowser\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\VHACDDecomposition\VHACDDemo.cpp ..\..\examples\ExampleBrowser\ExampleEntries.cpp /MP 
+         VHACDDemo.cpp
+         ExampleEntries.cpp
+     1>c:\users\val\documents\github\bullet3experiments\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>c:\users\val\documents\github\bullet3experiments\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>c:\users\val\documents\github\bullet3experiments\examples\vhacddecomposition\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
          All outputs are up-to-date.
        Link:
-         All outputs are up-to-date.
-         App_ExampleBrowser.vcxproj -> C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\App_ExampleBrowser_vs2010.exe
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\App_ExampleBrowser_vs2010.exe" /INCREMENTAL:NO /NOLOGO ..\..\bin\gwen_vs2010.lib ..\..\bin\OpenGL_Window_vs2010.lib ..\..\lib\BulletSoftBody_vs2010.lib ..\..\bin\BulletDynamics_vs2010.lib ..\..\bin\BulletCollision_vs2010.lib ..\..\bin\LinearMath_vs2010.lib ..\..\bin\Bullet3Common_vs2010.lib opengl32.lib glu32.lib ..\..\lib\Bullet3OpenCL_clew_vs2010.lib ..\..\bin\Bullet3Dynamics_vs2010.lib ..\..\bin\Bullet3Collision_vs2010.lib ..\..\bin\Bullet3Geometry_vs2010.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"obj\x32\Release\App_ExampleBrowser\App_ExampleBrowser_vs2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\Users\Val\Documents\GitHub\bullet3Experiments\bin\App_ExampleBrowser_vs2010.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\App_ExampleBrowser_vs2010.lib" /MACHINE:X86 obj\x32\Release\App_ExampleBrowser\VHACDDemo.obj
+         obj\x32\Release\App_ExampleBrowser\clew.obj
+         obj\x32\Release\App_ExampleBrowser\glew.obj
+         obj\x32\Release\App_ExampleBrowser\ExampleEntries.obj
+         obj\x32\Release\App_ExampleBrowser\GL_ShapeDrawer.obj
+         obj\x32\Release\App_ExampleBrowser\main.obj
+         obj\x32\Release\App_ExampleBrowser\OpenGLExampleBrowser.obj
+         obj\x32\Release\App_ExampleBrowser\OpenGLGuiHelper.obj
+         obj\x32\Release\App_ExampleBrowser\GraphingTexture.obj
+         obj\x32\Release\App_ExampleBrowser\GwenParameterInterface.obj
+         obj\x32\Release\App_ExampleBrowser\GwenProfileWindow.obj
+         obj\x32\Release\App_ExampleBrowser\GwenTextureWindow.obj
+         obj\x32\Release\App_ExampleBrowser\gwenUserInterface.obj
+         obj\x32\Release\App_ExampleBrowser\BasicExample.obj
+         obj\x32\Release\App_ExampleBrowser\BenchmarkDemo.obj
+         obj\x32\Release\App_ExampleBrowser\ForkLiftDemo.obj
+         obj\x32\Release\App_ExampleBrowser\BspConverter.obj
+         obj\x32\Release\App_ExampleBrowser\BspLoader.obj
+         obj\x32\Release\App_ExampleBrowser\ImportBspExample.obj
+         obj\x32\Release\App_ExampleBrowser\SerializeSetup.obj
+         obj\x32\Release\App_ExampleBrowser\ImportColladaSetup.obj
+         obj\x32\Release\App_ExampleBrowser\LoadMeshFromCollada.obj
+         obj\x32\Release\App_ExampleBrowser\ImportObjExample.obj
+         obj\x32\Release\App_ExampleBrowser\LoadMeshFromObj.obj
+         obj\x32\Release\App_ExampleBrowser\Wavefront2GLInstanceGraphicsShape.obj
+         obj\x32\Release\App_ExampleBrowser\ImportSTLSetup.obj
+         obj\x32\Release\App_ExampleBrowser\ImportURDFSetup.obj
+         obj\x32\Release\App_ExampleBrowser\MyMultiBodyCreator.obj
+         obj\x32\Release\App_ExampleBrowser\MyURDFImporter.obj
+         obj\x32\Release\App_ExampleBrowser\URDF2Bullet.obj
+         obj\x32\Release\App_ExampleBrowser\btBulletWorldImporter.obj
+         obj\x32\Release\App_ExampleBrowser\btWorldImporter.obj
+         obj\x32\Release\App_ExampleBrowser\bChunk.obj
+         obj\x32\Release\App_ExampleBrowser\bDNA.obj
+         obj\x32\Release\App_ExampleBrowser\bFile.obj
+         obj\x32\Release\App_ExampleBrowser\btBulletFile.obj
+         obj\x32\Release\App_ExampleBrowser\Planar2D.obj
+         obj\x32\Release\App_ExampleBrowser\CoordinateSystemDemo.obj
+         obj\x32\Release\App_ExampleBrowser\RaytracerSetup.obj
+         obj\x32\Release\App_ExampleBrowser\RenderInstancingDemo.obj
+         obj\x32\Release\App_ExampleBrowser\btConvexConvexMprAlgorithm.obj
+         obj\x32\Release\App_ExampleBrowser\VoronoiFractureDemo.obj
+         obj\x32\Release\App_ExampleBrowser\SoftDemo.obj
+         obj\x32\Release\App_ExampleBrowser\RollingFrictionDemo.obj
+         obj\x32\Release\App_ExampleBrowser\btFractureBody.obj
+         obj\x32\Release\App_ExampleBrowser\btFractureDynamicsWorld.obj
+         obj\x32\Release\App_ExampleBrowser\FractureDemo.obj
+         obj\x32\Release\App_ExampleBrowser\MotorDemo.obj
+         obj\x32\Release\App_ExampleBrowser\ConstraintDemo.obj
+         obj\x32\Release\App_ExampleBrowser\ConstraintPhysicsSetup.obj
+         obj\x32\Release\App_ExampleBrowser\Dof6Spring2Setup.obj
+         obj\x32\Release\App_ExampleBrowser\Hinge2Vehicle.obj
+         obj\x32\Release\App_ExampleBrowser\RaytestDemo.obj
+         obj\x32\Release\App_ExampleBrowser\MultiDofDemo.obj
+         obj\x32\Release\App_ExampleBrowser\TestJointTorqueSetup.obj
+         obj\x32\Release\App_ExampleBrowser\stb_image.obj
+         obj\x32\Release\App_ExampleBrowser\tiny_obj_loader.obj
+         obj\x32\Release\App_ExampleBrowser\tinystr.obj
+         obj\x32\Release\App_ExampleBrowser\tinyxml.obj
+         obj\x32\Release\App_ExampleBrowser\tinyxmlerror.obj
+         obj\x32\Release\App_ExampleBrowser\tinyxmlparser.obj
+         obj\x32\Release\App_ExampleBrowser\b3Clock.obj
+         obj\x32\Release\App_ExampleBrowser\GyroscopicSetup.obj
+         obj\x32\Release\App_ExampleBrowser\pose.obj
+         obj\x32\Release\App_ExampleBrowser\model.obj
+         obj\x32\Release\App_ExampleBrowser\link.obj
+         obj\x32\Release\App_ExampleBrowser\joint.obj
+         obj\x32\Release\App_ExampleBrowser\printf_console.obj
+         obj\x32\Release\App_ExampleBrowser\string_split.obj
+         obj\x32\Release\App_ExampleBrowser\PairBench.obj
+         obj\x32\Release\App_ExampleBrowser\GpuConvexScene.obj
+         obj\x32\Release\App_ExampleBrowser\GpuRigidBodyDemo.obj
+         App_ExampleBrowser.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\App_ExampleBrowser_vs2010.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"..\..\bin\App_ExampleBrowser_vs2010.exe;#1" /manifest obj\x32\Release\App_ExampleBrowser\App_ExampleBrowser_vs2010.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "obj\x32\Release\App_ExampleBrowser\App_ExampleBrowser.unsuccessfulbuild".
          Touching "obj\x32\Release\App_ExampleBrowser\App_ExampleBrowser.lastbuildstate".
-     1>Done Building Project "C:\Users\Valvador\Documents\GitHub\bullet3Experiments\build3\vs2010\App_ExampleBrowser.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\App_ExampleBrowser.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.11
+Time Elapsed 00:00:05.49
