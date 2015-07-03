@@ -42,8 +42,10 @@ subject to the following restrictions:
 
 ///The btAlignedObjectArray template class uses a subset of the stl::vector interface for its methods
 ///It is developed to replace stl::vector to avoid portability issues, including STL alignment issues to add SIMD/SSE data
-template <typename T> 
 //template <class T> 
+namespace VHACD
+{
+template <typename T> 
 class btAlignedObjectArray
 {
 	btAlignedAllocator<T , 16>	m_allocator;
@@ -489,5 +491,5 @@ protected:
 	}
 
 };
-
+}
 #endif //BT_OBJECT_ARRAY__

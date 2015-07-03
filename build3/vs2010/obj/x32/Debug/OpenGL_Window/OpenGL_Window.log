@@ -1,18 +1,56 @@
-﻿Build started 5/10/2015 6:19:34 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\OpenGL_Window.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/2/2015 8:35:21 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\OpenGL_Window.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\OpenGL_Window\OpenGL_Window.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\examples\ThirdPartyLibs\Glew /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D GLEW_STATIC /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\OpenGL_Window\\" /Fd"..\..\bin\OpenGL_Window_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\OpenGLWindow\SimpleOpenGL2App.cpp ..\..\examples\OpenGLWindow\SimpleOpenGL3App.cpp /MP 
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\examples\ThirdPartyLibs\Glew /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D GLEW_STATIC /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\OpenGL_Window\\" /Fd"..\..\bin\OpenGL_Window_vs2010_debug.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\examples\ThirdPartyLibs\Glew\glew.c /MP 
+         glew.c
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\examples\ThirdPartyLibs\Glew /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D GLEW_STATIC /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\OpenGL_Window\\" /Fd"..\..\bin\OpenGL_Window_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\OpenGLWindow\fontstash.cpp ..\..\examples\OpenGLWindow\GLInstancingRenderer.cpp ..\..\examples\OpenGLWindow\GLPrimitiveRenderer.cpp ..\..\examples\OpenGLWindow\GLRenderToTexture.cpp ..\..\examples\OpenGLWindow\LoadShader.cpp ..\..\examples\OpenGLWindow\opengl_fontstashcallbacks.cpp ..\..\examples\OpenGLWindow\OpenSans.cpp ..\..\examples\OpenGLWindow\SimpleCamera.cpp ..\..\examples\OpenGLWindow\SimpleOpenGL2App.cpp ..\..\examples\OpenGLWindow\SimpleOpenGL2Renderer.cpp ..\..\examples\OpenGLWindow\SimpleOpenGL3App.cpp ..\..\examples\OpenGLWindow\TwFonts.cpp ..\..\examples\OpenGLWindow\Win32OpenGLWindow.cpp ..\..\examples\OpenGLWindow\Win32Window.cpp /MP 
+         fontstash.cpp
+         GLInstancingRenderer.cpp
+         GLPrimitiveRenderer.cpp
+         GLRenderToTexture.cpp
+         LoadShader.cpp
+         opengl_fontstashcallbacks.cpp
+         OpenSans.cpp
+         SimpleCamera.cpp
          SimpleOpenGL2App.cpp
+     1>..\..\examples\OpenGLWindow\GLPrimitiveRenderer.cpp(315): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         SimpleOpenGL2Renderer.cpp
          SimpleOpenGL3App.cpp
-     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
-     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
-     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
-     1>d:\bullet3-master\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\stb_image_write.h(156): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         TwFonts.cpp
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\stb_image_write.h(495): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         Win32OpenGLWindow.cpp
+         Win32Window.cpp
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>..\..\examples\OpenGLWindow\fontstash.cpp(225): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
+     1>c:\users\val\documents\github\bullet3experiments\examples\openglwindow\../CommonInterfaces/CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data
      1>..\..\examples\OpenGLWindow\SimpleOpenGL3App.cpp(713): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(272): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(272): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(302): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(302): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(319): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(319): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(357): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(357): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(368): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(368): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(379): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(379): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(411): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(411): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(778): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\examples\OpenGLWindow\Win32Window.cpp(778): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\OpenGL_Window_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\OpenGL_Window\glew.obj
          obj\x32\Debug\OpenGL_Window\fontstash.obj
@@ -29,12 +67,12 @@
          obj\x32\Debug\OpenGL_Window\TwFonts.obj
          obj\x32\Debug\OpenGL_Window\Win32OpenGLWindow.obj
          obj\x32\Debug\OpenGL_Window\Win32Window.obj
-         OpenGL_Window.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\OpenGL_Window_vs2010_debug.lib
+         OpenGL_Window.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\OpenGL_Window_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\OpenGL_Window\OpenGL_Window.unsuccessfulbuild".
          Touching "obj\x32\Debug\OpenGL_Window\OpenGL_Window.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\OpenGL_Window.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\OpenGL_Window.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.29
+Time Elapsed 00:00:08.28

@@ -25,6 +25,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #endif //OPENCL_FOUND
 
 #include "vhacdMutex.h"
+#include "vhacdVolume.h"
+#include "vhacdTimer.h"
 
 #define USE_THREAD                  1
 #define OCL_MIN_NUM_PRIMITIVES      4096

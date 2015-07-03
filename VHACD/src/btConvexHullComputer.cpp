@@ -46,6 +46,8 @@ subject to the following restrictions:
 	#include <stdio.h>
 #endif
 
+namespace VHACD
+{
 // Convex hull implementation based on Preparata and Hong
 // Ole Kniemeyer, MAXON Computer GmbH
 class btConvexHullInternal
@@ -2743,6 +2745,8 @@ btScalar btConvexHullComputer::compute(const void* coords, bool doubleCoords, in
 
 	return shift;
 }
+
+}; // end namespace VHACD
 
 
 

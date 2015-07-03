@@ -1,5 +1,5 @@
-﻿Build started 5/10/2015 5:23:23 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\Bullet3OpenCL_clew.vcxproj" on node 3 (build target(s)).
+﻿Build started 7/2/2015 8:35:22 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3OpenCL_clew.vcxproj" on node 4 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\Bullet3OpenCL_clew\Bullet3OpenCL_clew.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -20,23 +20,23 @@
      1>..\..\src\Bullet3OpenCL\BroadphaseCollision\b3GpuGridBroadphase.cpp(282): warning C4018: '<' : signed/unsigned mismatch
          b3StridingMeshInterface.cpp
          b3TriangleCallback.cpp
+     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(155): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
+     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(155): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
+     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(182): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
          b3TriangleIndexVertexArray.cpp
-     1>D:\bullet3-master\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(155): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
-     1>D:\bullet3-master\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(155): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
-     1>D:\bullet3-master\src\Bullet3Collision/NarrowPhaseCollision/shared/b3NewContactReduction.h(182): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
          b3VoronoiSimplexSolver.cpp
-         b3BoundSearchCL.cpp
-         b3FillCL.cpp
      1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(695): warning C4101: 'edgeBend' : unreferenced local variable
      1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(695): warning C4101: 'edgeAend' : unreferenced local variable
      1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(695): warning C4101: 'edgeAstart' : unreferenced local variable
      1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(695): warning C4101: 'edgeBstart' : unreferenced local variable
-     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3QuantizedBvh.cpp(622): warning C4101: 'normal' : unreferenced local variable
-     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(1295): warning C4101: 'centerOut' : unreferenced local variable
+         b3BoundSearchCL.cpp
+         b3FillCL.cpp
          b3LauncherCL.cpp
-     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(2106): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
-     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(2106): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
+     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(1295): warning C4101: 'centerOut' : unreferenced local variable
+     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3QuantizedBvh.cpp(622): warning C4101: 'normal' : unreferenced local variable
          b3PrefixScanCL.cpp
+     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(2106): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
+     1>..\..\src\Bullet3OpenCL\NarrowphaseCollision\b3ConvexHullContact.cpp(2106): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
          b3PrefixScanFloat4CL.cpp
          b3RadixSort32CL.cpp
          b3GpuRaycast.cpp
@@ -49,8 +49,8 @@
          b3GpuPgsConstraintSolver.cpp
          b3GpuPgsContactSolver.cpp
          b3GpuRigidBodyPipeline.cpp
-     1>..\..\src\Bullet3OpenCL\Raycast\b3GpuRaycast.cpp(314): warning C4018: '>' : signed/unsigned mismatch
          b3Solver.cpp
+     1>..\..\src\Bullet3OpenCL\Raycast\b3GpuRaycast.cpp(314): warning C4018: '>' : signed/unsigned mismatch
      1>..\..\src\Bullet3OpenCL\RigidBody\b3GpuJacobiContactSolver.cpp(565): warning C4018: '<' : signed/unsigned mismatch
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\Bullet3OpenCL_clew\clew.obj
@@ -83,12 +83,12 @@
          obj\x32\Debug\Bullet3OpenCL_clew\b3GpuPgsContactSolver.obj
          obj\x32\Debug\Bullet3OpenCL_clew\b3GpuRigidBodyPipeline.obj
          obj\x32\Debug\Bullet3OpenCL_clew\b3Solver.obj
-         Bullet3OpenCL_clew.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib
+         Bullet3OpenCL_clew.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\Bullet3OpenCL_clew\Bullet3OpenCL_clew.unsuccessfulbuild".
          Touching "obj\x32\Debug\Bullet3OpenCL_clew\Bullet3OpenCL_clew.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\Bullet3OpenCL_clew.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3OpenCL_clew.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.71
+Time Elapsed 00:00:08.57

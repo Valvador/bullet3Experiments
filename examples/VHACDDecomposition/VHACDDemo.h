@@ -15,6 +15,8 @@ subject to the following restrictions:
 
 #ifndef VHACD_DEMO_H
 #define VHACD_DEMO_H
+#include "VHACD.h"
+#include "vhacdVHACD.h"
 
 class CommonExampleInterface*    VHACDDemoCreateFunc(struct CommonExampleOptions& options);
 

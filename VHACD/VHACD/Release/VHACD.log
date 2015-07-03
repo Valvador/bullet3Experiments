@@ -1,128 +1,15 @@
-﻿Build started 6/28/2015 5:07:22 PM.
+﻿Build started 7/3/2015 1:12:32 AM.
      1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\VHACD\VHACD\VHACD.vcxproj" on node 3 (build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(299,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>InitializeBuildStatus:
          Creating "Release\VHACD.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../inc /I../public /AIC:\Windows\Microsoft.NET\Framework\v2.0.50727\ /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FUC:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /FUC:\Windows\Microsoft.NET\Framework\v2.0.50727\System.dll /FUC:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /analyze- /errorReport:prompt ..\src\btAlignedAllocator.cpp ..\src\btConvexHullComputer.cpp ..\src\Stdafx.cpp ..\src\VHACD.cpp ..\src\vhacdICHull.cpp ..\src\vhacdManifoldMesh.cpp ..\src\vhacdMesh.cpp ..\src\vhacdVolume.cpp AssemblyInfo.cpp /d1clr:nostdlib 
-         btAlignedAllocator.cpp
-         btConvexHullComputer.cpp
-         Stdafx.cpp
-         VHACD.cpp
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\vhacdMutex.h(56): warning C4005: '_WIN32_WINNT' : macro redefinition
-                 C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\sdkddkver.h(197) : see previous definition of '_WIN32_WINNT'
-         vhacdICHull.cpp
-         vhacdManifoldMesh.cpp
-         vhacdMesh.cpp
-     1>..\src\vhacdMesh.cpp(53): warning C4018: '<' : signed/unsigned mismatch
-     1>..\src\vhacdMesh.cpp(131): warning C4018: '<' : signed/unsigned mismatch
-         vhacdVolume.cpp
-         AssemblyInfo.cpp
-         Generating Code...
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2066): warning C4793: 'btConvexHullInternal::toBtVector' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2067): warning C4793: 'btConvexHullInternal::toBtVector' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(379): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2071): warning C4793: 'btConvexHullInternal::getBtNormal' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(202): warning C4793: 'btVector3::cross' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(491): warning C4793: 'btVector3::normalized' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(414): warning C4793: 'operator/' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(399): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2080): warning C4793: 'btConvexHullInternal::getCoordinates' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2081): warning C4793: 'btConvexHullInternal::getCoordinates' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(379): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(372): warning C4793: 'operator+' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(1975): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(1978): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(1980): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(1995): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2007): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2021): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2058): warning C4793: 'btConvexHullInternal::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(386): warning C4793: 'operator-' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(372): warning C4793: 'operator+' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(399): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(386): warning C4793: 'operator-' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(379): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(386): warning C4793: 'operator-' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(379): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2206): warning C4793: 'btConvexHullInternal::shiftFace' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2622): warning C4793: 'btConvexHullInternal::shiftFace' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(399): warning C4793: 'operator*' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2161): warning C4793: 'btConvexHullInternal::shrink' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2162): warning C4793: 'btConvexHullInternal::shrink' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2172): warning C4793: 'btConvexHullInternal::shrink' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2202): warning C4793: 'btConvexHullInternal::shrink' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btvector3.h(386): warning C4793: 'operator-' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2662): warning C4793: 'btConvexHullComputer::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2672): warning C4793: 'btConvexHullComputer::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\src\btconvexhullcomputer.cpp(2745): warning C4793: 'btConvexHullComputer::compute' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\VHACD\src\btConvexHullComputer.cpp : warning C4793: 'btConvexHullInternal::btConvexHullInternal' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\VHACD\src\btConvexHullComputer.cpp : warning C4793: 'btConvexHullInternal::btConvexHullInternal' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btalignedobjectarray.h(221): warning C4793: 'btAlignedObjectArray<btVector3>::resize' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btalignedobjectarray.h(268): warning C4793: 'btAlignedObjectArray<btVector3>::push_back' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>c:\users\val\documents\github\bullet3experiments\vhacd\inc\btalignedobjectarray.h(79): warning C4793: 'btAlignedObjectArray<btVector3>::copy' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\VHACD\src\btConvexHullComputer.cpp : warning C4793: 'btConvexHullInternal::btConvexHullInternal' : function compiled as native :
-         	Aligned data types not supported in managed code
-     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\VHACD\src\btConvexHullComputer.cpp : warning C4793: 'btConvexHullInternal::btConvexHullInternal' : function compiled as native :
-         	Aligned data types not supported in managed code
+         All outputs are up-to-date.
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\app.res" app.rc 
+         All outputs are up-to-date.
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Release\VHACD.lib" /NOLOGO Release\app.res
-         Release\btAlignedAllocator.obj
-         Release\btConvexHullComputer.obj
-         Release\Stdafx.obj
-         Release\VHACD.obj
-         Release\vhacdICHull.obj
-         Release\vhacdManifoldMesh.obj
-         Release\vhacdMesh.obj
-         Release\vhacdVolume.obj
-         Release\AssemblyInfo.obj
-     1>LINK : warning LNK4068: /MACHINE not specified; defaulting to X86
-     1>AssemblyInfo.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-     1>Stdafx.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-         VHACD.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Release\VHACD.lib
+         All outputs are up-to-date.
+         VHACD.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\\..\..\bin\VHACD.lib
        FinalizeBuildStatus:
          Deleting file "Release\VHACD.unsuccessfulbuild".
          Touching "Release\VHACD.lastbuildstate".
@@ -130,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:41.60
+Time Elapsed 00:00:00.46

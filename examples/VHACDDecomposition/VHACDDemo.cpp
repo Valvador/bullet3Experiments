@@ -14,10 +14,15 @@ subject to the following restrictions:
 */
 
 
-
+#include <vector>
 #include "VHACDDemo.h"
-
+#include "cd_wavefront.h"
 #include "btBulletDynamicsCommon.h"
+#include "BulletCollision\CollisionShapes\btBvhTriangleMeshShape.h"
+#include "BulletCollision\CollisionShapes\btTriangleMesh.h"
+#include "BulletCollision\CollisionShapes\btCompoundShape.h"
+#include "BulletCollision\CollisionShapes\btConvexHullShape.h"
+
 #define ARRAY_SIZE_Y 5
 #define ARRAY_SIZE_X 5
 #define ARRAY_SIZE_Z 5
@@ -34,6 +39,7 @@ struct VHACDDemo : public CommonRigidBodyBase
 		:CommonRigidBodyBase(helper)
 	{
 	}
+	btCompoundShape* createCompoundFromObj( ConvexDecomposition::WavefrontObj& meshObj );
 	virtual ~VHACDDemo(){}
 	virtual void initPhysics();
 	virtual void renderScene();
@@ -47,8 +53,86 @@ struct VHACDDemo : public CommonRigidBodyBase
 	}
 };
 
+btCompoundShape* VHACDDemo::createCompoundFromObj( ConvexDecomposition::WavefrontObj& meshObj )
+{
+	std::vector<float> vert;
+	std::vector<int> index;
+	vert.resize(meshObj.mVertexCount * 3);
+	index.resize(meshObj.mTriCount * 3);
+	for (int i = 0; i < meshObj.mVertexCount; i++)
+	{
+		vert[3*i + 0] = meshObj.mVertices[3*i + 0];
+		vert[3*i + 1] = meshObj.mVertices[3*i + 1];
+		vert[3*i + 2] = meshObj.mVertices[3*i + 2];
+	}
+
+	for (int i = 0; i < meshObj.mTriCount; i++)
+	{
+		index[3*i + 0] = meshObj.mIndices[3*i + 0];
+		index[3*i + 1] = meshObj.mIndices[3*i + 1];
+		index[3*i + 2] = meshObj.mIndices[3*i + 2];
+	}
+	
+	VHACD::IVHACD* interfaceVHACD = VHACD::CreateVHACD();
+	VHACD::VHACD::Parameters params;  
+	params.Init();
+	interfaceVHACD->Compute(&vert[0], 3, (unsigned int) vert.size()/3, &index[0], 3, (unsigned int) index.size()/3, params);
+	int numConvex = interfaceVHACD->GetNConvexHulls();
+
+	btCompoundShape* compoundShape = new btCompoundShape();
+	
+	for (int i = 0; i < numConvex; i++)
+	{
+		btConvexHullShape* convexHullShape = new btConvexHullShape();
+		VHACD::VHACD::ConvexHull convexHull;
+		interfaceVHACD->GetConvexHull(i, convexHull);
+		for (int j = 0; j < convexHull.m_nPoints; j++)
+		{
+			bool recalcAABB = false;
+			if (j == convexHull.m_nPoints - 1)
+			{
+				recalcAABB = true;
+			}
+			btScalar vertx = convexHull.m_points[3*j + 0];
+			btScalar verty = convexHull.m_points[3*j + 1];
+			btScalar vertz = convexHull.m_points[3*j + 2];
+			btVector3 vert(vertx, verty, vertz);
+			convexHullShape->addPoint(vert, recalcAABB);
+		}
+		btTransform compTrans;
+		compTrans.setIdentity();
+		compTrans.setOrigin(btVector3(0, 0, 0));
+		compoundShape->addChildShape(compTrans, convexHullShape);
+	}
+	interfaceVHACD->Release();
+	return compoundShape;
+}
+
 void VHACDDemo::initPhysics()
 {
+	// Load Mesh Triangle Mesh
+	const char* fileName = "../../data/teddy.obj";
+	ConvexDecomposition::WavefrontObj mesh_obj;
+	mesh_obj.loadObj(fileName);
+	btTriangleMesh* mesh = new btTriangleMesh();
+	for (int i = 0; i < mesh_obj.mTriCount; i++)
+	{
+		btScalar vert1x = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i] + 0];
+		btScalar vert1y = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i] + 1];
+		btScalar vert1z = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i] + 2];
+		btVector3 vert1(vert1x, vert1y, vert1z);
+		btScalar vert2x = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 1] + 0];
+		btScalar vert2y = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 1] + 1];
+		btScalar vert2z = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 1] + 2];
+		btVector3 vert2(vert2x, vert2y, vert2z);
+		btScalar vert3x = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 2] + 0];
+		btScalar vert3y = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 2] + 1];
+		btScalar vert3z = mesh_obj.mVertices[3*mesh_obj.mIndices[3*i + 2] + 2];
+		btVector3 vert3(vert3x, vert3y, vert3z);
+		mesh->addTriangle(vert1, vert2, vert3, true);
+	}
+	btBvhTriangleMeshShape* baseMesh = new btBvhTriangleMeshShape(mesh, true, true);
+	btCompoundShape* compoundShape = createCompoundFromObj( mesh_obj );
 	m_guiHelper->setUpAxis(1);
 
 	createEmptyDynamicsWorld();
@@ -66,6 +150,8 @@ void VHACDDemo::initPhysics()
 //	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
 	
 	m_collisionShapes.push_back(groundShape);
+	m_collisionShapes.push_back(baseMesh);
+	m_collisionShapes.push_back(compoundShape);
 
 	btTransform groundTransform;
 	groundTransform.setIdentity();
@@ -76,50 +162,18 @@ void VHACDDemo::initPhysics()
 		btRigidBody* body = createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1));
 	}
 
+	// Put mesh into World
+	btTransform meshTransform;
+	meshTransform.setIdentity();
+	meshTransform.setOrigin(btVector3(20, 20, 0));
+	createRigidBody( 0., meshTransform, baseMesh);
 
-	{
-		//create a few dynamic rigidbodies
-		// Re-using the same collision is better for memory usage and performance
+	// Put VHACD into World
+	btTransform meshDecompTransform;
+	meshDecompTransform.setIdentity();
+	meshDecompTransform.setOrigin(btVector3(-20, 40, 0));
+	createRigidBody( 20., meshDecompTransform, compoundShape);
 
-		btBoxShape* colShape = createBoxShape(btVector3(1,1,1));
-		
-
-		//btCollisionShape* colShape = new btSphereShape(btScalar(1.));
-		m_collisionShapes.push_back(colShape);
-
-		/// Create Dynamic Objects
-		btTransform startTransform;
-		startTransform.setIdentity();
-
-		btScalar	mass(1.f);
-
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
-		bool isDynamic = (mass != 0.f);
-
-		btVector3 localInertia(0,0,0);
-		if (isDynamic)
-			colShape->calculateLocalInertia(mass,localInertia);
-
-
-		for (int k=0;k<ARRAY_SIZE_Y;k++)
-		{
-			for (int i=0;i<ARRAY_SIZE_X;i++)
-			{
-				for(int j = 0;j<ARRAY_SIZE_Z;j++)
-				{
-					startTransform.setOrigin(btVector3(
-										btScalar(2.0*i),
-										btScalar(20+2.0*k),
-										btScalar(2.0*j)));
-
-			
-					btRigidBody* body = createRigidBody(mass,startTransform,colShape);
-					
-
-				}
-			}
-		}
-	}
 
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }

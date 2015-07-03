@@ -18,6 +18,8 @@ subject to the following restrictions:
 #include "btVector3.h"
 #include "btAlignedObjectArray.h"
 
+namespace VHACD
+{
 /// Convex hull implementation based on Preparata and Hong
 /// See http://code.google.com/p/bullet/issues/detail?id=275
 /// Ole Kniemeyer, MAXON Computer GmbH
@@ -97,6 +99,8 @@ class btConvexHullComputer
 			return compute(coords, true, stride, count, shrink, shrinkClamp);
 		}
 };
+
+}; //end namespace VHACD
 
 
 #endif //BT_CONVEX_HULL_COMPUTER_H

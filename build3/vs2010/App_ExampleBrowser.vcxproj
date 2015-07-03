@@ -83,7 +83,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
@@ -102,7 +102,7 @@
       <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\..\bin\gwen_vs2010.lib;..\..\bin\OpenGL_Window_vs2010.lib;..\..\lib\BulletSoftBody_vs2010.lib;..\..\bin\BulletDynamics_vs2010.lib;..\..\bin\BulletCollision_vs2010.lib;..\..\bin\LinearMath_vs2010.lib;..\..\bin\Bullet3Common_vs2010.lib;opengl32.lib;glu32.lib;..\..\lib\Bullet3OpenCL_clew_vs2010.lib;..\..\bin\Bullet3Dynamics_vs2010.lib;..\..\bin\Bullet3Collision_vs2010.lib;..\..\bin\Bullet3Geometry_vs2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\bin\gwen_vs2010.lib;..\..\bin\OpenGL_Window_vs2010.lib;..\..\lib\BulletSoftBody_vs2010.lib;..\..\bin\BulletDynamics_vs2010.lib;..\..\bin\BulletCollision_vs2010.lib;..\..\bin\LinearMath_vs2010.lib;..\..\bin\Bullet3Common_vs2010.lib;opengl32.lib;glu32.lib;..\..\lib\Bullet3OpenCL_clew_vs2010.lib;..\..\bin\Bullet3Dynamics_vs2010.lib;..\..\bin\Bullet3Collision_vs2010.lib;..\..\bin\Bullet3Geometry_vs2010.lib;..\..\bin\VHACD.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)App_ExampleBrowser_vs2010.exe</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -151,7 +151,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG=1;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -169,7 +169,7 @@
       <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\..\bin\gwen_vs2010_debug.lib;..\..\bin\OpenGL_Window_vs2010_debug.lib;..\..\lib\BulletSoftBody_vs2010_debug.lib;..\..\bin\BulletDynamics_vs2010_debug.lib;..\..\bin\BulletCollision_vs2010_debug.lib;..\..\bin\LinearMath_vs2010_debug.lib;..\..\bin\Bullet3Common_vs2010_debug.lib;opengl32.lib;glu32.lib;..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib;..\..\bin\Bullet3Dynamics_vs2010_debug.lib;..\..\bin\Bullet3Collision_vs2010_debug.lib;..\..\bin\Bullet3Geometry_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\bin\gwen_vs2010_debug.lib;..\..\bin\OpenGL_Window_vs2010_debug.lib;..\..\lib\BulletSoftBody_vs2010_debug.lib;..\..\bin\BulletDynamics_vs2010_debug.lib;..\..\bin\BulletCollision_vs2010_debug.lib;..\..\bin\LinearMath_vs2010_debug.lib;..\..\bin\Bullet3Common_vs2010_debug.lib;opengl32.lib;glu32.lib;..\..\lib\Bullet3OpenCL_clew_vs2010_debug.lib;..\..\bin\Bullet3Dynamics_vs2010_debug.lib;..\..\bin\Bullet3Collision_vs2010_debug.lib;..\..\bin\Bullet3Geometry_vs2010_debug.lib;..\..\bin\VHACD_dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)App_ExampleBrowser_vs2010_debug.exe</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -210,6 +210,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\examples\VHACDDecomposition\cd_wavefront.h" />
+    <ClInclude Include="..\..\examples\VHACDDecomposition\float_math.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\VHACDDemo.h" />
     <ClInclude Include="..\..\src\clew\clew.h" />
     <ClInclude Include="..\..\examples\ExampleBrowser\EmptyBrowser.h" />
@@ -311,6 +313,8 @@
     <ClInclude Include="..\..\examples\OpenCL\CommonOpenCL\GpuDemoInternalData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\examples\VHACDDecomposition\cd_wavefront.cpp" />
+    <ClCompile Include="..\..\examples\VHACDDecomposition\float_math.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\VHACDDemo.cpp" />
     <ClCompile Include="..\..\src\clew\clew.c">
     </ClCompile>
@@ -463,6 +467,11 @@
     <None Include="..\..\examples\SoftDemo\bunny.inl" />
     <None Include="..\..\examples\SoftDemo\cube.inl" />
     <None Include="..\..\examples\OpenCL\broadphase\pairsKernel.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\VHACD\VHACD\VHACD.vcxproj">
+      <Project>{16a13289-c208-4cd7-a27e-ecdbc95298c8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

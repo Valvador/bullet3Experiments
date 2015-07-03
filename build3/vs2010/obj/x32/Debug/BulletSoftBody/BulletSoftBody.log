@@ -1,5 +1,5 @@
-﻿Build started 5/10/2015 5:23:23 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\BulletSoftBody.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/2/2015 8:35:26 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletSoftBody.vcxproj" on node 5 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\BulletSoftBody\BulletSoftBody.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -39,12 +39,12 @@
          obj\x32\Debug\BulletSoftBody\btSoftRigidCollisionAlgorithm.obj
          obj\x32\Debug\BulletSoftBody\btSoftRigidDynamicsWorld.obj
          obj\x32\Debug\BulletSoftBody\btSoftSoftCollisionAlgorithm.obj
-         BulletSoftBody.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\lib\BulletSoftBody_vs2010_debug.lib
+         BulletSoftBody.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\lib\BulletSoftBody_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\BulletSoftBody\BulletSoftBody.unsuccessfulbuild".
          Touching "obj\x32\Debug\BulletSoftBody\BulletSoftBody.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\BulletSoftBody.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletSoftBody.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.26
+Time Elapsed 00:00:07.55

@@ -494,6 +494,12 @@
     <ClInclude Include="..\..\examples\VHACDDecomposition\VHACDDemo.h">
       <Filter>examples\VHACDDecomposition</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\examples\VHACDDecomposition\cd_wavefront.h">
+      <Filter>examples\VHACDDecomposition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\examples\VHACDDecomposition\float_math.h">
+      <Filter>examples\VHACDDecomposition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\clew\clew.c">
@@ -710,6 +716,12 @@
       <Filter>examples\OpenCL\rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="..\..\examples\VHACDDecomposition\VHACDDemo.cpp">
+      <Filter>examples\VHACDDecomposition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\examples\VHACDDecomposition\cd_wavefront.cpp">
+      <Filter>examples\VHACDDecomposition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\examples\VHACDDecomposition\float_math.cpp">
       <Filter>examples\VHACDDecomposition</Filter>
     </ClCompile>
   </ItemGroup>

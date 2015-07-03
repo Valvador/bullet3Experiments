@@ -15,6 +15,10 @@ subject to the following restrictions:
 #include "stdafx.h"
 #include "btAlignedAllocator.h"
 
+
+namespace VHACD
+{
+
 int gNumAlignedAllocs = 0;
 int gNumAlignedFree = 0;
 int gTotalBytesAlignedAllocs = 0;//detect memory leaks
@@ -177,6 +181,6 @@ void	btAlignedFreeInternal	(void* ptr)
 //	printf("btAlignedFreeInternal %x\n",ptr);
 	sAlignedFreeFunc(ptr);
 }
-
+};
 #endif //BT_DEBUG_MEMORY_ALLOCATIONS
 

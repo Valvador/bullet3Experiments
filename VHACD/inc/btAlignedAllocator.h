@@ -21,6 +21,8 @@ subject to the following restrictions:
 ///that is better portable and more predictable
 
 #include "btScalar.h"
+namespace VHACD
+{
 //#define BT_DEBUG_MEMORY_ALLOCATIONS 1
 #ifdef BT_DEBUG_MEMORY_ALLOCATIONS
 
@@ -42,6 +44,7 @@ void	btAlignedFreeInternal	(void* ptr,int line,char* filename);
 	#define btAlignedFree(ptr) btAlignedFreeInternal(ptr)
 
 #endif
+
 typedef int	size_type;
 
 typedef void *(btAlignedAllocFunc)(size_t size, int alignment);
@@ -101,7 +104,7 @@ public:
 	friend bool operator==( const self_type & , const self_type & ) { return true; }
 };
 
-
+}
 
 #endif //BT_ALIGNED_ALLOCATOR
 

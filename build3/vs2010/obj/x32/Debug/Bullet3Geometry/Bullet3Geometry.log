@@ -1,5 +1,5 @@
-﻿Build started 5/10/2015 5:23:23 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\Bullet3Geometry.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/2/2015 8:35:22 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Geometry.vcxproj" on node 7 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\Bullet3Geometry\Bullet3Geometry.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -9,12 +9,12 @@
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\Bullet3Geometry_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\Bullet3Geometry\b3ConvexHullComputer.obj
          obj\x32\Debug\Bullet3Geometry\b3GeometryUtil.obj
-         Bullet3Geometry.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\Bullet3Geometry_vs2010_debug.lib
+         Bullet3Geometry.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\Bullet3Geometry_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\Bullet3Geometry\Bullet3Geometry.unsuccessfulbuild".
          Touching "obj\x32\Debug\Bullet3Geometry\Bullet3Geometry.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\Bullet3Geometry.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Geometry.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.24
+Time Elapsed 00:00:10.50

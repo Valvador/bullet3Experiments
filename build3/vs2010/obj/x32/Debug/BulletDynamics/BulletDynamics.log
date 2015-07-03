@@ -1,5 +1,5 @@
-﻿Build started 5/10/2015 5:23:24 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\BulletDynamics.vcxproj" on node 5 (build target(s)).
+﻿Build started 7/2/2015 8:35:26 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" on node 6 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\BulletDynamics\BulletDynamics.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -69,12 +69,12 @@
          obj\x32\Debug\BulletDynamics\btRaycastVehicle.obj
          obj\x32\Debug\BulletDynamics\btWheelInfo.obj
          obj\x32\Debug\BulletDynamics\btKinematicCharacterController.obj
-         BulletDynamics.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\BulletDynamics_vs2010_debug.lib
+         BulletDynamics.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\BulletDynamics_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\BulletDynamics\BulletDynamics.unsuccessfulbuild".
          Touching "obj\x32\Debug\BulletDynamics\BulletDynamics.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\BulletDynamics.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.00
+Time Elapsed 00:00:08.15

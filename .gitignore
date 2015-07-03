@@ -1,5 +1,7 @@
 *.sdf
 *.opensdf
 *.obj
+*.lib
+*.pdb
 
 /bin/*

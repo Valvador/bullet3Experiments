@@ -1,5 +1,5 @@
-﻿Build started 5/10/2015 5:23:24 PM.
-     1>Project "D:\bullet3-master\build3\vs2010\gwen.vcxproj" on node 6 (build target(s)).
+﻿Build started 7/2/2015 8:35:30 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\gwen.vcxproj" on node 9 (build target(s)).
      1>InitializeBuildStatus:
          Creating "obj\x32\Debug\gwen\gwen.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -139,12 +139,12 @@
      1>Null.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
      1>Query.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
      1>ImagePanel.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-         gwen.vcxproj -> D:\bullet3-master\build3\vs2010\..\..\bin\gwen_vs2010_debug.lib
+         gwen.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\gwen_vs2010_debug.lib
        FinalizeBuildStatus:
          Deleting file "obj\x32\Debug\gwen\gwen.unsuccessfulbuild".
          Touching "obj\x32\Debug\gwen\gwen.lastbuildstate".
-     1>Done Building Project "D:\bullet3-master\build3\vs2010\gwen.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\gwen.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:12.21
+Time Elapsed 00:00:28.48
