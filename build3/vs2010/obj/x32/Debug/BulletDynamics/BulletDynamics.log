@@ -1,9 +1,7 @@
-﻿Build started 7/2/2015 8:35:26 PM.
-     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" on node 6 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "obj\x32\Debug\BulletDynamics\BulletDynamics.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\BulletDynamics\\" /Fd"..\..\bin\BulletDynamics_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp ..\..\src\BulletDynamics\Dynamics\btRigidBody.cpp ..\..\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp ..\..\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btContactConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btFixedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBody.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointMotor.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyPoint2Point.cpp ..\..\src\BulletDynamics\MLCPSolvers\btDantzigLCP.cpp ..\..\src\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.cpp ..\..\src\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp ..\..\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp ..\..\src\BulletDynamics\Vehicle\btWheelInfo.cpp ..\..\src\BulletDynamics\Character\btKinematicCharacterController.cpp /MP 
+﻿Build started 7/20/2015 8:31:14 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" on node 6 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\BulletDynamics\\" /Fd"..\..\bin\BulletDynamics_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp ..\..\src\BulletDynamics\Dynamics\btRigidBody.cpp ..\..\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp ..\..\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btContactConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btFixedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp ..\..\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBody.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyJointMotor.cpp ..\..\src\BulletDynamics\Featherstone\btMultiBodyPoint2Point.cpp ..\..\src\BulletDynamics\MLCPSolvers\btDantzigLCP.cpp ..\..\src\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.cpp ..\..\src\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp ..\..\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp ..\..\src\BulletDynamics\Vehicle\btWheelInfo.cpp ..\..\src\BulletDynamics\Character\btKinematicCharacterController.cpp
          btDiscreteDynamicsWorld.cpp
          btRigidBody.cpp
          btSimpleDynamicsWorld.cpp
@@ -37,7 +35,7 @@
          btWheelInfo.cpp
          btKinematicCharacterController.cpp
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\BulletDynamics_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\BulletDynamics\btDiscreteDynamicsWorld.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\bin\BulletDynamics_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\BulletDynamics\btDiscreteDynamicsWorld.obj
          obj\x32\Debug\BulletDynamics\btRigidBody.obj
          obj\x32\Debug\BulletDynamics\btSimpleDynamicsWorld.obj
          obj\x32\Debug\BulletDynamics\btConeTwistConstraint.obj
@@ -70,11 +68,8 @@
          obj\x32\Debug\BulletDynamics\btWheelInfo.obj
          obj\x32\Debug\BulletDynamics\btKinematicCharacterController.obj
          BulletDynamics.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\BulletDynamics_vs2010_debug.lib
-       FinalizeBuildStatus:
-         Deleting file "obj\x32\Debug\BulletDynamics\BulletDynamics.unsuccessfulbuild".
-         Touching "obj\x32\Debug\BulletDynamics\BulletDynamics.lastbuildstate".
-     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\BulletDynamics.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:08.15
+Time Elapsed 00:00:11.69

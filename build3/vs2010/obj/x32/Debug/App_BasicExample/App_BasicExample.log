@@ -1,0 +1,20 @@
+﻿Build started 7/20/2015 8:31:39 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\App_BasicExample.vcxproj" on node 5 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\App_BasicExample\\" /Fd"..\..\bin\App_BasicExample_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\examples\BasicDemo\BasicExample.cpp ..\..\examples\BasicDemo\main.cpp
+         BasicExample.cpp
+         main.cpp
+     1>c:\users\val\documents\github\bullet3experiments\examples\commoninterfaces\CommonGraphicsAppInterface.h(222): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data (..\..\examples\BasicDemo\BasicExample.cpp)
+     1>c:\users\val\documents\github\bullet3experiments\examples\commoninterfaces\CommonGraphicsAppInterface.h(223): warning C4244: 'argument' : conversion from 'int' to 'const b3Scalar', possible loss of data (..\..\examples\BasicDemo\BasicExample.cpp)
+     1>c:\users\val\documents\github\bullet3experiments\examples\basicdemo\../CommonInterfaces/CommonRigidBodyBase.h(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. (..\..\examples\BasicDemo\BasicExample.cpp)
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
+     1>..\..\examples\BasicDemo\BasicExample.cpp(142): warning C4316: 'BasicExample' : object allocated on the heap may not be aligned 16
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\App_BasicExample_vs2010_debug.exe" /INCREMENTAL /NOLOGO ..\..\bin\BulletDynamics_vs2010_debug.lib ..\..\bin\BulletCollision_vs2010_debug.lib ..\..\bin\LinearMath_vs2010_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\bin\App_BasicExample_vs2010_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\App_BasicExample_vs2010_debug.lib" /MACHINE:X86 obj\x32\Debug\App_BasicExample\BasicExample.obj
+         obj\x32\Debug\App_BasicExample\main.obj
+         App_BasicExample.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\App_BasicExample_vs2010_debug.exe
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\App_BasicExample.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.55

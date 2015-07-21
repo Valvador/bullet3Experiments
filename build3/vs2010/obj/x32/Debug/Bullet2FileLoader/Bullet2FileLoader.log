@@ -1,0 +1,27 @@
+﻿Build started 7/20/2015 8:31:22 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet2FileLoader.vcxproj" on node 3 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\Bullet2FileLoader\\" /Fd"..\..\lib\Bullet2FileLoader_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\src\Bullet3Serialize\Bullet2FileLoader\b3BulletFile.cpp ..\..\src\Bullet3Serialize\Bullet2FileLoader\b3Chunk.cpp ..\..\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp ..\..\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp ..\..\src\Bullet3Serialize\Bullet2FileLoader\b3Serializer.cpp
+         b3BulletFile.cpp
+         b3Chunk.cpp
+         b3DNA.cpp
+         b3File.cpp
+         b3Serializer.cpp
+     1>..\..\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(69): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
+     1>..\..\src\Bullet3Serialize\Bullet2FileLoader\b3BulletFile.cpp(359): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
+     1>..\..\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(553): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\lib\Bullet2FileLoader_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\Bullet2FileLoader\b3BulletFile.obj
+         obj\x32\Debug\Bullet2FileLoader\b3Chunk.obj
+         obj\x32\Debug\Bullet2FileLoader\b3DNA.obj
+         obj\x32\Debug\Bullet2FileLoader\b3File.obj
+         obj\x32\Debug\Bullet2FileLoader\b3Serializer.obj
+         Bullet2FileLoader.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\lib\Bullet2FileLoader_vs2010_debug.lib
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet2FileLoader.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.71

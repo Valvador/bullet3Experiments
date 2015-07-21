@@ -130,6 +130,8 @@ public:
 		}
 
 		btContactSolverInfo& getSolverInfo()
+
+
 		{
 			return m_solverInfo;
 		}

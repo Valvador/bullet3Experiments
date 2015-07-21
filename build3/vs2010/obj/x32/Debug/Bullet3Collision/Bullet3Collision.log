@@ -1,33 +1,27 @@
-﻿Build started 7/2/2015 8:35:21 PM.
-     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Collision.vcxproj" on node 6 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "obj\x32\Debug\Bullet3Collision\Bullet3Collision.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\Bullet3Collision\\" /Fd"..\..\bin\Bullet3Collision_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.cpp ..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp ..\..\src\Bullet3Collision\BroadPhaseCollision\b3OverlappingPairCache.cpp ..\..\src\Bullet3Collision\NarrowPhaseCollision\b3ConvexUtility.cpp ..\..\src\Bullet3Collision\NarrowPhaseCollision\b3CpuNarrowPhase.cpp /MP 
+﻿Build started 7/20/2015 8:31:18 PM.
+     1>Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Collision.vcxproj" on node 4 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG=1 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"obj\x32\Debug\Bullet3Collision\\" /Fd"..\..\bin\Bullet3Collision_vs2010_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.cpp ..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp ..\..\src\Bullet3Collision\BroadPhaseCollision\b3OverlappingPairCache.cpp ..\..\src\Bullet3Collision\NarrowPhaseCollision\b3ConvexUtility.cpp ..\..\src\Bullet3Collision\NarrowPhaseCollision\b3CpuNarrowPhase.cpp
          b3DynamicBvh.cpp
          b3DynamicBvhBroadphase.cpp
          b3OverlappingPairCache.cpp
          b3ConvexUtility.cpp
          b3CpuNarrowPhase.cpp
-     1>..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.cpp(98): warning C4345: behavior change: an object of POD type constructed with an initializer of the form () will be default-initialized
-     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\src\Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.h(968): warning C4101: 'resultNormal' : unreferenced local variable
+     1>C:\Users\Val\Documents\GitHub\bullet3Experiments\src\Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.h(968): warning C4101: 'resultNormal' : unreferenced local variable (..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp)
                  ..\..\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp(249) : see reference to function template instantiation 'void b3DynamicBvh::rayTestInternal<BroadphaseRayTester>(const b3DbvtNode *,const b3Vector3 &,const b3Vector3 &,const b3Vector3 &,unsigned int [],b3Scalar,const b3Vector3 &,const b3Vector3 &,T &) const' being compiled
                  with
                  [
                      T=BroadphaseRayTester
                  ]
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\bin\Bullet3Collision_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\Bullet3Collision\b3DynamicBvh.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\bin\Bullet3Collision_vs2010_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\Bullet3Collision\b3DynamicBvh.obj
          obj\x32\Debug\Bullet3Collision\b3DynamicBvhBroadphase.obj
          obj\x32\Debug\Bullet3Collision\b3OverlappingPairCache.obj
          obj\x32\Debug\Bullet3Collision\b3ConvexUtility.obj
          obj\x32\Debug\Bullet3Collision\b3CpuNarrowPhase.obj
          Bullet3Collision.vcxproj -> C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\..\..\bin\Bullet3Collision_vs2010_debug.lib
-       FinalizeBuildStatus:
-         Deleting file "obj\x32\Debug\Bullet3Collision\Bullet3Collision.unsuccessfulbuild".
-         Touching "obj\x32\Debug\Bullet3Collision\Bullet3Collision.lastbuildstate".
-     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Collision.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Val\Documents\GitHub\bullet3Experiments\build3\vs2010\Bullet3Collision.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.03
+Time Elapsed 00:00:02.60

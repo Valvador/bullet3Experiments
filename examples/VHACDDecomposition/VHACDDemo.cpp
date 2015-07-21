@@ -76,6 +76,8 @@ btCompoundShape* VHACDDemo::createCompoundFromObj( ConvexDecomposition::Wavefron
 	VHACD::IVHACD* interfaceVHACD = VHACD::CreateVHACD();
 	VHACD::VHACD::Parameters params;  
 	params.Init();
+	params.m_concavity = .01;
+	params.m_resolution = 100000;
 	interfaceVHACD->Compute(&vert[0], 3, (unsigned int) vert.size()/3, &index[0], 3, (unsigned int) index.size()/3, params);
 	int numConvex = interfaceVHACD->GetNConvexHulls();
 
