@@ -476,6 +476,9 @@
     <ProjectReference Include="..\..\VHACD\VHACD\VHACD.vcxproj">
       <Project>{16a13289-c208-4cd7-a27e-ecdbc95298c8}</Project>
     </ProjectReference>
+    <ProjectReference Include="InhousePGSSOlver\InhousePGSSOlver.vcxproj">
+      <Project>{4ca0b899-823f-4e12-94af-16587e29794b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
