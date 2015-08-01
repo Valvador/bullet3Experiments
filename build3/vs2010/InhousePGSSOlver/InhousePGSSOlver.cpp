@@ -5,8 +5,8 @@
 #include <assert.h>
 
 #include "InhousePGSSOlver.h"
+#include "CollisionConstraint.h"
 using namespace PGSSOlver;
-//using namespace DirectXMath;
 
 Solver::Solver()
 {
@@ -19,8 +19,6 @@ Solver::~Solver()
 	m_constraints.clear();
 	m_rigidBodies.clear();
 }
-
-
 
 void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi)
 {
@@ -218,4 +216,4 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		XMVECTOR normalQuaternion = XMQuaternionNormalize(XMLoadFloat4(&rb->m_orientation));
 		XMStoreFloat4(&rb->m_orientation, normalQuaternion);
 	}
-}
+}void Solver::Update(float dt){	ComputeJointConstraints(dt);}

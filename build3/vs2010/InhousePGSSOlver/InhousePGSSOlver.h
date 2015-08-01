@@ -7,8 +7,6 @@
 
 #pragma once
 
-using namespace System;
-
 namespace PGSSOlver {
 
 	public class Solver
@@ -20,6 +18,8 @@ namespace PGSSOlver {
 		~Solver();
 
 		static void GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi);
+		void Update(float dt = 0.0166666f);
+		void ComputeForces(float dt = 0.0166666f);
 		void ComputeJointConstraints(float dt = 0.0166666f);
 	private:
 		std::vector<RigidBody_c*>		m_rigidBodies;
