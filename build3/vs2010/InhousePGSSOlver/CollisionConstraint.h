@@ -1,4 +1,5 @@
 #include "Constraint_c.h"
+#include "DMatrix.h"
 #include "RigidBody_c.h"
 
 #ifndef COLLISIONCONSTRAINT_H
@@ -11,9 +12,17 @@ public class CollisionConstraint : public Constraint_c
 	XMFLOAT3 worldPositionB;
 	XMFLOAT3 localPositionA;
 	XMFLOAT3 localPositionB;
+	XMFLOAT3 contactNormal;
 
-	CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1);
+	RigidBody_c* bodyA;
+	RigidBody_c* bodyB;
+
+	CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal);
 	~CollisionConstraint();
+
+	DMatrix GetJacobian(const RigidBody_c* rb)	override;
+	DMatrix GetPenalty()                        override;
+	int     GetDimension()						const override;
 };
 
 #endif
