@@ -85,7 +85,7 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 		// Combine the linear and angular components together
 		fullJacob.SetSubMatrix(0, 0, linearJacob );
 		fullJacob.SetSubMatrix(0, 3, angularJacob);
-		return fullJacob;
+		return fullJacob * jacobianMult;
 	}
 	return DMatrix(0, 0);
 }

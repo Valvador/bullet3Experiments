@@ -172,6 +172,9 @@
     <Filter Include="examples\VHACDDecomposition">
       <UniqueIdentifier>{be348b2b-23a2-4bab-a72b-f9367ad03acd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="examples\BasicDemoCustomSolver">
+      <UniqueIdentifier>{6125a83b-8d1a-4a98-abe3-51ae00834da9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Extras\Serialize\BulletWorldImporter\CMakeLists.txt">
@@ -500,6 +503,9 @@
     <ClInclude Include="..\..\examples\VHACDDecomposition\float_math.h">
       <Filter>examples\VHACDDecomposition</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.h">
+      <Filter>examples\BasicDemoCustomSolver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\clew\clew.c">
@@ -723,6 +729,9 @@
     </ClCompile>
     <ClCompile Include="..\..\examples\VHACDDecomposition\float_math.cpp">
       <Filter>examples\VHACDDecomposition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.cpp">
+      <Filter>examples\BasicDemoCustomSolver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

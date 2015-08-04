@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\cd_wavefront.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\float_math.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\VHACDDemo.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\..\examples\OpenCL\CommonOpenCL\GpuDemoInternalData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\cd_wavefront.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\float_math.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\VHACDDemo.cpp" />

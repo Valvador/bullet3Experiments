@@ -9,6 +9,7 @@
 #include "../RenderingExamples/RaytracerSetup.h"
 #include "../ForkLift/ForkLiftDemo.h"
 #include "../BasicDemo/BasicExample.h"
+#include "../BasicDemoCustomSolver/BasicExampleCustomSolver.h"
 #include "../VHACDDecomposition/VHACDDemo.h"
 #include "../Planar2D/Planar2D.h"
 #include "../Benchmarks/BenchmarkDemo.h"
@@ -66,6 +67,7 @@ static ExampleEntry gDefaultExamples[]=
 	
 	ExampleEntry(0, "Experimental Playground"),
 	ExampleEntry(1, "VHACD Demo", "VHACD Optimization Demo", VHACDDemoCreateFunc),
+	ExampleEntry(1, "Solver Demo", "Custom solver testing", BasicExampleCustomSolverCreateFunc),
 	ExampleEntry(0,"API"),
 	ExampleEntry(1,"Basic Example","Create some rigid bodies using box collision shapes. This is a good example to familiarize with the basic initialization of Bullet. The Basic Example can also be compiled without graphical user interface, as a console application. Press W for wireframe, A to show AABBs, I to suspend/restart physics simulation. Press D to toggle auto-deactivation of the simulation. ", BasicExampleCreateFunc),
 
