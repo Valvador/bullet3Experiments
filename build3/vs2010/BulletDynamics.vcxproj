@@ -83,7 +83,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src;..\..\build3\vs2010\InhousePGSSOlver;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>
       </PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
@@ -153,8 +153,8 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\src;..\..\build3\vs2010\InhousePGSSOlver;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG=1;BT_NO_SIMD_OPERATOR_OVERLOADS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -254,6 +254,7 @@
     <ClInclude Include="..\..\src\BulletDynamics\MLCPSolvers\btMLCPSolverInterface.h" />
     <ClInclude Include="..\..\src\BulletDynamics\MLCPSolvers\btPATHSolver.h" />
     <ClInclude Include="..\..\src\BulletDynamics\MLCPSolvers\btSolveProjectedGaussSeidel.h" />
+    <ClInclude Include="..\..\src\BulletDynamics\PGSSolver\btPGSSolverWrapper.h" />
     <ClInclude Include="..\..\src\BulletDynamics\Vehicle\btRaycastVehicle.h" />
     <ClInclude Include="..\..\src\BulletDynamics\Vehicle\btVehicleRaycaster.h" />
     <ClInclude Include="..\..\src\BulletDynamics\Vehicle\btWheelInfo.h" />
@@ -319,12 +320,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp">
     </ClCompile>
+    <ClCompile Include="..\..\src\BulletDynamics\PGSSolver\btPGSSolverWrapper.cpp" />
     <ClCompile Include="..\..\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp">
     </ClCompile>
     <ClCompile Include="..\..\src\BulletDynamics\Vehicle\btWheelInfo.cpp">
     </ClCompile>
     <ClCompile Include="..\..\src\BulletDynamics\Character\btKinematicCharacterController.cpp">
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="InhousePGSSOlver\InhousePGSSOlver.vcxproj">
+      <Project>{4ca0b899-823f-4e12-94af-16587e29794b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

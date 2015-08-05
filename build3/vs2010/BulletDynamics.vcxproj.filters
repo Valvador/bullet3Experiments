@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
@@ -24,6 +24,9 @@
     </Filter>
     <Filter Include="src\BulletDynamics\Character">
       <UniqueIdentifier>{42DDE875-6B64-D948-B0B3-CD773E3E4460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\BulletDynamics\PGSSolver">
+      <UniqueIdentifier>{2ae2192c-d549-4c5e-92d2-465b0c83562e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +177,9 @@
     <ClInclude Include="..\..\src\BulletDynamics\Character\btKinematicCharacterController.h">
       <Filter>src\BulletDynamics\Character</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\BulletDynamics\PGSSolver\btPGSSolverWrapper.h">
+      <Filter>src\BulletDynamics\PGSSolver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp">
@@ -271,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\BulletDynamics\Character\btKinematicCharacterController.cpp">
       <Filter>src\BulletDynamics\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BulletDynamics\PGSSolver\btPGSSolverWrapper.cpp">
+      <Filter>src\BulletDynamics\PGSSolver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

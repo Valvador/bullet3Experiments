@@ -1,12 +1,16 @@
 // This is the main DLL file.
 
 #include "stdafx.h"
-#include <DirectXMath.h>
+//#include <DirectXMath.h>
 #include <assert.h>
 
 #include "InhousePGSSOlver.h"
 #include "CollisionConstraint.h"
+#include <DirectXMath.h>
+
+using namespace DirectX;
 using namespace PGSSOlver;
+
 
 Solver::Solver()
 {

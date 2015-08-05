@@ -1,6 +1,7 @@
 #include "Stdafx.h"
 #include "CollisionConstraint.h"
 
+using namespace PGSSOlver;
 const static float baumgarteStabilizationMaxLength = 0.3f;
 
 
