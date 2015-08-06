@@ -19,6 +19,9 @@ protected:
 
 	btPGSSolverWrapper()	{ solver = new PGSSOlver::Solver(); }
 	~btPGSSolverWrapper()	{ delete solver; }
-
+public:
+	int getOrInitSolverBody(btCollisionObject& body, btScalar timestep);
+	void initSolverBody(PGSSOlver::RigidBody_c* solverBody, btCollisionObject* collisionObj, btScalar timeStep);
 	btScalar solveGroup(btCollisionObject** bodies, int numBodies, btPersistentManifold** manifold, int numManifolds, btTypedConstraint** constraints, int numConstraints, const btContactSolverInfo& info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher) override;
+
 };
