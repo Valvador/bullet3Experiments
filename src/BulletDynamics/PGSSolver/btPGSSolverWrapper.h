@@ -17,11 +17,18 @@ class btPGSSolverWrapper: public PGSSOlver::Solver, public btConstraintSolver
 protected:
 	PGSSOlver::Solver* solver;
 
+public:
 	btPGSSolverWrapper()	{ solver = new PGSSOlver::Solver(); }
 	~btPGSSolverWrapper()	{ delete solver; }
-public:
+	// overrides
+	btScalar solveGroup(btCollisionObject** bodies, int numBodies, btPersistentManifold** manifold, int numManifolds, btTypedConstraint** constraints, int numConstraints, const btContactSolverInfo& info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher) override;
+	void reset() override;
+	btConstraintSolverType getSolverType() const override { return BT_SEQUENTIAL_IMPULSE_SOLVER; }
+
 	int getOrInitSolverBody(btCollisionObject& body, btScalar timestep);
 	void initSolverBody(PGSSOlver::RigidBody_c* solverBody, btCollisionObject* collisionObj, btScalar timeStep);
-	btScalar solveGroup(btCollisionObject** bodies, int numBodies, btPersistentManifold** manifold, int numManifolds, btTypedConstraint** constraints, int numConstraints, const btContactSolverInfo& info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher) override;
+	void convertManifoldPtsToConstraints(btPersistentManifold** manifold, int numManifolds, btScalar timeStep);
+	void updateBodiesWithNewVelocitiesAndForces(btCollisionObject** bodies, int numBodies, btScalar timeStep);
+
 
 };

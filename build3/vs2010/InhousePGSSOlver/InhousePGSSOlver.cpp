@@ -24,6 +24,26 @@ Solver::~Solver()
 	m_rigidBodies.clear();
 }
 
+void Solver::clearConstraints()
+{
+	for (int i = 0; i < m_constraints.size(); i++)
+	{
+		delete m_constraints[i];
+	}
+
+	m_constraints.clear();
+}
+
+void Solver::clearRigidBodies()
+{
+	for (int i = 0; i < m_rigidBodies.size(); i++)
+	{
+		delete m_rigidBodies[i];
+	}
+
+	m_rigidBodies.clear();
+}
+
 void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi)
 {
 	int maxIterations = 10; // Test Max value

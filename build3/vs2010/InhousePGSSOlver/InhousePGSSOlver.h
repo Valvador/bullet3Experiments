@@ -34,8 +34,8 @@ namespace PGSSOlver {
 		void addRigidBody(RigidBody_c* body)					{ m_rigidBodies.push_back(body); }
 		void addConstraint(Constraint_c* constraint)			{ m_constraints.push_back(constraint); }
 
-		void clearRigidBodies()				{ m_rigidBodies.clear(); }
-		void clearConstraints()				{ m_constraints.clear(); }
+		void clearRigidBodies();
+		void clearConstraints();
 	protected:
 		btAlignedObjectArray<RigidBody_c*>		m_rigidBodies;
 		std::vector<Constraint_c*>				m_constraints;

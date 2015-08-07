@@ -87,8 +87,8 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BT_NO_SIMD_OPERATOR_OVERLOADS;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -155,8 +155,8 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG=1;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BT_NO_SIMD_OPERATOR_OVERLOADS;_DEBUG=1;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>

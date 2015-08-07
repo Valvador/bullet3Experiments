@@ -51,7 +51,7 @@ void BasicExampleCustomSolver::initPhysics()
 {
 	m_guiHelper->setUpAxis(1);
 
-	createEmptyDynamicsWorld();
+	createEmptyDynamicsWorld(true);
 	
 	m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
 

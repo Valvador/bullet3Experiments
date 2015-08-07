@@ -2,7 +2,7 @@
 #ifndef COMMON_RIGID_BODY_BASE_H
 #define COMMON_RIGID_BODY_BASE_H
 
-
+#include "BulletDynamics\PGSSolver\btPGSSolverWrapper.h"
 #include "btBulletDynamicsCommon.h"
 #include "CommonExampleInterface.h"
 #include "CommonGUIHelperInterface.h"
@@ -52,7 +52,7 @@ struct CommonRigidBodyBase : public CommonExampleInterface
 		return m_dynamicsWorld;
 	}
 
-	virtual void createEmptyDynamicsWorld()
+	virtual void createEmptyDynamicsWorld(bool useCustomSolver = false)
 	{
 		///collision configuration contains default setup for memory, collision setup
 		m_collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -64,8 +64,16 @@ struct CommonRigidBodyBase : public CommonExampleInterface
 		m_broadphase = new btDbvtBroadphase();
 
 		///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
-		btSequentialImpulseConstraintSolver* sol = new btSequentialImpulseConstraintSolver;
-		m_solver = sol;
+		if (useCustomSolver)
+		{
+			btPGSSolverWrapper* sol = new btPGSSolverWrapper;
+			m_solver = sol;
+		}
+		else
+		{
+			btSequentialImpulseConstraintSolver* sol = new btSequentialImpulseConstraintSolver;
+			m_solver = sol;
+		}
 
 		m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
 

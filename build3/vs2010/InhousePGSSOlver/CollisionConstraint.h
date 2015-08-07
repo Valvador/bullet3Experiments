@@ -19,6 +19,7 @@ namespace PGSSOlver {
 		RigidBody_c* bodyA;
 		RigidBody_c* bodyB;
 
+	public:
 		CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal);
 		~CollisionConstraint();
 
