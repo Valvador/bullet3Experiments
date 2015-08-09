@@ -18,6 +18,8 @@ btScalar btPGSSolverWrapper::solveGroup(btCollisionObject** bodies, int numBodie
 	m_rigidBodies.reserve(numBodies + 1);
 	m_rigidBodies.resize(0);
 
+
+	// Need to implement a Static Body system!
 	for (int i = 0; i < numBodies; i++)
 	{
 		int bodyId = getOrInitSolverBody(*bodies[i], info.m_timeStep);
@@ -136,7 +138,7 @@ void btPGSSolverWrapper::updateBodiesWithNewVelocitiesAndForces(btCollisionObjec
 		PGSSOlver::RigidBody_c* rb = m_rigidBodies[bodyId];
 
 		btRB->getWorldTransform().setOrigin(btVector3(rb->m_position.x, rb->m_position.y, rb->m_position.z));
-		btRB->getWorldTransform().setRotation(btQuaternion(rb->m_orientation.x, rb->m_orientation.y, rb->m_orientation.z, rb->m_orientation.z));
+		btRB->getWorldTransform().setRotation(btQuaternion(rb->m_orientation.x, rb->m_orientation.y, rb->m_orientation.z, rb->m_orientation.w));
 		btRB->setLinearVelocity(btVector3(rb->m_linearVelocity.x, rb->m_linearVelocity.y, rb->m_linearVelocity.z));
 		btRB->setAngularVelocity(btVector3(rb->m_angularVelocity.x, rb->m_angularVelocity.y, rb->m_angularVelocity.z));
 	}
