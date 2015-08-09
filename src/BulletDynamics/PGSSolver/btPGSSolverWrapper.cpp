@@ -29,10 +29,6 @@ btScalar btPGSSolverWrapper::solveGroup(btCollisionObject** bodies, int numBodie
 
 	updateBodiesWithNewVelocitiesAndForces(bodies, numBodies, info.m_timeStep);
 
-	for (int i = 0; i < m_constraints.size(); i++)
-	{
-		delete m_constraints[i];
-	}
 	clearConstraints();
 
 	// TODO -> ADD CONSTRAINTS

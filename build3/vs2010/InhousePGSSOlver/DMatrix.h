@@ -16,6 +16,11 @@ namespace PGSSOlver {
 			Init(numRows, numCols, data);
 		}
 
+		DMatrix(const DMatrix &other)
+		{
+			Init(other.GetNumRows(), other.GetNumCols(), other.m_data);
+		}
+
 		~DMatrix()
 		{
 			delete[] m_data;
@@ -48,7 +53,7 @@ namespace PGSSOlver {
 
 			for (int i = 0; i < subMatrix.m_numCols; i++)
 			{
-				for (int j = 0; i < subMatrix.m_numRows; i++)
+				for (int j = 0; j < subMatrix.m_numRows; j++)
 				{
 					Set(row + j, col + i) = subMatrix.Get(j, i);
 				}
@@ -64,7 +69,7 @@ namespace PGSSOlver {
 
 			for (int i = 0; i < subMatrix.m_numCols; i++)
 			{
-				for (int j = 0; i < subMatrix.m_numRows; i++)
+				for (int j = 0; j < subMatrix.m_numRows; j++)
 				{
 					Set(row + j, col + i) += subMatrix.Get(j, i);
 				}
@@ -171,18 +176,23 @@ namespace PGSSOlver {
 			return output;
 		};
 
+		void operator= (const DMatrix other)
+		{
+			Init(other.GetNumRows(), other.GetNumCols(), other.m_data);
+		}
+
 		inline DMatrix operator* (DMatrix& other)
 		{
 			assert(m_numCols == other.m_numRows);
-			DMatrix output(m_numCols, m_numCols);
-			for (int i = 0; i < m_numCols; i++)
+			DMatrix output(m_numRows, other.m_numCols);
+			for (int i = 0; i < m_numRows; i++)
 			{
-				for (int j = 0; j < m_numCols; j++)
+				for (int j = 0; j < other.m_numCols; j++)
 				{
 					assert(output.Get(i, j) == 0);
 					for (int k = 0; k < m_numCols; k++)
 					{
-						output.Set(i, j) += Get(k, i) * other.Get(j, k);
+						output.Set(i, j) += Get(i, k) * other.Get(k, j);
 					}
 				}
 			}
@@ -211,7 +221,18 @@ namespace PGSSOlver {
 
 	inline DMatrix operator* (float x, DMatrix& matrix)
 	{
-		return matrix * x;
+		assert(matrix.GetNumCols() >= 0);
+		assert(matrix.GetNumRows() >= 0);
+		DMatrix output(matrix.GetNumRows(), matrix.GetNumCols());
+		for (int i = 0; i < matrix.GetNumRows(); i++)
+		{
+			for (int j = 0; j < matrix.GetNumCols(); j++)
+			{
+				output.Set(i, j) = matrix.Get(i, j) * x;
+			}
+		}
+
+		return output;
 	};
 
 };
