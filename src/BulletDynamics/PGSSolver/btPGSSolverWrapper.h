@@ -16,9 +16,10 @@ class btPGSSolverWrapper: public PGSSOlver::Solver, public btConstraintSolver
 {
 protected:
 	PGSSOlver::Solver* solver;
+	int m_fixedBodyId;
 
 public:
-	btPGSSolverWrapper()	{ solver = new PGSSOlver::Solver(); }
+	btPGSSolverWrapper()	{ m_fixedBodyId = -1;  solver = new PGSSOlver::Solver(); }
 	~btPGSSolverWrapper()	{ delete solver; }
 	// overrides
 	btScalar solveGroup(btCollisionObject** bodies, int numBodies, btPersistentManifold** manifold, int numManifolds, btTypedConstraint** constraints, int numConstraints, const btContactSolverInfo& info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher) override;

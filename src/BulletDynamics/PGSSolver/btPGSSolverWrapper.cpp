@@ -15,8 +15,10 @@ btScalar btPGSSolverWrapper::solveGroup(btCollisionObject** bodies, int numBodie
 		bodies[i]->setCompanionId(-1);
 	}
 
+	// THIS IS A HACK, WE ARE REMOVING ALL BODIES BEFORE SOLVING
 	m_rigidBodies.reserve(numBodies + 1);
 	m_rigidBodies.resize(0);
+	m_fixedBodyId = -1;
 
 
 	// Need to implement a Static Body system!
@@ -65,6 +67,17 @@ int btPGSSolverWrapper::getOrInitSolverBody(btCollisionObject& body, btScalar ti
 			initSolverBody(solverBody, &body, timeStep);
 			body.setCompanionId(solverBodyIdA);
 		}
+		else
+		{
+			if (m_fixedBodyId<0)
+			{
+				m_fixedBodyId = m_rigidBodies.size();
+				PGSSOlver::RigidBody_c* fixedBody = new PGSSOlver::RigidBody_c();
+				m_rigidBodies.push_back(fixedBody);
+				initSolverBody(fixedBody, 0, timeStep);
+			}
+			return m_fixedBodyId;
+		}
 			//			return 0;//assume first one is a fixed solver body
 	}
 
@@ -94,6 +107,19 @@ void btPGSSolverWrapper::initSolverBody(PGSSOlver::RigidBody_c* solverBody, btCo
 		solverBody->m_linearVelocity	= XMFLOAT3(rb->getLinearVelocity().x(), rb->getLinearVelocity().y(), rb->getLinearVelocity().z());
 		solverBody->m_angularVelocity	= XMFLOAT3(rb->getAngularVelocity().x(), rb->getAngularVelocity().y(), rb->getAngularVelocity().z());
 	}
+	else
+	{
+		solverBody->m_position			= XMFLOAT3(0, 0, 0);
+		solverBody->m_orientation		= XMFLOAT4(0, 0, 0, 1);
+		solverBody->m_force				= XMFLOAT3(0, 0, 0);
+		solverBody->m_invMass			= 0.0f;
+		solverBody->m_invInertia		= XMFLOAT3X3(	0, 0, 0,
+														0, 0, 0,
+														0, 0, 0);
+		solverBody->m_torque			= XMFLOAT3(0, 0, 0);
+		solverBody->m_linearVelocity	= XMFLOAT3(0, 0, 0);
+		solverBody->m_angularVelocity	= XMFLOAT3(0, 0, 0);
+	}
 }
 
 void btPGSSolverWrapper::convertManifoldPtsToConstraints(btPersistentManifold** manifold, int numManifolds, btScalar timeStep)
@@ -120,7 +146,9 @@ void btPGSSolverWrapper::convertManifoldPtsToConstraints(btPersistentManifold** 
 				XMFLOAT3 relativePositionA = XMFLOAT3(rel_posA.x(), rel_posA.y(), rel_posA.z());
 				XMFLOAT3 relativePositionB = XMFLOAT3(rel_posB.x(), rel_posB.y(), rel_posB.z());
 				XMFLOAT3 normal            = XMFLOAT3(cp.m_normalWorldOnB.x(), cp.m_normalWorldOnB.y(), cp.m_normalWorldOnB.z());
-				PGSSOlver::CollisionConstraint* contactConstraint = new PGSSOlver::CollisionConstraint(rbA, rbB, relativePositionA, relativePositionB, normal);
+				PGSSOlver::CollisionConstraint* contactConstraint = new PGSSOlver::CollisionConstraint(rbA, rbB, relativePositionA, relativePositionB, normal, 
+																										manifold[i]->getContactPoint(j).m_combinedRestitution, 
+																										manifold[i]->getContactPoint(j).m_combinedFriction);
 
 				// Need to optimize, Push_back is too expensive
 				m_constraints.push_back(contactConstraint);

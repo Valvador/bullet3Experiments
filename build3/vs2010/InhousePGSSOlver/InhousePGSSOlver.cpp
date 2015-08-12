@@ -109,10 +109,10 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// 1st - build our matrices - very bad to build them each frame, but
 	//-------------------------------------------------------------------------
 	// simpler to explain and implement this way
-	DMatrix s(numBodies * 7, 1); // pos & qrot
-	DMatrix u(numBodies * 6, 1); // vel & rotvel
-	DMatrix s_next(numBodies * 7, 1); // pos & qrot after timestep
-	DMatrix u_next(numBodies * 6, 1); // vel & rotvel after timestep
+	DMatrix s(numBodies * 7, 1);							// pos & qrot
+	DMatrix u(numBodies * 6, 1);							// vel & rotvel
+	DMatrix s_next(numBodies * 7, 1);						// pos & qrot after timestep
+	DMatrix u_next(numBodies * 6, 1);						// vel & rotvel after timestep
 	DMatrix S(numBodies * 7, numBodies * 6);
 	DMatrix MInverse(numBodies * 6, numBodies * 6);
 	DMatrix Fext(numBodies * 6, 1);
@@ -187,6 +187,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// Allocate it, and fill it
 	DMatrix J(numRows, 6 * numBodies);
 	DMatrix e(numRows, 1); // Error Correction 
+	DMatrix rst(numRows, 1);
 	int constraintRow = 0;
 	for (int c = 0; c<numConstraints; c++)
 	{
@@ -205,12 +206,13 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			DMatrix errMat = constraint->GetPenalty();
 			e.AddSubMatrix(constraintRow, 0, errMat);
 		}
+		rst.AddSubMatrix(constraintRow, 0, constraint->GetRestitution());
 		constraintRow += constraint->GetDimension();
 	}
-	float beta = 0.1f; // Error correction term
+	float beta = 0.0f; // Error correction term
 	DMatrix Jt = DMatrix::Transpose(J);
 	DMatrix A = J*MInverse*Jt;
-	DMatrix b = J*(u + dt*MInverse*Fext) + beta*e;
+	DMatrix b = J*(u) + DMatrix::multComponents(J*(u), rst) + J*(dt*MInverse*Fext) + beta*e;            // HIGHLY UNOPTIMIZED! NEEDS WORK!
 	DMatrix x(A.GetNumRows(), b.GetNumCols());
 	DMatrix* lo = NULL; // Don’t set any min/max boundaries for this demo/sample
 	DMatrix* hi = NULL;

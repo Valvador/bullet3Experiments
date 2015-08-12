@@ -44,6 +44,22 @@ namespace PGSSOlver {
 			return output;
 		}
 
+		inline static DMatrix multComponents(DMatrix& mA, DMatrix& mB)
+		{
+			assert(mA.m_numRows == mB.m_numRows);
+			assert(mA.m_numCols == mB.m_numCols);
+			DMatrix output(mA.m_numRows, mB.m_numCols);
+			for (int i = 0; i < output.m_numRows; i++)
+			{
+				for (int j = 0; j < output.m_numCols; j++)
+				{
+					output.Set(i, j) = mA.Get(i, j) * mB.Get(i, j);
+				}
+			}
+
+			return output;
+		}
+
 		inline void SetSubMatrix(int row, int col, DMatrix& subMatrix)
 		{
 			assert(row + subMatrix.m_numRows <= m_numRows);

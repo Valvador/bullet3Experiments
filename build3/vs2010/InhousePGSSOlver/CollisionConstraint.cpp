@@ -5,7 +5,7 @@ using namespace PGSSOlver;
 const static float baumgarteStabilizationMaxLength = 0.3f;
 
 
-CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal)
+CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity, float friction)
 {
 	bodyA			= body0;
 	bodyB			= body1;
@@ -14,6 +14,9 @@ CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1,
 	localPositionA	= localContactPos0;
 	localPositionB	= localContactPos1;
 	contactNormal	= normal;
+
+	coeffElasticity = elasticity;
+	coeffFriction	= friction;
 }
 
 CollisionConstraint::~CollisionConstraint()
@@ -106,4 +109,11 @@ DMatrix CollisionConstraint::GetPenalty()
 	stabilizationError.Set(2, 0) = errorMatrix.z;
 
 	return stabilizationError;
+}
+
+DMatrix CollisionConstraint::GetRestitution()
+{
+	DMatrix restitution(3, 1);
+	restitution.Set(0, 0) = restitution.Set(1, 0) = restitution.Set(2, 0) = coeffElasticity;
+	return restitution;
 }
