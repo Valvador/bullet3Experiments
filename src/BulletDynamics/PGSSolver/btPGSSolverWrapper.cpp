@@ -148,7 +148,8 @@ void btPGSSolverWrapper::convertManifoldPtsToConstraints(btPersistentManifold** 
 				XMFLOAT3 normal            = XMFLOAT3(cp.m_normalWorldOnB.x(), cp.m_normalWorldOnB.y(), cp.m_normalWorldOnB.z());
 				PGSSOlver::CollisionConstraint* contactConstraint = new PGSSOlver::CollisionConstraint(rbA, rbB, relativePositionA, relativePositionB, normal, 
 																										manifold[i]->getContactPoint(j).m_combinedRestitution, 
-																										manifold[i]->getContactPoint(j).m_combinedFriction);
+																										manifold[i]->getContactPoint(j).m_combinedFriction,
+																										manifold[i]->getContactPoint(j).m_distance1);
 
 				// Need to optimize, Push_back is too expensive
 				m_constraints.push_back(contactConstraint);

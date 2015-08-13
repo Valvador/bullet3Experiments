@@ -85,6 +85,7 @@
     <ClInclude Include="InhousePGSSOlver.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RigidBody_c.h" />
+    <ClInclude Include="SolverConfig.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using namespace PGSSOlver;
 const static float baumgarteStabilizationMaxLength = 0.3f;
 
 
-CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity, float friction)
+CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity, float friction, float distance)
 {
 	bodyA			= body0;
 	bodyB			= body1;
@@ -17,6 +17,7 @@ CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1,
 
 	coeffElasticity = elasticity;
 	coeffFriction	= friction;
+	depth			= distance;
 }
 
 CollisionConstraint::~CollisionConstraint()
@@ -113,7 +114,38 @@ DMatrix CollisionConstraint::GetPenalty()
 
 DMatrix CollisionConstraint::GetRestitution()
 {
-	DMatrix restitution(3, 1);
-	restitution.Set(0, 0) = restitution.Set(1, 0) = restitution.Set(2, 0) = coeffElasticity;
+	DMatrix restitution(3, 3);
+	restitution.Set(0, 0) = restitution.Set(1, 1) = restitution.Set(2, 2) = 1.0f + coeffElasticity;
 	return restitution;
+}
+
+DMatrix CollisionConstraint::GetPositionalCorrection(const RigidBody_c* rb)
+{
+	DMatrix positionCorrection(7, 1);
+	float displacementRatio = 0.0f;
+	if (rb == bodyA)
+	{
+		// Positive because normal is depth OnB
+		displacementRatio =  bodyA->m_invMass / (bodyA->m_invMass + bodyB->m_invMass);
+	}
+	else if (rb == bodyB)
+	{
+		// Multiply negative because we are pulling away from B
+		displacementRatio = -1*(bodyB->m_invMass / (bodyA->m_invMass + bodyB->m_invMass));
+	}
+	else
+	{
+		return positionCorrection;
+	}
+
+	float depthPortion				= depth * displacementRatio;
+	XMVECTOR worldNormalOnB			= XMLoadFloat3(&contactNormal);
+	XMVECTOR depthSplat				= XMLoadFloat3(&XMFLOAT3(depthPortion, depthPortion, depthPortion));
+	XMVECTOR depenetrationVector	= XMVectorMultiply(worldNormalOnB, depthSplat);
+	XMFLOAT3 depenetration;
+	XMStoreFloat3(&depenetration, depenetrationVector);
+	positionCorrection.Set(0, 0) = depenetration.x;
+	positionCorrection.Set(1, 0) = depenetration.y;
+	positionCorrection.Set(2, 0) = depenetration.z;
+	return positionCorrection;
 }

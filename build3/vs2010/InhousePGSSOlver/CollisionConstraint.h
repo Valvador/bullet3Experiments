@@ -21,14 +21,16 @@ namespace PGSSOlver {
 
 		float coeffElasticity;
 		float coeffFriction;
+		float depth;
 	public:
-		CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity = 0.0f, float friction = 0.0f);
+		CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity = 0.0f, float friction = 0.0f, float distance = 0.0f);
 		~CollisionConstraint();
 
-		DMatrix GetJacobian(const RigidBody_c* rb)	override;
-		DMatrix GetPenalty()                        override;
-		DMatrix GetRestitution()					override;
-		int     GetDimension()						const override;
+		DMatrix GetJacobian(const RigidBody_c* rb)							override;
+		DMatrix GetPenalty()												override;
+		DMatrix GetRestitution()											override;
+		DMatrix GetPositionalCorrection(const RigidBody_c* rb)				override;
+		int     GetDimension()										  const override;
 	};
 
 }

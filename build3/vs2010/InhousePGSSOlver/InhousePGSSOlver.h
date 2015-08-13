@@ -10,6 +10,7 @@
 #include "DMatrix.h"
 #include "RigidBody_c.h"
 #include "Constraint_c.h"
+#include "SolverConfig.h"
 
 #pragma once
 

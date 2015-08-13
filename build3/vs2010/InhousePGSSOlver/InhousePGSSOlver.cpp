@@ -110,6 +110,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	//-------------------------------------------------------------------------
 	// simpler to explain and implement this way
 	DMatrix s(numBodies * 7, 1);							// pos & qrot
+	DMatrix s_corr(numBodies * 7, 1);
 	DMatrix u(numBodies * 6, 1);							// vel & rotvel
 	DMatrix s_next(numBodies * 7, 1);						// pos & qrot after timestep
 	DMatrix u_next(numBodies * 6, 1);						// vel & rotvel after timestep
@@ -186,8 +187,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	}
 	// Allocate it, and fill it
 	DMatrix J(numRows, 6 * numBodies);
-	DMatrix e(numRows, 1); // Error Correction 
-	DMatrix rst(numRows, 1);
+	DMatrix rst(numRows, numRows);			// Restitution
 	int constraintRow = 0;
 	for (int c = 0; c<numConstraints; c++)
 	{
@@ -203,16 +203,18 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			assert(JMat.GetNumCols() != 0);
 			assert(JMat.GetNumRows() != 0);
 			J.SetSubMatrix(constraintRow, r * 6, JMat);
-			DMatrix errMat = constraint->GetPenalty();
-			e.AddSubMatrix(constraintRow, 0, errMat);
+
+			// Delta position needed to depenetrate bodies 
+			// (Unfortunately doesn't use constraints yet) (MAY NEED FIX)
+			DMatrix adjMat = constraint->GetPositionalCorrection(rigidBody);
+			s_corr.AddSubMatrix(r * 7, 0, adjMat);
 		}
-		rst.AddSubMatrix(constraintRow, 0, constraint->GetRestitution());
+		rst.AddSubMatrix(constraintRow, constraintRow, constraint->GetRestitution());
 		constraintRow += constraint->GetDimension();
 	}
-	float beta = 0.0f; // Error correction term
 	DMatrix Jt = DMatrix::Transpose(J);
 	DMatrix A = J*MInverse*Jt;
-	DMatrix b = J*(u) + DMatrix::multComponents(J*(u), rst) + J*(dt*MInverse*Fext) + beta*e;            // HIGHLY UNOPTIMIZED! NEEDS WORK!
+	DMatrix b = rst * J*(u)+J*(dt*MInverse*Fext);          // HIGHLY UNOPTIMIZED! NEEDS WORK!
 	DMatrix x(A.GetNumRows(), b.GetNumCols());
 	DMatrix* lo = NULL; // Don’t set any min/max boundaries for this demo/sample
 	DMatrix* hi = NULL;
@@ -221,7 +223,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 
 	//dprintf( A.Print() );
 	u_next = u - MInverse*Jt*x + dt*MInverse*Fext;
-	s_next = s + dt*S*u_next;
+	s_next = s + dt*S*u_next   - s_corr * Config::positionalCorrectionFactor;
 	// Basic integration without - euler integration standalone
 	// u_next = u + dt*MInverse*Fext;
 	// s_next = s + dt*S*u_next;

@@ -36,6 +36,9 @@
     <ClInclude Include="CollisionConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SolverConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InhousePGSSOlver.cpp">
