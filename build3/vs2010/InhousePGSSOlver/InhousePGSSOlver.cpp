@@ -46,7 +46,7 @@ void Solver::clearRigidBodies()
 
 void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi)
 {
-	int maxIterations = 10; // Test Max value
+	int maxIterations = 20; // Test Max value
 	x->SetToZero(); // Clear our matrix to start with (slow, only for debug)
 	const int n = x->GetNumRows();
 
@@ -110,7 +110,6 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	//-------------------------------------------------------------------------
 	// simpler to explain and implement this way
 	DMatrix s(numBodies * 7, 1);							// pos & qrot
-	DMatrix s_corr(numBodies * 7, 1);
 	DMatrix u(numBodies * 6, 1);							// vel & rotvel
 	DMatrix s_next(numBodies * 7, 1);						// pos & qrot after timestep
 	DMatrix u_next(numBodies * 6, 1);						// vel & rotvel after timestep
@@ -188,6 +187,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// Allocate it, and fill it
 	DMatrix J(numRows, 6 * numBodies);
 	DMatrix rst(numRows, numRows);			// Restitution
+	DMatrix s_err(numRows, 1);
 	int constraintRow = 0;
 	for (int c = 0; c<numConstraints; c++)
 	{
@@ -206,12 +206,13 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 
 			// Delta position needed to depenetrate bodies 
 			// (Unfortunately doesn't use constraints yet) (MAY NEED FIX)
-			DMatrix adjMat = constraint->GetPositionalCorrection(rigidBody);
-			s_corr.AddSubMatrix(r * 7, 0, adjMat);
 		}
-		rst.AddSubMatrix(constraintRow, constraintRow, constraint->GetRestitution());
+		rst.AddSubMatrix(constraintRow, constraintRow, constraint->GetRestitution());		// elasticity
+		s_err.AddSubMatrix(constraintRow, 0, constraint->GetPenalty());						// positional correction
+
 		constraintRow += constraint->GetDimension();
 	}
+	// Velocity Gauss Seidel
 	DMatrix Jt = DMatrix::Transpose(J);
 	DMatrix A = J*MInverse*Jt;
 	DMatrix b = rst * J*(u)+J*(dt*MInverse*Fext);          // HIGHLY UNOPTIMIZED! NEEDS WORK!
@@ -221,9 +222,14 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// Solve for x
 	GaussSeidelLCP(A, b, &x, lo, hi);
 
+	// Positional Correction Gauss Seidel
+	DMatrix c = s_err;
+	DMatrix y(A.GetNumRows(), b.GetNumCols());
+	GaussSeidelLCP(A, c, &y, lo, hi);
+
 	//dprintf( A.Print() );
 	u_next = u - MInverse*Jt*x + dt*MInverse*Fext;
-	s_next = s + dt*S*u_next   - s_corr * Config::positionalCorrectionFactor;
+	s_next = s + dt*S*u_next - S*MInverse*Jt*y * Config::positionalCorrectionFactor;
 	// Basic integration without - euler integration standalone
 	// u_next = u + dt*MInverse*Fext;
 	// s_next = s + dt*S*u_next;

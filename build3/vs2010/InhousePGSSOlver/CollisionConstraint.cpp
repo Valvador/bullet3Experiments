@@ -98,18 +98,22 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 DMatrix CollisionConstraint::GetPenalty()
 {
 	// TODO: Verify validity of these this "Stabilization Matrix"
-	DMatrix stabilizationError(3, 1);
-	XMVECTOR worldPosA = XMLoadFloat3(&worldPositionA);
-	XMVECTOR worldPosB = XMLoadFloat3(&worldPositionB);
-	XMVECTOR maxDeltaP = XMVector3ClampLength(worldPosA - worldPosB, 0.0f, baumgarteStabilizationMaxLength);
-	XMFLOAT3 errorMatrix;
+	DMatrix positionalCorrection(3, 1);
 
-	XMStoreFloat3(&errorMatrix, maxDeltaP);
-	stabilizationError.Set(0, 0) = errorMatrix.x;
-	stabilizationError.Set(1, 0) = errorMatrix.y;
-	stabilizationError.Set(2, 0) = errorMatrix.z;
+	if (-1*depth > Config::positionCorrectionDepthThreshold)
+	{
+		XMVECTOR worldNormalOnB = XMLoadFloat3(&contactNormal);
+		XMVECTOR depthSplat = XMLoadFloat3(&XMFLOAT3(depth, depth, depth));
+		XMVECTOR depenetrationVector = XMVectorMultiply(worldNormalOnB, depthSplat);
+		XMFLOAT3 depenetration;
 
-	return stabilizationError;
+		XMStoreFloat3(&depenetration, depenetrationVector);
+		positionalCorrection.Set(0, 0) = depenetration.x;
+		positionalCorrection.Set(1, 0) = depenetration.y;
+		positionalCorrection.Set(2, 0) = depenetration.z;
+	}
+
+	return positionalCorrection;
 }
 
 DMatrix CollisionConstraint::GetRestitution()
@@ -117,35 +121,4 @@ DMatrix CollisionConstraint::GetRestitution()
 	DMatrix restitution(3, 3);
 	restitution.Set(0, 0) = restitution.Set(1, 1) = restitution.Set(2, 2) = 1.0f + coeffElasticity;
 	return restitution;
-}
-
-DMatrix CollisionConstraint::GetPositionalCorrection(const RigidBody_c* rb)
-{
-	DMatrix positionCorrection(7, 1);
-	float displacementRatio = 0.0f;
-	if (rb == bodyA)
-	{
-		// Positive because normal is depth OnB
-		displacementRatio =  bodyA->m_invMass / (bodyA->m_invMass + bodyB->m_invMass);
-	}
-	else if (rb == bodyB)
-	{
-		// Multiply negative because we are pulling away from B
-		displacementRatio = -1*(bodyB->m_invMass / (bodyA->m_invMass + bodyB->m_invMass));
-	}
-	else
-	{
-		return positionCorrection;
-	}
-
-	float depthPortion				= depth * displacementRatio;
-	XMVECTOR worldNormalOnB			= XMLoadFloat3(&contactNormal);
-	XMVECTOR depthSplat				= XMLoadFloat3(&XMFLOAT3(depthPortion, depthPortion, depthPortion));
-	XMVECTOR depenetrationVector	= XMVectorMultiply(worldNormalOnB, depthSplat);
-	XMFLOAT3 depenetration;
-	XMStoreFloat3(&depenetration, depenetrationVector);
-	positionCorrection.Set(0, 0) = depenetration.x;
-	positionCorrection.Set(1, 0) = depenetration.y;
-	positionCorrection.Set(2, 0) = depenetration.z;
-	return positionCorrection;
 }

@@ -29,7 +29,6 @@ namespace PGSSOlver {
 		DMatrix GetJacobian(const RigidBody_c* rb)							override;
 		DMatrix GetPenalty()												override;
 		DMatrix GetRestitution()											override;
-		DMatrix GetPositionalCorrection(const RigidBody_c* rb)				override;
 		int     GetDimension()										  const override;
 	};
 

@@ -6,3 +6,4 @@
 
 
 #include <DirectXMath.h>
+#include "SolverConfig.h"
