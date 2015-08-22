@@ -22,6 +22,9 @@ namespace PGSSOlver {
 		float coeffElasticity;
 		float coeffFriction;
 		float depth;
+
+		void GetContactJacobian(DMatrix& fullJacobian, XMFLOAT3& contactNormal, XMVECTOR& localContactPos);
+		void GetFrictionJacobian(DMatrix& fullJacobian, RigidBody_c* rb1, RigidBody_c* rb2, XMVECTOR& localContactPos);
 	public:
 		CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1, XMFLOAT3& localContactPos0, XMFLOAT3& localContactPos1, XMFLOAT3& normal, float elasticity = 0.0f, float friction = 0.0f, float distance = 0.0f);
 		~CollisionConstraint();
@@ -29,6 +32,7 @@ namespace PGSSOlver {
 		DMatrix GetJacobian(const RigidBody_c* rb)							override;
 		DMatrix GetPenalty()												override;
 		DMatrix GetRestitution()											override;
+		DMatrix GetConstraintLimits()										override;
 		int     GetDimension()										  const override;
 	};
 

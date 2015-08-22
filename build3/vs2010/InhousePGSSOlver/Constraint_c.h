@@ -14,6 +14,7 @@ namespace PGSSOlver {
 		virtual DMatrix GetPenalty()											{ assert(0); return DMatrix(0, 0); };
 		virtual DMatrix GetJacobian(const RigidBody_c* rb)						{ assert(0); return DMatrix(0, 0); };
 		virtual DMatrix GetRestitution()										{ assert(0); return DMatrix(0, 0); };
+		virtual DMatrix GetConstraintLimits()									{ assert(0); return DMatrix(0, 0); }
 		virtual int GetDimension() const										{ assert(0); return 0; };
 	};
 };
