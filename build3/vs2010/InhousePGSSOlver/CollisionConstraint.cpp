@@ -18,6 +18,24 @@ CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1,
 	coeffElasticity = elasticity;
 	coeffFriction	= friction;
 	depth			= distance;
+
+	XMVECTOR normalVec = XMLoadFloat3(&contactNormal);
+	XMFLOAT3 basisX = XMFLOAT3(1, 0, 0);
+	XMFLOAT3 basisY = XMFLOAT3(0, 1, 0);
+	XMVECTOR basisXVec = XMLoadFloat3(&basisX);
+	XMVECTOR basisYVec = XMLoadFloat3(&basisY);
+	XMVECTOR u1;
+	if (std::abs(XMVector3Dot(normalVec, basisXVec).m128_f32[0]) < 0.9f)
+	{
+		u1 = XMVector3Cross(normalVec, basisXVec);
+	}
+	else
+	{
+		u1 = XMVector3Cross(normalVec, basisYVec);
+	}
+	XMVECTOR u2 = XMVector3Cross(normalVec, u1);
+	XMStoreFloat3(&normPlaneU1, u1);
+	XMStoreFloat3(&normPlaneU2, u2);
 }
 
 CollisionConstraint::~CollisionConstraint()
@@ -27,7 +45,7 @@ CollisionConstraint::~CollisionConstraint()
 
 int CollisionConstraint::GetDimension() const
 {
-	return 3;
+	return 9;
 }
 
 
@@ -61,10 +79,20 @@ void CollisionConstraint::GetContactJacobian(DMatrix& fullJacobian, XMFLOAT3& co
 	fullJacobian.Set(2, 4) = -crossResultsV3.x;
 }
 
-void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, RigidBody_c* rb1, RigidBody_c* rb2, XMVECTOR& localContactPos)
+void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, XMVECTOR& localContactPos)
 {
 	assert(fullJacobian.GetNumRows() >= 9);  // Assumes that Collision constraint has at least 3 rows
 	assert(fullJacobian.GetNumCols() == 6);
+
+	
+	XMVECTOR u1 = XMLoadFloat3(&normPlaneU1);
+	XMVECTOR u2 = XMLoadFloat3(&normPlaneU2);
+	XMVECTOR rCrossU1 = XMVector3Cross(localContactPos, u1);
+	XMVECTOR rCrossU2 = XMVector3Cross(localContactPos, u2);
+	XMFLOAT3 u1F3;
+	XMFLOAT3 u2F3;
+	XMStoreFloat3(&u1F3, u1);
+	XMStoreFloat3(&u2F3, u2);
 
 	//Linear Component of Friction Constraint
 	//		[  U1x	 0	   0  ]
@@ -73,12 +101,12 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, RigidBody_c
 	//		[  U2x	 0	   0  ]
 	//		[  0 	 U2y   0  ]
 	//		[  0     0     U2z]
-	fullJacobian.Set(3 + 0, 0) = rb1->m_linearVelocity.x;
-	fullJacobian.Set(3 + 1, 1) = rb1->m_linearVelocity.y;
-	fullJacobian.Set(3 + 2, 2) = rb1->m_linearVelocity.z;
-	fullJacobian.Set(6 + 0, 0) = rb2->m_linearVelocity.x;
-	fullJacobian.Set(6 + 1, 1) = rb2->m_linearVelocity.y;
-	fullJacobian.Set(6 + 2, 2) = rb2->m_linearVelocity.z;
+	fullJacobian.Set(3 + 0, 0) = u1F3.x;
+	fullJacobian.Set(3 + 1, 1) = u1F3.y;
+	fullJacobian.Set(3 + 2, 2) = u1F3.z;
+	fullJacobian.Set(6 + 0, 0) = u2F3.x;
+	fullJacobian.Set(6 + 1, 1) = u2F3.y;
+	fullJacobian.Set(6 + 2, 2) = u2F3.z;
 		 
 	//Angular Component of Friction Constraint
 	//V1a = ath component of the cross product (r x u1)
@@ -88,10 +116,7 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, RigidBody_c
 	//		[  0	 V2z   -V2y]
 	//		[ -V2z	 0		V2x]
 	//		[  V2y  -V2x    0  ]
-	XMVECTOR u1 = XMLoadFloat3(&rb1->m_linearVelocity);
-	XMVECTOR u2 = XMLoadFloat3(&rb2->m_linearVelocity);
-	XMVECTOR rCrossU1 = XMVector3Cross(localContactPos, u1);
-	XMVECTOR rCrossU2 = XMVector3Cross(localContactPos, u2);
+
 	XMFLOAT3 V1, V2;
 	XMStoreFloat3(&V1, rCrossU1);
 	XMStoreFloat3(&V2, rCrossU2);
@@ -107,8 +132,6 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, RigidBody_c
 	fullJacobian.Set(6 + 1, 3 + 2) = -V2.x;
 	fullJacobian.Set(6 + 2, 3 + 0) =  V2.y;
 	fullJacobian.Set(6 + 2, 3 + 1) = -V2.x;
-
-
 }
 
 DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
@@ -145,19 +168,48 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 	if (rigidBody)
 	{
 		XMVECTOR normal = XMLoadFloat3(&contactNormal);
-		DMatrix fullJacob(3, 6);
+		DMatrix fullJacob(9, 6);
 
 		GetContactJacobian(fullJacob, contactNormal, localContactPos);
+		GetFrictionJacobian(fullJacob, localContactPos);
 		
 		return fullJacob * jacobianMult;
 	}
 	return DMatrix(0, 0);
 }
 
-DMatrix CollisionConstraint::GetConstraintLimits()
+DMatrix CollisionConstraint::GetLowerLimits(const RigidBody_c* rb)
 {
-	// TODO: Implement
-	return DMatrix(0, 0);
+	DMatrix lowerLimit(9, 1);
+	if (rb->m_invMass != 0.0f)
+	{
+		// -mU*m*Fex
+		lowerLimit.Set(3, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.x;
+		lowerLimit.Set(4, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.y;
+		lowerLimit.Set(5, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.z;
+		lowerLimit.Set(6, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.x;
+		lowerLimit.Set(7, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.y;
+		lowerLimit.Set(8, 0) = -(coeffFriction / rb->m_invMass) * rb->m_force.z;
+	}
+
+	return lowerLimit;
+}
+
+DMatrix CollisionConstraint::GetUpperLimits(const RigidBody_c* rb)
+{
+	DMatrix upperLimit(9, 1);
+	if (rb->m_invMass != 0.0f)
+	{
+		// mU*m*Fex
+		upperLimit.Set(3, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.x;
+		upperLimit.Set(4, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.y;
+		upperLimit.Set(5, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.z;
+		upperLimit.Set(6, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.x;
+		upperLimit.Set(7, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.y;
+		upperLimit.Set(8, 0) = (coeffFriction / rb->m_invMass) * rb->m_force.z;
+	}
+
+	return upperLimit;
 }
 
 DMatrix CollisionConstraint::GetPenalty()

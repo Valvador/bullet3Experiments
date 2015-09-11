@@ -185,6 +185,8 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		numRows += constraint->GetDimension();
 	}
 	// Allocate it, and fill it
+	DMatrix minForces(numRows, 1);
+	DMatrix maxForces(numRows, 1);
 	DMatrix J(numRows, 6 * numBodies);
 	DMatrix rst(numRows, numRows);			// Restitution
 	DMatrix s_err(numRows, 1);
@@ -193,6 +195,8 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	{
 		Constraint_c* constraint = m_constraints[c];
 		assert(constraint);
+		DMatrix minLimit(constraint->GetDimension(), 1);
+		DMatrix maxLimit(constraint->GetDimension(), 1);
 		for (int r = 0; r<numBodies; r++)
 		{
 			const RigidBody_c* rigidBody = m_rigidBodies[r];
@@ -203,10 +207,14 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			assert(JMat.GetNumCols() != 0);
 			assert(JMat.GetNumRows() != 0);
 			J.SetSubMatrix(constraintRow, r * 6, JMat);
+			minLimit.AddSubMatrix(0, 0, constraint->GetLowerLimits(rigidBody));
+			maxLimit.AddSubMatrix(0, 0, constraint->GetUpperLimits(rigidBody));
 
 			// Delta position needed to depenetrate bodies 
 			// (Unfortunately doesn't use constraints yet) (MAY NEED FIX)
 		}
+		minForces.AddSubMatrix(constraintRow, 0, minLimit);
+		maxForces.AddSubMatrix(constraintRow, 0, maxLimit);
 		rst.AddSubMatrix(constraintRow, constraintRow, constraint->GetRestitution());		// elasticity
 		s_err.AddSubMatrix(constraintRow, 0, constraint->GetPenalty());						// positional correction
 
@@ -221,6 +229,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	DMatrix* hi = NULL;
 	// Solve for x
 	GaussSeidelLCP(A, b, &x, lo, hi);
+	//GaussSeidelLCP(A, b, &x, &minForces, &maxForces);
 
 	// Positional Correction Gauss Seidel
 	DMatrix c = s_err;
