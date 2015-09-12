@@ -19,8 +19,8 @@ subject to the following restrictions:
 
 #include "btBulletDynamicsCommon.h"
 #define ARRAY_SIZE_Y 2
-#define ARRAY_SIZE_X 2
-#define ARRAY_SIZE_Z 2
+#define ARRAY_SIZE_X 1
+#define ARRAY_SIZE_Z 1
 
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h"
@@ -70,6 +70,9 @@ void BasicExampleCustomSolver::initPhysics()
 	btTransform groundTransform;
 	groundTransform.setIdentity();
 	groundTransform.setOrigin(btVector3(0,-50,0));
+	btQuaternion groundQ = groundTransform.getRotation();
+	groundQ.setEuler(0, 0.34, 0);
+	groundTransform.setRotation(groundQ);
 
 	{
 		btScalar mass(0.);

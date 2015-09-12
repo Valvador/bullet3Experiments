@@ -28,6 +28,7 @@ namespace PGSSOlver {
 		void Update(float dt = 0.0166666f);
 		void ComputeForces(float dt = 0.0166666f);
 		void ComputeJointConstraints(float dt = 0.0166666f);
+		void ComputeFreeFall(float dt = 0.0166666f);
 
 		void setRigidBodies(btAlignedObjectArray<RigidBody_c*>& bodies)			{ assert(m_rigidBodies.size() == 0); m_rigidBodies = bodies; }
 		void setConstraints(std::vector<Constraint_c*>& constraints)			{ assert(m_constraints.size() == 0); m_constraints = constraints; }
@@ -40,6 +41,10 @@ namespace PGSSOlver {
 	protected:
 		btAlignedObjectArray<RigidBody_c*>		m_rigidBodies;
 		std::vector<Constraint_c*>				m_constraints;
+
+		// UTIL
+		void setUpBodyMatricies(DMatrix& s, DMatrix& u, DMatrix& s_next, DMatrix& u_next, DMatrix& S, DMatrix& MInverse, DMatrix& Fext);
+		void applyIntegrationOnRigidBodies(DMatrix& s_next, DMatrix& u_next);
 	};
 
 }

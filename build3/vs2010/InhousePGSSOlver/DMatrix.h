@@ -128,8 +128,8 @@ namespace PGSSOlver {
 	private:
 		void Init(const int numRows, const int numCols, const float* data = NULL)
 		{
-			assert(numRows >= 0 && numRows < 500); // May not be necessary, 500 just for sanity
-			assert(numCols >= 0 && numCols < 500); // Same as above for Cols
+			assert(numRows >= 0 && numRows < 1000); // May not be necessary, 500 just for sanity
+			assert(numCols >= 0 && numCols < 1000); // Same as above for Cols
 			assert((numRows == 0 && numCols == 0) || (numRows > 0 && numCols > 0));
 			m_data = NULL;
 			m_numRows = numRows;

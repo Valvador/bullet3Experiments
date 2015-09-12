@@ -29,7 +29,7 @@ btScalar btPGSSolverWrapper::solveGroup(btCollisionObject** bodies, int numBodie
 
 	convertManifoldPtsToConstraints(manifold, numManifolds, info.m_timeStep);
 
-	ComputeJointConstraints(info.m_timeStep);
+	Update(info.m_timeStep);
 
 	updateBodiesWithNewVelocitiesAndForces(bodies, numBodies, info.m_timeStep);
 
