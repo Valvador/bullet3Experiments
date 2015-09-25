@@ -75,10 +75,12 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			{
 				x->Set(i) = hi->Get(i);
 			}
+			/*
 			if (abs(x->Get(i, 0)) > 2000.0f)
 			{
 				printf("All Print - Object[%d] Impulse: %4.7f, too small, Min: %4.7f \n", i, x->Get(i), lo->Get(i));
 			}
+			*/
 		}
 		// If we have boundary conditions, e.g. >= or <=, then we modify our basic Ax=b,
 		// solver to apply constraint conditions
@@ -151,18 +153,10 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		u.Set(i * 6 + 5) = rb->m_angularVelocity.z;
 		const XMFLOAT4& q = rb->m_orientation;
 		DMatrix Q(4, 3);
-		Q.Set(0, 0) = -q.x;
-		Q.Set(0, 1) = -q.y;
-		Q.Set(0, 2) = -q.z;
-		Q.Set(1, 0) = q.w;
-		Q.Set(1, 1) = q.z;
-		Q.Set(1, 2) = -q.y;
-		Q.Set(2, 0) = -q.z;
-		Q.Set(2, 1) = q.w;
-		Q.Set(2, 2) = q.x;
-		Q.Set(3, 0) = q.y;
-		Q.Set(3, 1) = -q.x;
-		Q.Set(3, 2) = q.w;
+		Q.Set(0, 0) = -q.x; Q.Set(0, 1) = -q.y; Q.Set(0, 2) = -q.z;
+		Q.Set(1, 0) = q.w;	Q.Set(1, 1) = q.z;	Q.Set(1, 2) = -q.y;
+		Q.Set(2, 0) = -q.z;	Q.Set(2, 1) = q.w;	Q.Set(2, 2) = q.x;
+		Q.Set(3, 0) = q.y;	Q.Set(3, 1) = -q.x;	Q.Set(3, 2) = q.w;
 		Q = Q *  0.5f;
 		DMatrix Idenity(3, 3);
 		Idenity.SetToZero();
@@ -311,4 +305,4 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// 3rd – re-inject solved values back into the simulator
 	//-------------------------------------------------------------------------
 	applyIntegrationOnRigidBodies(s_next, u_next);
-}void Solver::Update(float dt){	ComputeFreeFall(dt);	ComputeJointConstraints(dt);}
+}void Solver::Update(float dt){	ComputeFreeFall(dt); 	ComputeJointConstraints(dt);}

@@ -17,6 +17,7 @@ namespace PGSSOlver {
 		XMFLOAT3 m_linearVelocity;			XMFLOAT3 m_angularVelocity;
 		XMFLOAT3 m_force;					XMFLOAT3 m_torque;
 		float m_invMass;					XMFLOAT3X3 m_invInertia;
+
 		void AddForce(const XMFLOAT3& worldPosForce,
 			const XMFLOAT3& directionMagnitude)
 		{

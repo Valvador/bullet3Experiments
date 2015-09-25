@@ -71,6 +71,14 @@ void CollisionConstraint::GetContactJacobian(DMatrix& fullJacobian, XMFLOAT3& co
 	XMVECTOR crossResults = XMVector3Cross(localContactPos, normal);
 	XMFLOAT3 crossResultsV3;
 	XMStoreFloat3(&crossResultsV3, crossResults);
+	/*
+	fullJacobian.Set(0, 4) =  crossResultsV3.z;
+	fullJacobian.Set(0, 5) = -crossResultsV3.y;
+	fullJacobian.Set(1, 3) = -crossResultsV3.z;
+	fullJacobian.Set(1, 5) =  crossResultsV3.x;
+	fullJacobian.Set(2, 3) =  crossResultsV3.y;
+	fullJacobian.Set(2, 4) = -crossResultsV3.x;
+	I SWAPPED X and Z in the below VALUES */
 	fullJacobian.Set(0, 4) = crossResultsV3.z;
 	fullJacobian.Set(0, 5) = -crossResultsV3.y;
 	fullJacobian.Set(1, 3) = -crossResultsV3.z;
@@ -120,6 +128,7 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, XMVECTOR& l
 	XMFLOAT3 V1, V2;
 	XMStoreFloat3(&V1, rCrossU1);
 	XMStoreFloat3(&V2, rCrossU2);
+	/* 
 	fullJacobian.Set(3 + 0, 3 + 1) =  V1.z;
 	fullJacobian.Set(3 + 0, 3 + 2) = -V1.y;
 	fullJacobian.Set(3 + 1, 3 + 0) = -V1.z;
@@ -132,6 +141,19 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, XMVECTOR& l
 	fullJacobian.Set(6 + 1, 3 + 2) =  V2.x;
 	fullJacobian.Set(6 + 2, 3 + 0) =  V2.y;
 	fullJacobian.Set(6 + 2, 3 + 1) = -V2.x;
+	I SWAPPED X and Z in the below VALUES */
+	fullJacobian.Set(3 + 0, 3 + 1) =  V1.x;
+	fullJacobian.Set(3 + 0, 3 + 2) = -V1.y;
+	fullJacobian.Set(3 + 1, 3 + 0) = -V1.x;
+	fullJacobian.Set(3 + 1, 3 + 2) =  V1.z;
+	fullJacobian.Set(3 + 2, 3 + 0) =  V1.y;
+	fullJacobian.Set(3 + 2, 3 + 1) = -V1.z;
+	fullJacobian.Set(6 + 0, 3 + 1) =  V2.x;
+	fullJacobian.Set(6 + 0, 3 + 2) = -V2.y;
+	fullJacobian.Set(6 + 1, 3 + 0) = -V2.x;
+	fullJacobian.Set(6 + 1, 3 + 2) =  V2.z;
+	fullJacobian.Set(6 + 2, 3 + 0) =  V2.y;
+	fullJacobian.Set(6 + 2, 3 + 1) = -V2.z;
 }
 
 DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
@@ -167,7 +189,6 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 
 	if (rigidBody)
 	{
-		XMVECTOR normal = XMLoadFloat3(&contactNormal);
 		DMatrix fullJacob(9, 6);
 
 		GetContactJacobian(fullJacob, contactNormal, localContactPos);
@@ -183,18 +204,18 @@ DMatrix CollisionConstraint::GetLowerLimits(const RigidBody_c* rb)
 	DMatrix lowerLimit(9, 1);
 	// First three rows are Min values for collision
 	// Collision forces have no limit.
-	lowerLimit.Set(0, 0) = -FLT_MAX;
-	lowerLimit.Set(1, 0) = -FLT_MAX;
-	lowerLimit.Set(2, 0) = -FLT_MAX;
+	lowerLimit.Set(0, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
+	lowerLimit.Set(1, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
+	lowerLimit.Set(2, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
 	if (rb->m_invMass != 0.0f)
 	{
 		// -mU*m*Fex
-		lowerLimit.Set(3, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
-		lowerLimit.Set(4, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		lowerLimit.Set(5, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
-		lowerLimit.Set(6, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
-		lowerLimit.Set(7, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		lowerLimit.Set(8, 0) =  -abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
+		lowerLimit.Set(3, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
+		lowerLimit.Set(4, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		lowerLimit.Set(5, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
+		lowerLimit.Set(6, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
+		lowerLimit.Set(7, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		lowerLimit.Set(8, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
 	}
 
 	return lowerLimit;
@@ -211,12 +232,12 @@ DMatrix CollisionConstraint::GetUpperLimits(const RigidBody_c* rb)
 	if (rb->m_invMass != 0.0f)
 	{
 		// mU*m*Fex
-		upperLimit.Set(3, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
-		upperLimit.Set(4, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		upperLimit.Set(5, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
-		upperLimit.Set(6, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
-		upperLimit.Set(7, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		upperLimit.Set(8, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
+		upperLimit.Set(3, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
+		upperLimit.Set(4, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		upperLimit.Set(5, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
+		upperLimit.Set(6, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.x);
+		upperLimit.Set(7, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		upperLimit.Set(8, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
 	}
 
 	return upperLimit;
