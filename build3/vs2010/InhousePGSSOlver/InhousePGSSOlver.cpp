@@ -202,6 +202,8 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		rb->m_force = XMFLOAT3(0, 0, 0);
 		rb->m_torque = XMFLOAT3(0, 0, 0);
 		// Just incase we get drifting in our quaternion orientation
+		printf("linear Velocity: %f, %f, %f \n", rb->m_linearVelocity.x, rb->m_linearVelocity.y, rb->m_linearVelocity.z);
+		printf("rotational Velocity: %f, %f, %f \n", rb->m_angularVelocity.x, rb->m_angularVelocity.y, rb->m_angularVelocity.z);
 		XMVECTOR normalQuaternion = XMQuaternionNormalize(XMLoadFloat4(&rb->m_orientation));
 		XMStoreFloat4(&rb->m_orientation, normalQuaternion);
 	}}void Solver::ComputeJointConstraints(float dt){
@@ -304,5 +306,19 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	//-------------------------------------------------------------------------
 	// 3rd – re-inject solved values back into the simulator
 	//-------------------------------------------------------------------------
+
+	// ROTDEBUG -> MAKE SURE TO REMOVE
+	for (int i = 0; i < numConstraints; i++)
+	{
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 0, 0), J.Get(3 * i + 0, 1), J.Get(3 * i + 0, 2), J.Get(3 * i + 0, 3), J.Get(3 * i + 0, 4), J.Get(3 * i + 0, 5));
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 1, 0), J.Get(3 * i + 1, 1), J.Get(3 * i + 1, 2), J.Get(3 * i + 1, 3), J.Get(3 * i + 1, 4), J.Get(3 * i + 1, 5));
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 2, 0), J.Get(3 * i + 2, 1), J.Get(3 * i + 2, 2), J.Get(3 * i + 2, 3), J.Get(3 * i + 2, 4), J.Get(3 * i + 2, 5));
+		printf("------------------------------------\n");
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 0, 6), J.Get(3 * i + 0, 7), J.Get(3 * i + 0, 8), J.Get(3 * i + 0, 9), J.Get(3 * i + 0, 10), J.Get(3 * i + 0, 11));
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 1, 6), J.Get(3 * i + 1, 7), J.Get(3 * i + 1, 8), J.Get(3 * i + 1, 9), J.Get(3 * i + 1, 10), J.Get(3 * i + 1, 11));
+		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 2, 6), J.Get(3 * i + 2, 7), J.Get(3 * i + 2, 8), J.Get(3 * i + 2, 9), J.Get(3 * i + 2, 10), J.Get(3 * i + 2, 11));
+		printf("------------------------------------\n");
+	}
+	// END ROTDEBUG
 	applyIntegrationOnRigidBodies(s_next, u_next);
 }void Solver::Update(float dt){	ComputeFreeFall(dt); 	ComputeJointConstraints(dt);}

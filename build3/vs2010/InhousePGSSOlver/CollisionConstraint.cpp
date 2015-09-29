@@ -45,7 +45,7 @@ CollisionConstraint::~CollisionConstraint()
 
 int CollisionConstraint::GetDimension() const
 {
-	return 9;
+	return 3;
 }
 
 
@@ -70,7 +70,7 @@ void CollisionConstraint::GetContactJacobian(DMatrix& fullJacobian, XMFLOAT3& co
 	XMVECTOR normal = XMLoadFloat3(&contactNormal);
 	XMVECTOR crossResults = XMVector3Cross(localContactPos, normal);
 	XMFLOAT3 crossResultsV3;
-	XMStoreFloat3(&crossResultsV3, crossResults);
+	XMStoreFloat3(&crossResultsV3, XMVector3Normalize(crossResults));
 	/*
 	fullJacobian.Set(0, 4) =  crossResultsV3.z;
 	fullJacobian.Set(0, 5) = -crossResultsV3.y;
@@ -189,10 +189,13 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 
 	if (rigidBody)
 	{
-		DMatrix fullJacob(9, 6);
+		DMatrix fullJacob(GetDimension(), 6);
 
 		GetContactJacobian(fullJacob, contactNormal, localContactPos);
-		GetFrictionJacobian(fullJacob, localContactPos);
+		// ROTDEBUG -> MAKE SURE TO UNCOMMENT WHEN DONE DEBUGGING 
+		// ALSO REMEMBER TO SET THE GetDimension() CALL TO RETURN 9
+		//GetFrictionJacobian(fullJacob, localContactPos);
+		// END ROTDEBUG
 		
 		return fullJacob * jacobianMult;
 	}
@@ -201,12 +204,13 @@ DMatrix CollisionConstraint::GetJacobian(const RigidBody_c* rb)
 
 DMatrix CollisionConstraint::GetLowerLimits(const RigidBody_c* rb)
 {
-	DMatrix lowerLimit(9, 1);
+	DMatrix lowerLimit(GetDimension(), 1);
 	// First three rows are Min values for collision
 	// Collision forces have no limit.
 	lowerLimit.Set(0, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
 	lowerLimit.Set(1, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
 	lowerLimit.Set(2, 0) = 0;// COLLISIONS CANNOT PULL OBJECTS
+	/*
 	if (rb->m_invMass != 0.0f)
 	{
 		// -mU*m*Fex
@@ -217,18 +221,20 @@ DMatrix CollisionConstraint::GetLowerLimits(const RigidBody_c* rb)
 		lowerLimit.Set(7, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
 		lowerLimit.Set(8, 0) = 0;// -abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
 	}
+	*/
 
 	return lowerLimit;
 }
 
 DMatrix CollisionConstraint::GetUpperLimits(const RigidBody_c* rb)
 {
-	DMatrix upperLimit(9, 1);
+	DMatrix upperLimit(GetDimension(), 1);
 	// First three rows are Max values for collision
 	// Collision forces have no limit.
 	upperLimit.Set(0, 0) = FLT_MAX;
 	upperLimit.Set(1, 0) = FLT_MAX;
 	upperLimit.Set(2, 0) = FLT_MAX;
+	/*
 	if (rb->m_invMass != 0.0f)
 	{
 		// mU*m*Fex
@@ -239,6 +245,7 @@ DMatrix CollisionConstraint::GetUpperLimits(const RigidBody_c* rb)
 		upperLimit.Set(7, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
 		upperLimit.Set(8, 0) = 0;// abs((coeffFriction / rb->m_invMass) * rb->m_force.z);
 	}
+	*/
 
 	return upperLimit;
 }

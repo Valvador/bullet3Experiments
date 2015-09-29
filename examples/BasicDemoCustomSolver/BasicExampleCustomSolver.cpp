@@ -71,7 +71,7 @@ void BasicExampleCustomSolver::initPhysics()
 	groundTransform.setIdentity();
 	groundTransform.setOrigin(btVector3(0,-50,0));
 	btQuaternion groundQ = groundTransform.getRotation();
-	groundQ.setEuler(0, -.30, 0);
+	groundQ.setEuler(0, +.50, 0);
 	groundTransform.setRotation(groundQ);
 
 	{
@@ -115,6 +115,9 @@ void BasicExampleCustomSolver::initPhysics()
 										btScalar(20+2.0*k),
 										btScalar(2.0*j)));
 
+					btQuaternion blockQQ = startTransform.getRotation();
+					blockQQ.setEuler(1.7, 0, 0);
+					startTransform.setRotation(blockQQ);
 			
 					btRigidBody* body = createRigidBody(mass,startTransform,colShape);
 					
