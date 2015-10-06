@@ -18,9 +18,9 @@ subject to the following restrictions:
 #include "BasicExampleCustomSolver.h"
 
 #include "btBulletDynamicsCommon.h"
-#define ARRAY_SIZE_Y 1
-#define ARRAY_SIZE_X 1
-#define ARRAY_SIZE_Z 1
+#define ARRAY_SIZE_Y 2
+#define ARRAY_SIZE_X 2
+#define ARRAY_SIZE_Z 2
 
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h"
@@ -42,7 +42,7 @@ struct BasicExampleCustomSolver : public CommonRigidBodyBase
 		float dist = 41;
 		float pitch = 52;
 		float yaw = 35;
-		float targetPos[3]={0,0.46,0};
+		float targetPos[3]={0,0,0};
 		m_guiHelper->resetCamera(dist,pitch,yaw,targetPos[0],targetPos[1],targetPos[2]);
 	}
 };
@@ -59,19 +59,20 @@ void BasicExampleCustomSolver::initPhysics()
 		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
 
 	///create a few basic rigid bodies
-	btBoxShape* groundShape = createBoxShape(btVector3(btScalar(50.),btScalar(50.),btScalar(50.)));
+	//btCylinderShape* groundShape = new btCylinderShape(btVector3(30, 5, 30));
+	btBoxShape* groundShape = createBoxShape(btVector3(btScalar(40.),btScalar(3.),btScalar(40.)));
 	
 
 	//groundShape->initializePolyhedralFeatures();
-//	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
+    //btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
 	
 	m_collisionShapes.push_back(groundShape);
 
 	btTransform groundTransform;
 	groundTransform.setIdentity();
-	groundTransform.setOrigin(btVector3(0,-50,0));
+	groundTransform.setOrigin(btVector3(0, 0,0));
 	btQuaternion groundQ = groundTransform.getRotation();
-	groundQ.setEuler(0, +.50, 0);
+	groundQ.setEuler(0, .40, 0);
 	groundTransform.setRotation(groundQ);
 
 	{
@@ -85,6 +86,7 @@ void BasicExampleCustomSolver::initPhysics()
 		// Re-using the same collision is better for memory usage and performance
 
 		btBoxShape* colShape = createBoxShape(btVector3(1,1,1));
+		//btSphereShape* colShape = new btSphereShape(1.0);
 		
 
 		//btCollisionShape* colShape = new btSphereShape(btScalar(1.));
@@ -112,11 +114,11 @@ void BasicExampleCustomSolver::initPhysics()
 				{
 					startTransform.setOrigin(btVector3(
 										btScalar(2.0*i),
-										btScalar(20+2.0*k),
+										btScalar(10+2.0*k),
 										btScalar(2.0*j)));
 
 					btQuaternion blockQQ = startTransform.getRotation();
-					blockQQ.setEuler(1.7, 0, 0);
+					//blockQQ.setEuler(0, .20, 0);
 					startTransform.setRotation(blockQQ);
 			
 					btRigidBody* body = createRigidBody(mass,startTransform,colShape);
@@ -136,11 +138,6 @@ void BasicExampleCustomSolver::renderScene()
 	CommonRigidBodyBase::renderScene();
 	
 }
-
-
-
-
-
 
 
 CommonExampleInterface*    BasicExampleCustomSolverCreateFunc(CommonExampleOptions& options)

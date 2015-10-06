@@ -125,6 +125,18 @@ namespace PGSSOlver {
 			}
 		}
 
+		inline void Print()
+		{
+			for (int j = 0; j < GetNumRows(); j++)
+			{
+				for (int i = 0; i < GetNumCols(); i++)
+				{
+					printf("%4.4f ", Get(j, i));
+				}
+				printf("\n");
+			}
+		}
+
 	private:
 		void Init(const int numRows, const int numCols, const float* data = NULL)
 		{

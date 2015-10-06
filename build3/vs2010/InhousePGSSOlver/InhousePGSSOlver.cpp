@@ -170,6 +170,14 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		I.Set(0, 0) = dxm._11; I.Set(1, 0) = dxm._12; I.Set(2, 0) = dxm._13;
 		I.Set(0, 1) = dxm._21; I.Set(1, 1) = dxm._22; I.Set(2, 1) = dxm._23;
 		I.Set(0, 2) = dxm._31; I.Set(1, 2) = dxm._32; I.Set(2, 2) = dxm._33;
+
+		/*if (rb->m_invMass == 0.0f)
+		{
+			M.Set(0, 0) = M.Set(1, 1) = M.Set(2, 2) = 0.01f;
+			I.Set(0, 0) = 0.01f;   I.Set(1, 0) = dxm._12; I.Set(2, 0) = dxm._13;
+			I.Set(0, 1) = dxm._21; I.Set(1, 1) = 0.01f  ; I.Set(2, 1) = dxm._23;
+			I.Set(0, 2) = dxm._31; I.Set(1, 2) = dxm._32; I.Set(2, 2) = 0.01f;
+		}*/
 		MInverse.SetSubMatrix(i * 6, i * 6, M);
 		MInverse.SetSubMatrix(i * 6 + 3, i * 6 + 3, I);
 		DMatrix F(3, 1);
@@ -201,9 +209,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		rb->m_angularVelocity.z = u_next.Get(i * 6 + 5);
 		rb->m_force = XMFLOAT3(0, 0, 0);
 		rb->m_torque = XMFLOAT3(0, 0, 0);
-		// Just incase we get drifting in our quaternion orientation
-		printf("linear Velocity: %f, %f, %f \n", rb->m_linearVelocity.x, rb->m_linearVelocity.y, rb->m_linearVelocity.z);
-		printf("rotational Velocity: %f, %f, %f \n", rb->m_angularVelocity.x, rb->m_angularVelocity.y, rb->m_angularVelocity.z);
+		
 		XMVECTOR normalQuaternion = XMQuaternionNormalize(XMLoadFloat4(&rb->m_orientation));
 		XMStoreFloat4(&rb->m_orientation, normalQuaternion);
 	}}void Solver::ComputeJointConstraints(float dt){
@@ -258,6 +264,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		assert(constraint);
 		DMatrix minLimit(constraint->GetDimension(), 1);
 		DMatrix maxLimit(constraint->GetDimension(), 1);
+
 		for (int r = 0; r<numBodies; r++)
 		{
 			const RigidBody_c* rigidBody = m_rigidBodies[r];
@@ -267,6 +274,7 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 				continue;
 			assert(JMat.GetNumCols() != 0);
 			assert(JMat.GetNumRows() != 0);
+
 			J.SetSubMatrix(constraintRow, r * 6, JMat);
 			minLimit.AddSubMatrix(0, 0, constraint->GetLowerLimits(rigidBody));
 			maxLimit.AddSubMatrix(0, 0, constraint->GetUpperLimits(rigidBody));
@@ -284,10 +292,12 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// Velocity Gauss Seidel
 	DMatrix Jt = DMatrix::Transpose(J);
 	DMatrix A = J*MInverse*Jt;
-	DMatrix b = rst * J*(u)+J*(dt*MInverse*Fext);          // HIGHLY UNOPTIMIZED! NEEDS WORK!
+	DMatrix b = rst*J*(u) +J*(dt*MInverse*Fext);          // HIGHLY UNOPTIMIZED! NEEDS WORK!
 	DMatrix x(A.GetNumRows(), b.GetNumCols());
+
 	DMatrix* lo = NULL; // Don’t set any min/max boundaries for this demo/sample
 	DMatrix* hi = NULL;
+
 	// Solve for x
 	//GaussSeidelLCP(A, b, &x, lo, hi);
 	GaussSeidelLCP(A, b, &x, &minForces, &maxForces);
@@ -297,28 +307,14 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	DMatrix y(A.GetNumRows(), b.GetNumCols());
 	GaussSeidelLCP(A, c, &y, lo, hi);
 
-	//dprintf( A.Print() );
 	u_next = u - MInverse*Jt*x + dt*MInverse*Fext;
-	s_next = s + dt*S*u_next - S*MInverse*Jt*y * Config::positionalCorrectionFactor;
+	s_next = s + dt*S*u_next -S*MInverse*Jt*y * Config::positionalCorrectionFactor;
+
 	// Basic integration without - euler integration standalone
 	// u_next = u + dt*MInverse*Fext;
 	// s_next = s + dt*S*u_next;
 	//-------------------------------------------------------------------------
 	// 3rd – re-inject solved values back into the simulator
 	//-------------------------------------------------------------------------
-
-	// ROTDEBUG -> MAKE SURE TO REMOVE
-	for (int i = 0; i < numConstraints; i++)
-	{
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 0, 0), J.Get(3 * i + 0, 1), J.Get(3 * i + 0, 2), J.Get(3 * i + 0, 3), J.Get(3 * i + 0, 4), J.Get(3 * i + 0, 5));
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 1, 0), J.Get(3 * i + 1, 1), J.Get(3 * i + 1, 2), J.Get(3 * i + 1, 3), J.Get(3 * i + 1, 4), J.Get(3 * i + 1, 5));
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 2, 0), J.Get(3 * i + 2, 1), J.Get(3 * i + 2, 2), J.Get(3 * i + 2, 3), J.Get(3 * i + 2, 4), J.Get(3 * i + 2, 5));
-		printf("------------------------------------\n");
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 0, 6), J.Get(3 * i + 0, 7), J.Get(3 * i + 0, 8), J.Get(3 * i + 0, 9), J.Get(3 * i + 0, 10), J.Get(3 * i + 0, 11));
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 1, 6), J.Get(3 * i + 1, 7), J.Get(3 * i + 1, 8), J.Get(3 * i + 1, 9), J.Get(3 * i + 1, 10), J.Get(3 * i + 1, 11));
-		printf("%4.4f %4.4f %4.4f %4.4f %4.4f %4.4f \n", J.Get(3 * i + 2, 6), J.Get(3 * i + 2, 7), J.Get(3 * i + 2, 8), J.Get(3 * i + 2, 9), J.Get(3 * i + 2, 10), J.Get(3 * i + 2, 11));
-		printf("------------------------------------\n");
-	}
-	// END ROTDEBUG
 	applyIntegrationOnRigidBodies(s_next, u_next);
 }void Solver::Update(float dt){	ComputeFreeFall(dt); 	ComputeJointConstraints(dt);}

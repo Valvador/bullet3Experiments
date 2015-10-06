@@ -10,11 +10,13 @@ namespace PGSSOlver {
 
 	class CollisionConstraint : public Constraint_c
 	{
+	public:
 		XMFLOAT3 worldPositionA;
 		XMFLOAT3 worldPositionB;
 		XMFLOAT3 localPositionA;
 		XMFLOAT3 localPositionB;
 		XMFLOAT3 contactNormal;
+	private:
 
 		XMFLOAT3 normPlaneU1;
 		XMFLOAT3 normPlaneU2;
