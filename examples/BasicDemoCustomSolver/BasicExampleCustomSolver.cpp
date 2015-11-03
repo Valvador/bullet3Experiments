@@ -18,9 +18,9 @@ subject to the following restrictions:
 #include "BasicExampleCustomSolver.h"
 
 #include "btBulletDynamicsCommon.h"
-#define ARRAY_SIZE_Y 2
-#define ARRAY_SIZE_X 2
-#define ARRAY_SIZE_Z 2
+#define ARRAY_SIZE_Y 1
+#define ARRAY_SIZE_X 1
+#define ARRAY_SIZE_Z 1
 
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h"
@@ -69,15 +69,22 @@ void BasicExampleCustomSolver::initPhysics()
 	m_collisionShapes.push_back(groundShape);
 
 	btTransform groundTransform;
+	btTransform groundTransform2;
 	groundTransform.setIdentity();
 	groundTransform.setOrigin(btVector3(0, 0,0));
 	btQuaternion groundQ = groundTransform.getRotation();
-	groundQ.setEuler(0, .40, 0);
+	groundQ.setEuler(0, .30, 0);
 	groundTransform.setRotation(groundQ);
+	groundTransform2.setIdentity();
+	groundTransform2.setOrigin(btVector3(0, 0, +70));
+	btQuaternion groundQ2 = groundTransform2.getRotation();
+	groundQ2.setEuler(0,-.30, 0);
+	groundTransform2.setRotation(groundQ2);
 
 	{
 		btScalar mass(0.);
-		btRigidBody* body = createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1));
+		btRigidBody* body	= createRigidBody(mass, groundTransform,  groundShape, btVector4(0,0,1,1));
+		btRigidBody* body2	= createRigidBody(mass, groundTransform2, groundShape, btVector4(0, 0, 1, 1));
 	}
 
 
@@ -86,6 +93,7 @@ void BasicExampleCustomSolver::initPhysics()
 		// Re-using the same collision is better for memory usage and performance
 
 		btBoxShape* colShape = createBoxShape(btVector3(1,1,1));
+		btSphereShape* sphereShape = new btSphereShape(1.0);
 		//btSphereShape* colShape = new btSphereShape(1.0);
 		
 
@@ -127,6 +135,29 @@ void BasicExampleCustomSolver::initPhysics()
 				}
 			}
 		}
+
+		for (int k = 0; k<ARRAY_SIZE_Y; k++)
+		{
+			for (int i = 0; i<ARRAY_SIZE_X; i++)
+			{
+				for (int j = 0; j<ARRAY_SIZE_Z; j++)
+				{
+					startTransform.setOrigin(btVector3(
+						btScalar(2.0*i),
+						btScalar(15 + 2.0*k),
+						btScalar(2.0*j)));
+
+					btQuaternion blockQQ = startTransform.getRotation();
+					//blockQQ.setEuler(0, .20, 0);
+					startTransform.setRotation(blockQQ);
+
+					btRigidBody* body = createRigidBody(mass, startTransform, sphereShape);
+
+
+				}
+			}
+		}
+
 	}
 
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);

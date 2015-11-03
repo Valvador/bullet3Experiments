@@ -19,20 +19,18 @@ CollisionConstraint::CollisionConstraint(RigidBody_c* body0, RigidBody_c* body1,
 	coeffFriction	= friction;
 	depth			= distance;
 
-	XMVECTOR normalVec = XMLoadFloat3(&contactNormal);
-	XMFLOAT3 basisX = XMFLOAT3(1, 0, 0);
-	XMFLOAT3 basisY = XMFLOAT3(0, 1, 0);
-	XMVECTOR basisXVec = XMLoadFloat3(&basisX);
-	XMVECTOR basisYVec = XMLoadFloat3(&basisY);
-	XMVECTOR u1;
-	if (std::abs(XMVector3Dot(normalVec, basisXVec).m128_f32[0]) < 0.9f)
+
+	if (std::abs(normal.x) >= std::abs(normal.y) &&
+		std::abs(normal.x) >= std::abs(normal.z))
 	{
-		u1 = XMVector3Cross(normalVec, basisXVec);
+		normPlaneU1 = XMFLOAT3(-normal.y, normal.x, 0);
 	}
 	else
 	{
-		u1 = XMVector3Cross(normalVec, basisYVec);
+		normPlaneU1 = XMFLOAT3(0, normal.z, -normal.y);
 	}
+	XMVECTOR normalVec = XMLoadFloat3(&normal);
+	XMVECTOR u1 = XMLoadFloat3(&normPlaneU1);
 	XMVECTOR u2 = XMVector3Cross(normalVec, u1);
 	XMStoreFloat3(&normPlaneU1, u1);
 	XMStoreFloat3(&normPlaneU2, u2);
@@ -83,18 +81,16 @@ void CollisionConstraint::GetFrictionJacobian(DMatrix& fullJacobian, XMVECTOR& l
 	XMVECTOR rCrossU2 = XMVector3Cross(localContactPos, u2);
 	XMFLOAT3 u1F3;
 	XMFLOAT3 u2F3;
-	XMStoreFloat3(&u1F3, u1);
-	XMStoreFloat3(&u2F3, u2);
 
 	// Friction Constraint
 	// C1 = [ u1 , r x u1 ]
 	// C2 = [ u2 , r x u2 ]
-	fullJacobian.Set(1, 0) = u1F3.x;
-	fullJacobian.Set(1, 1) = u1F3.y;
-	fullJacobian.Set(1, 2) = u1F3.z;
-	fullJacobian.Set(2, 0) = u2F3.x;
-	fullJacobian.Set(2, 1) = u2F3.y;
-	fullJacobian.Set(2, 2) = u2F3.z;		
+	fullJacobian.Set(1, 0) = normPlaneU1.x;
+	fullJacobian.Set(1, 1) = normPlaneU1.y;
+	fullJacobian.Set(1, 2) = normPlaneU1.z;
+	fullJacobian.Set(2, 0) = normPlaneU2.x;
+	fullJacobian.Set(2, 1) = normPlaneU2.y;
+	fullJacobian.Set(2, 2) = normPlaneU2.z;
 
 	XMFLOAT3 V1, V2;
 	XMStoreFloat3(&V1, rCrossU1);
@@ -161,8 +157,8 @@ DMatrix CollisionConstraint::GetLowerLimits(const RigidBody_c* rb)
 	if (rb->m_invMass != 0.0f)
 	{
 		// -mU*m*Fex (TODO: CURRENTLY GRAVITY ONLY -> NEED TO ABSTRACT TO ALL FORCES)
-		lowerLimit.Set(1, 0) = -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		lowerLimit.Set(2, 0) = -abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		lowerLimit.Set(1, 0) = -abs((coeffFriction)* rb->m_force.y);
+		lowerLimit.Set(2, 0) = -abs((coeffFriction)* rb->m_force.y);
 	}
 
 	return lowerLimit;
@@ -176,8 +172,8 @@ DMatrix CollisionConstraint::GetUpperLimits(const RigidBody_c* rb)
 	if (rb->m_invMass != 0.0f)
 	{
 		// mU*m*Fex (TODO: CURRENTLY GRAVITY ONLY -> NEED TO ABSTRACT TO ALL FORCES)
-		upperLimit.Set(1, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
-		upperLimit.Set(2, 0) = abs((coeffFriction / rb->m_invMass) * rb->m_force.y);
+		upperLimit.Set(1, 0) = abs((coeffFriction)* rb->m_force.y);
+		upperLimit.Set(2, 0) = abs((coeffFriction)* rb->m_force.y);
 	}
 
 	return upperLimit;
@@ -198,7 +194,11 @@ DMatrix CollisionConstraint::GetPenalty()
 
 DMatrix CollisionConstraint::GetRestitution()
 {
-	DMatrix restitution(1, 1);
+	// Resitution needs to be 1 for EVERY dimension
+	// by default.
+	DMatrix restitution(GetDimension(), GetDimension());
 	restitution.Set(0, 0) = 1.0f + coeffElasticity;
+	restitution.Set(1, 1) = 1.0f;
+	restitution.Set(2, 2) = 1.0f;
 	return restitution;
 }
