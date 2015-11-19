@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{16A13289-C208-4CD7-A27E-ECDBC95298C8}</ProjectGuid>
+    <ProjectGuid>{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}</ProjectGuid>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>DynamicDestrutionLab</RootNamespace>
@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../inc;../public</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../inc;../public;</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <CompileAsManaged>
@@ -78,7 +78,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>../inc;../public</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../inc;../public;</AdditionalIncludeDirectories>
       <CompileAsManaged>
       </CompileAsManaged>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -91,6 +91,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\MeshTools\MeshTools.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MeshTools\MeshTools.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\build3\vs2010\Bullet3Common.vcxproj">
+      <Project>{6e00d688-62f2-7f43-a02c-439f96e5c797}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

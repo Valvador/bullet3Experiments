@@ -80,6 +80,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VHACD", "..\..\VHACD\VHACD\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InhousePGSSOlver", "InhousePGSSOlver\InhousePGSSOlver.vcxproj", "{4CA0B899-823F-4E12-94AF-16587E29794B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicDestrutionLab", "..\..\DynamicDestructionLab\DynamicDestrutionLab\DynamicDestrutionLab.vcxproj", "{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -296,6 +298,14 @@ Global
 		{4CA0B899-823F-4E12-94AF-16587E29794B}.Release|Win32.ActiveCfg = Release|Win32
 		{4CA0B899-823F-4E12-94AF-16587E29794B}.Release|Win32.Build.0 = Release|Win32
 		{4CA0B899-823F-4E12-94AF-16587E29794B}.Release|x64.ActiveCfg = Release|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Debug|ARM.ActiveCfg = Debug|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Debug|Win32.ActiveCfg = Debug|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Debug|Win32.Build.0 = Debug|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Debug|x64.ActiveCfg = Debug|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|ARM.ActiveCfg = Release|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|Win32.ActiveCfg = Release|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|Win32.Build.0 = Release|Win32
+		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
