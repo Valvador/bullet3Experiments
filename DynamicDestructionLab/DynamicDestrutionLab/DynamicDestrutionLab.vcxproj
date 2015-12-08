@@ -90,9 +90,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\src\MeshTools\MeshTools.h" />
   </ItemGroup>
   <ItemGroup>
