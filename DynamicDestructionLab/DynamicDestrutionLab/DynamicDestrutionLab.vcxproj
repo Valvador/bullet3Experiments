@@ -93,6 +93,7 @@
     <ClInclude Include="..\src\MeshTools\MeshTools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\MeshTools\MeshTools.cpp" />
   </ItemGroup>
   <ItemGroup>
