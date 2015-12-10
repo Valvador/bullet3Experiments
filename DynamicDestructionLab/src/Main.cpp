@@ -12,7 +12,7 @@ int main()
 
 	Triangles leftTriangles;
 	Triangles rightTriangles;
-	MeshTools::ClipTriangle(testTriangle, plane, pointOnPlane, leftTriangles, rightTriangles);
+	MeshTools::MeshTools::ClipTriangle(testTriangle, plane, pointOnPlane, leftTriangles, rightTriangles);
 
 	printf("Left Triangle Count: %d \n", leftTriangles.size());
 	printf("Right Triangle Count: %d \n", rightTriangles.size());
