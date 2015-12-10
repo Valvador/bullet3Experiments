@@ -89,14 +89,14 @@ namespace MeshTools
 			leftTrianglesOut.push_back(t1);
 
 			// Right side + Add these new indices to shared Indices
-			MeshTriangle t2(pIB, px1_index, pIC);
-			MeshTriangle t3(pIB, px0_index, px1_index);
 			sharedIndices.push_back(pIB);
 			sharedIndices.push_back(px1_index);
 			sharedIndices.push_back(pIC);
 			sharedIndices.push_back(pIB);
 			sharedIndices.push_back(px0_index);
 			sharedIndices.push_back(px1_index);
+			MeshTriangle t2(pIB, px1_index, pIC);
+			MeshTriangle t3(pIB, px0_index, px1_index);
 			rightTrianglesOut.push_back(t2);
 			rightTrianglesOut.push_back(t3);
 
@@ -231,7 +231,6 @@ namespace MeshTools
 			t3[0] = pB; t3[1] = px0; t3[2] = px1;
 			rightTrianglesOut.push_back(t2);
 			rightTrianglesOut.push_back(t3);
-
 
 			return 1;
 		}
