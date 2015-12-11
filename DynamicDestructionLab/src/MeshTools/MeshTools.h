@@ -9,23 +9,38 @@ namespace MeshTools
 {
 	class TriangleMeshData
 	{
-	protected:
+	public:
 		std::vector<btVector3> vertices;
 		std::vector<unsigned int> indices;
 
-	public:
 		void addVertex(btVector3& newVert) { vertices.push_back(newVert); };
 		const btVector3& getVertex(unsigned int index) { return vertices[index]; };
 
 		void addIndex(unsigned int newIndex) { indices.push_back(newIndex); };
 		const unsigned int getIndex(unsigned int index) { return indices[index]; };
 
+		TriangleMeshData(const std::vector<btVector3>& vert, const std::vector<unsigned int>& indi) :
+			vertices(vert),
+			indices(indi)
+		{};
+		
 		TriangleMeshData() :
 			vertices(),
 			indices()
 		{};
 
 
+	};
+
+	class SplitMeshResult
+	{
+	public:
+		TriangleMeshData leftMesh;
+		TriangleMeshData rightMesh;
+		SplitMeshResult(const TriangleMeshData& left, const TriangleMeshData& right) :
+			leftMesh(left),
+			rightMesh(right)
+		{};
 	};
 
 	class MeshTriangle
@@ -52,6 +67,10 @@ namespace MeshTools
 	class MeshTools
 	{
 	public:
+
+		static SplitMeshResult SplitMeshSlow(	const TriangleMeshData& originalTriangleMesh,
+												const btVector3& planeNormal,
+												const btVector3& pointOnPlane);
 
 		static int ClipTriangle(const MeshTriangle& triangle,						
 								const btVector3& planeNormal,

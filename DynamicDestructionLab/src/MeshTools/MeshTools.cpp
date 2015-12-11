@@ -4,6 +4,40 @@
 
 namespace MeshTools
 {
+	SplitMeshResult MeshTools::SplitMeshSlow(	const TriangleMeshData& originalTriangleMesh,
+												const btVector3& planeNormal,
+												const btVector3& pointOnPlane)
+	{
+		std::vector<btVector3> sharedVertices = originalTriangleMesh.vertices;
+		std::vector<unsigned int> sharedIndices = originalTriangleMesh.indices;
+		std::vector<MeshTriangle> leftTriangles;
+		std::vector<MeshTriangle> rightTriangles;
+		assert(sharedIndices.size() % 3 == 0);
+
+		// Split Triangles, create new Vertices and Indices
+		for (unsigned int i = 0; i < originalTriangleMesh.indices.size(); i * 3)
+		{
+			MeshTriangle currentTriangle(	originalTriangleMesh.indices[i], 
+											originalTriangleMesh.indices[i + 1], 
+											originalTriangleMesh.indices[i + 2]);
+
+			ClipTriangle(	currentTriangle, planeNormal, pointOnPlane, sharedVertices,
+							sharedIndices, leftTriangles, rightTriangles);
+		}
+
+		// TODO: Close Mesh here!!!
+		// CLOSING MESH AND STUFFS
+		// END TODO
+
+		// Create Left Mesh
+		std::vector<btVector3>		leftMeshVertices;
+		std::vector<unsigned int>	leftMeshIndices;
+		for (unsigned int i = 0; i < leftTriangles.size(); i++)
+		{
+
+		}
+	}
+	
 	int MeshTools::ClipTriangle(const MeshTriangle& triangle,
 								const btVector3& planeNormal,
 								const btVector3& pointOnPlane,
