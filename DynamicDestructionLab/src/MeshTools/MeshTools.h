@@ -80,6 +80,11 @@ namespace MeshTools
 								std::vector<MeshTriangle>& leftTrianglesOut,        // Triangles split to the left
 								std::vector<MeshTriangle>& rightTrianglesOut);      // Triangles split to the right of plane
 
+		static TriangleMeshData assembleMeshFromSharedData(	const std::vector<btVector3>& sharedVert,
+															const std::vector<MeshTriangle>& triangles);
+
+		static void assemblyProcessTriangleVertex(const unsigned int& index, const std::vector<btVector3>& sharedVert, const std::vector<unsigned int>& marker, TriangleMeshData& resultMesh);
+
 		static int ClipTriangle(const Triangle& triangle, const btVector3& planeNormal, const btVector3& pointOnPlane, Triangles& leftTrianglesOut, Triangles& rightTrianglesOut);
 		static float distRayPlane(const btVector3& vStart, const btVector3& vEnd, const btVector3& vnPlaneNormal, const btVector3& vPointOnPlane);
 		static btVector3 PointOnPlane(const btVector3& vStart, const btVector3& vEnd, const btVector3& vPlaneNormal, const btVector3& vPointOnPlane);

@@ -29,13 +29,10 @@ namespace MeshTools
 		// CLOSING MESH AND STUFFS
 		// END TODO
 
-		// Create Left Mesh
-		std::vector<btVector3>		leftMeshVertices;
-		std::vector<unsigned int>	leftMeshIndices;
-		for (unsigned int i = 0; i < leftTriangles.size(); i++)
-		{
-
-		}
+		// Create Left and Right Mesh
+		SplitMeshResult result(	assembleMeshFromSharedData(sharedVertices, leftTriangles), 
+								assembleMeshFromSharedData(sharedVertices, rightTriangles));
+		return result;
 	}
 	
 	int MeshTools::ClipTriangle(const MeshTriangle& triangle,
@@ -186,6 +183,48 @@ namespace MeshTools
 		}
 
 		return 3;
+	}
+
+	TriangleMeshData MeshTools::assembleMeshFromSharedData(	const std::vector<btVector3>& sharedVert,
+															const std::vector<MeshTriangle>& triangles)
+	{
+		TriangleMeshData resultMesh;
+		
+		// Initialize the Marker Vector
+		std::vector<unsigned int> marker;
+		marker.resize(sharedVert.size());
+		for (unsigned int i = 0; i < sharedVert.size(); i++)
+		{
+			marker[i] = -1; 
+		}
+
+		//Traverse Triangles
+		for (unsigned int i = 0; i < triangles.size(); i++)
+		{
+			const MeshTriangle& currentTriangle = triangles[i];
+			assemblyProcessTriangleVertex(currentTriangle.a(), sharedVert, marker, resultMesh);
+			assemblyProcessTriangleVertex(currentTriangle.b(), sharedVert, marker, resultMesh);
+			assemblyProcessTriangleVertex(currentTriangle.c(), sharedVert, marker, resultMesh);
+		}
+
+		assert(resultMesh.indices.size() / 3 == triangles.size());
+		return resultMesh;
+	}
+
+	void MeshTools::assemblyProcessTriangleVertex(const unsigned int& index, const std::vector<btVector3>& sharedVert, const std::vector<unsigned int>& marker, TriangleMeshData& resultMesh)
+	{
+		if (marker[index] == -1)
+		{
+			// We havent moved this vertex over yet!
+			const btVector3& vertex = sharedVert[index];
+			const unsigned int vertIndex = resultMesh.vertices.size();
+			resultMesh.vertices.push_back(vertex);
+			resultMesh.indices.push_back(vertIndex);
+		}
+		else
+		{
+			resultMesh.indices.push_back(marker[index]);
+		}
 	}
 
 	// SOURCE FUNCTION: http://www.xbdev.net/java/tutorials_3d/clipping/index.php
