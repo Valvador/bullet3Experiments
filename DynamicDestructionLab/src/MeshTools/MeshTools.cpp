@@ -15,7 +15,7 @@ namespace MeshTools
 		assert(sharedIndices.size() % 3 == 0);
 
 		// Split Triangles, create new Vertices and Indices
-		for (unsigned int i = 0; i < originalTriangleMesh.indices.size(); i * 3)
+		for (unsigned int i = 0; i < originalTriangleMesh.indices.size(); i+=3)
 		{
 			MeshTriangle currentTriangle(	originalTriangleMesh.indices[i], 
 											originalTriangleMesh.indices[i + 1], 
@@ -117,7 +117,8 @@ namespace MeshTools
 			sharedIndices.push_back(px0_index);
 			sharedIndices.push_back(px1_index);
 			MeshTriangle t1(pIA, px0_index, px1_index);
-			leftTrianglesOut.push_back(t1);
+			//leftTrianglesOut.push_back(t1);
+			rightTrianglesOut.push_back(t1);
 
 			// Right side + Add these new indices to shared Indices
 			sharedIndices.push_back(pIB);
@@ -128,8 +129,10 @@ namespace MeshTools
 			sharedIndices.push_back(px1_index);
 			MeshTriangle t2(pIB, px1_index, pIC);
 			MeshTriangle t3(pIB, px0_index, px1_index);
-			rightTrianglesOut.push_back(t2);
-			rightTrianglesOut.push_back(t3);
+			//rightTrianglesOut.push_back(t2);
+			//rightTrianglesOut.push_back(t3);
+			leftTrianglesOut.push_back(t2);
+			leftTrianglesOut.push_back(t3);
 
 
 			return 1;
@@ -165,7 +168,8 @@ namespace MeshTools
 			sharedIndices.push_back(px0_index);
 			sharedIndices.push_back(px1_index);
 			MeshTriangle t1(pIC, px0_index, px1_index);
-			rightTrianglesOut.push_back(t1);
+			//rightTrianglesOut.push_back(t1);
+			leftTrianglesOut.push_back(t1);
 
 			// Right side
 			sharedIndices.push_back(pIB);
@@ -176,8 +180,10 @@ namespace MeshTools
 			sharedIndices.push_back(px1_index);
 			MeshTriangle t2(pIB, pIA, px0_index);
 			MeshTriangle t3(pIA, px0_index, px1_index);
-			leftTrianglesOut.push_back(t2);
-			leftTrianglesOut.push_back(t3);
+			//leftTrianglesOut.push_back(t2);
+			//leftTrianglesOut.push_back(t3);
+			rightTrianglesOut.push_back(t2);
+			rightTrianglesOut.push_back(t3);
 
 			return 2;
 		}
