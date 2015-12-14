@@ -15,6 +15,7 @@ subject to the following restrictions:
 
 
 #include <vector>
+#include "MeshTools.h"
 #include "VHACDDemo.h"
 #include "cd_wavefront.h"
 #include "btBulletDynamicsCommon.h"
@@ -40,6 +41,7 @@ struct VHACDDemo : public CommonRigidBodyBase
 	{
 	}
 	btCompoundShape* createCompoundFromObj( ConvexDecomposition::WavefrontObj& meshObj );
+	std::vector<btBvhTriangleMeshShape*> splitMeshesFromObj(ConvexDecomposition::WavefrontObj& meshObj, int splitTimes);
 	virtual ~VHACDDemo(){}
 	virtual void initPhysics();
 	virtual void renderScene();
@@ -52,6 +54,66 @@ struct VHACDDemo : public CommonRigidBodyBase
 		m_guiHelper->resetCamera(dist,pitch,yaw,targetPos[0],targetPos[1],targetPos[2]);
 	}
 };
+
+
+std::vector<btBvhTriangleMeshShape*> VHACDDemo::splitMeshesFromObj(ConvexDecomposition::WavefrontObj& meshObj, int splitTimes)
+{
+	std::vector<btBvhTriangleMeshShape*> newMeshes;
+	// Set Up Mesh from OBJ
+	std::vector<btVector3> origVert;
+	std::vector<unsigned int> origIndex;
+	for (int i = 0; i < meshObj.mVertexCount; i++)
+	{
+		origVert.push_back(btVector3(	meshObj.mVertices[3 * i + 0],
+										meshObj.mVertices[3 * i + 1],
+										meshObj.mVertices[3 * i + 2]));
+	}
+	for (int i = 0; i < meshObj.mTriCount; i++)
+	{
+		origIndex.push_back(meshObj.mIndices[3 * i + 0]);
+		origIndex.push_back(meshObj.mIndices[3 * i + 1]);
+		origIndex.push_back(meshObj.mIndices[3 * i + 2]);
+	}
+	MeshTools::TriangleMeshData originalMesh(origVert, origIndex);
+
+	// Split the Mesh Data
+	std::vector<MeshTools::TriangleMeshData> meshesToSplit = { originalMesh };
+	std::vector<MeshTools::TriangleMeshData> splitMeshes;
+	for (int i = 0; i < splitTimes; i++)
+	{
+		btVector3 splittingPlane = i%2 ? btVector3(1, 0, 0) : btVector3(0, 1, 0);
+		btVector3 splittingPoint = btVector3(0, 0, 0);
+		splitMeshes.clear();
+		for (unsigned int i = 0; i < meshesToSplit.size(); i++)
+		{
+			MeshTools::SplitMeshResult resultMeshes = MeshTools::MeshTools::SplitMeshSlow(	meshesToSplit[i],
+																							splittingPlane,
+																							splittingPoint);
+			splitMeshes.push_back(resultMeshes.leftMesh);
+			splitMeshes.push_back(resultMeshes.rightMesh);
+		}
+		meshesToSplit = splitMeshes;
+	}
+
+	// Convert to btTriangleMesh
+	for (unsigned int i = 0; i < splitMeshes.size(); i++)
+	{
+		btTriangleMesh* newMesh = new btTriangleMesh();
+		std::vector<unsigned int>& indices = splitMeshes[i].indices;
+		std::vector<btVector3>& vertices   = splitMeshes[i].vertices;
+		for (unsigned int i = 0; i < indices.size(); i += 3)
+		{
+			newMesh->addTriangle(	vertices[indices[i + 0]],
+									vertices[indices[i + 1]],
+									vertices[indices[i + 2]],
+									true); /* remove duplicate vertices */
+		}
+
+		newMeshes.push_back(new btBvhTriangleMeshShape(newMesh, true, true));
+	}
+
+	return newMeshes;
+}
 
 btCompoundShape* VHACDDemo::createCompoundFromObj( ConvexDecomposition::WavefrontObj& meshObj )
 {
@@ -135,6 +197,7 @@ void VHACDDemo::initPhysics()
 	}
 	btBvhTriangleMeshShape* baseMesh = new btBvhTriangleMeshShape(mesh, true, true);
 	btCompoundShape* compoundShape = createCompoundFromObj( mesh_obj );
+	std::vector<btBvhTriangleMeshShape*> splitMeshes = splitMeshesFromObj(mesh_obj, 2);
 	m_guiHelper->setUpAxis(1);
 
 	createEmptyDynamicsWorld();
@@ -154,6 +217,10 @@ void VHACDDemo::initPhysics()
 	m_collisionShapes.push_back(groundShape);
 	m_collisionShapes.push_back(baseMesh);
 	m_collisionShapes.push_back(compoundShape);
+	for (unsigned int i = 0; i < splitMeshes.size(); i++)
+	{
+		m_collisionShapes.push_back(splitMeshes[i]);
+	}
 
 	btTransform groundTransform;
 	groundTransform.setIdentity();
@@ -162,6 +229,15 @@ void VHACDDemo::initPhysics()
 	{
 		btScalar mass(0.);
 		btRigidBody* body = createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1));
+	}
+
+	// put split meshes into World
+	for (unsigned int i = 0; i < splitMeshes.size(); i++)
+	{
+		btTransform meshTransform;
+		meshTransform.setIdentity();
+		meshTransform.setOrigin(btVector3(60, 20, 0));
+		createRigidBody(0., meshTransform, splitMeshes[i]);
 	}
 
 	// Put mesh into World

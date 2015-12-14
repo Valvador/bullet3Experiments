@@ -21,7 +21,7 @@ int main()
 
 	const MeshTools::TriangleMeshData mesh(meshVert, meshInd);
 	btVector3 plane(-1, 0, 0);
-	btVector3 pointOnPlane(-0.8, 0, 0);
+	btVector3 pointOnPlane(0, 0, 0);
 
 	MeshTools::SplitMeshResult result = MeshTools::MeshTools::SplitMeshSlow(mesh, plane, pointOnPlane);
 	printf("Left Mesh Triangles: \n");

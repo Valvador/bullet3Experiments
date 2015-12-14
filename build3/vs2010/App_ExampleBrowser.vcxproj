@@ -87,7 +87,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\DynamicDestructionLab\src\MeshTools;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BT_NO_SIMD_OPERATOR_OVERLOADS;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
@@ -155,7 +155,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\VHACD\VHACD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\build3\vs2010\InhousePGSSOlver;..\..\src\clew;..\..\examples\ExampleBrowser;..\..\src;..\..\examples\ThirdPartyLibs;..\..\examples\ThirdPartyLibs\Glew;..\..\VHACD\public;..\..\VHACD\inc;..\..\DynamicDestructionLab\src\MeshTools;..\..\VHACD\VHACD;..\..\DynamicDestructionLab\src\MeshTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BT_NO_SIMD_OPERATOR_OVERLOADS;_DEBUG=1;B3_USE_CLEW;GLEW_STATIC;INCLUDE_CLOTH_DEMOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -475,6 +475,9 @@
     <None Include="..\..\examples\OpenCL\broadphase\pairsKernel.cl" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DynamicDestructionLab\DynamicDestrutionLab\DynamicDestrutionLab.vcxproj">
+      <Project>{330ef1a9-2edd-4b7b-9cc2-d4649c06cd07}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\VHACD\VHACD\VHACD.vcxproj">
       <Project>{16a13289-c208-4cd7-a27e-ecdbc95298c8}</Project>
     </ProjectReference>
