@@ -2,6 +2,7 @@
 #include "MeshTools.h"
 #include <assert.h>
 
+
 namespace MeshTools
 {
 	SplitMeshResult MeshTools::SplitMeshSlow(	const TriangleMeshData& originalTriangleMesh,
@@ -12,6 +13,8 @@ namespace MeshTools
 		std::vector<unsigned int> sharedIndices = originalTriangleMesh.indices;
 		std::vector<MeshTriangle> leftTriangles;
 		std::vector<MeshTriangle> rightTriangles;
+		EdgeMap newEdgesFront;
+		EdgeMap newEdgesBack;
 		assert(sharedIndices.size() % 3 == 0);
 
 		// Split Triangles, create new Vertices and Indices
@@ -21,13 +24,15 @@ namespace MeshTools
 											originalTriangleMesh.indices[i + 1], 
 											originalTriangleMesh.indices[i + 2]);
 
-			ClipTriangle(	currentTriangle, planeNormal, pointOnPlane, sharedVertices,
-							sharedIndices, leftTriangles, rightTriangles);
+			ClipTriangle(	currentTriangle, planeNormal, pointOnPlane, 
+							sharedVertices, sharedIndices,
+							leftTriangles, rightTriangles,
+							newEdgesFront, newEdgesBack);
 		}
 
 		// TODO: Close Mesh here!!!
-		// CLOSING MESH AND STUFFS
-		// END TODO
+		CloseClippedMesh(	sharedVertices, sharedIndices, leftTriangles, 
+							rightTriangles, newEdgesFront, newEdgesBack);
 
 		// Create Left and Right Mesh
 		SplitMeshResult result(	assembleMeshFromSharedData(sharedVertices, leftTriangles), 
@@ -41,7 +46,9 @@ namespace MeshTools
 								std::vector<btVector3>& sharedVertices,
 								std::vector<unsigned int>& sharedIndices,
 								std::vector<MeshTriangle>& leftTrianglesOut,
-								std::vector<MeshTriangle>& rightTrianglesOut)
+								std::vector<MeshTriangle>& rightTrianglesOut,
+								EdgeMap& newEdgesFront,        
+								EdgeMap& newEdgesBack)
 	{
 		btVector3 normalizedPlaneNorm = planeNormal.normalized();
 		btVector3 p0 = sharedVertices[triangle.a()];
@@ -105,6 +112,15 @@ namespace MeshTools
 			px1 = PointOnPlane(pA, pC, normalizedPlaneNorm, pointOnPlane);
 			unsigned int px0_index = sharedVertices.size();
 			unsigned int px1_index = px0_index + 1;
+			
+			// Add Edge to newly created edges Maps
+			Edge newEdge;
+			std::string px0K = convertVecToStrKey(px0);
+			std::string px1K = convertVecToStrKey(px1);
+			newEdge.p0_i = px0_index;
+			newEdge.p1_i = px1_index;
+			newEdgesFront.insert(std::pair<std::string, Edge>(px0K, newEdge));
+			newEdgesBack.insert(std::pair<std::string, Edge>(px1K, newEdge));
 
 			// Add these new vertices to sharedVertices
 			sharedVertices.push_back(px0);
@@ -163,6 +179,15 @@ namespace MeshTools
 			assert(sharedVertices[px0_index] == px0);
 			assert(sharedVertices[px1_index] == px1);
 
+			// Add Edge to newly created edges Maps
+			Edge newEdge;
+			std::string px0K = convertVecToStrKey(px0);
+			std::string px1K = convertVecToStrKey(px1);
+			newEdge.p0_i = px0_index;
+			newEdge.p1_i = px1_index;
+			newEdgesFront.insert(std::pair<std::string, Edge>(px0K, newEdge));
+			newEdgesBack.insert(std::pair<std::string, Edge>(px1K, newEdge));
+
 			// Left Side
 			sharedIndices.push_back(pIC);
 			sharedIndices.push_back(px0_index);
@@ -189,6 +214,89 @@ namespace MeshTools
 		}
 
 		return 3;
+	}
+
+
+	void MeshTools::CloseClippedMesh(	std::vector<btVector3>& sharedVertices, std::vector<unsigned int>& sharedIndices,
+										std::vector<MeshTriangle>& leftTrianglesOut, std::vector<MeshTriangle>& rightTrianglesOut,
+										EdgeMap& newEdgesFront, EdgeMap& newEdgesBack)
+	{
+		// We first need to figure out which of the edges combine into a loop together.
+		std::vector<std::vector<Edge>> edgeLoops;
+		
+		// We have to remove components from both Edge Maps 
+		while (newEdgesFront.size())
+		{
+			std::vector<Edge> closedLoop;
+			EdgeMap::iterator firstEdgeIt = newEdgesFront.begin();
+			Edge firstEdge = firstEdgeIt->second;
+			newEdgesFront.erase(firstEdgeIt);
+			EdgeMap::iterator firstEdgeBackIt = newEdgesBack.find(convertVecToStrKey(sharedVertices[firstEdge.p1_i]));
+			while (firstEdgeBackIt->second != firstEdge)
+			{
+				firstEdgeBackIt++;
+			}
+			newEdgesBack.erase(firstEdgeBackIt);
+			Edge currentEdge = firstEdge;
+			closedLoop.push_back(firstEdge);
+			bool lastEdgeFlipped = false;
+
+			while (iterateToNextEdge(sharedVertices, lastEdgeFlipped, newEdgesFront, newEdgesBack, currentEdge)
+				&& !compareEdgeVertices(currentEdge, firstEdge, sharedVertices))
+			{
+				closedLoop.push_back(currentEdge);
+			}
+
+			if (closedLoop.size() > 2 && edgesShareVertex(currentEdge, firstEdge, sharedVertices))
+			{
+				edgeLoops.push_back(closedLoop);
+			}
+		}
+	}
+
+	bool MeshTools::iterateToNextEdge(std::vector<btVector3>& sharedVertices, bool& lastEdgeFlipped,
+									EdgeMap& newEdgesFront, EdgeMap& newEdgesBack, Edge& out)
+	{
+		btVector3 lastVertex;
+		if (lastEdgeFlipped)
+		{
+			lastVertex = sharedVertices[out.p0_i];
+		}
+		else
+		{
+			lastVertex = sharedVertices[out.p1_i];
+		}
+		EdgeMap::iterator edgeIt = newEdgesFront.find(convertVecToStrKey(lastVertex));
+		if (edgeIt != newEdgesFront.end())
+		{
+			out = edgeIt->second;
+			newEdgesFront.erase(edgeIt);
+			EdgeMap::iterator edgeBackIt = newEdgesBack.find(convertVecToStrKey(sharedVertices[out.p1_i]));
+			while (edgeBackIt->second != out)
+			{
+				edgeBackIt++;
+			}
+			newEdgesBack.erase(edgeBackIt);
+			lastEdgeFlipped = false;
+			return true;
+		}
+
+		edgeIt = newEdgesBack.find(convertVecToStrKey(lastVertex));
+		if (edgeIt != newEdgesBack.end())
+		{
+			out = edgeIt->second;
+			newEdgesBack.erase(edgeIt);
+			EdgeMap::iterator edgeFrontIt = newEdgesFront.find(convertVecToStrKey(sharedVertices[out.p0_i]));
+			while (edgeFrontIt->second != out)
+			{
+				edgeFrontIt++;
+			}
+			newEdgesFront.erase(edgeFrontIt);
+			lastEdgeFlipped = true;
+			return true;
+		}
+
+		return false;
 	}
 
 	TriangleMeshData MeshTools::assembleMeshFromSharedData(	const std::vector<btVector3>& sharedVert,
@@ -231,6 +339,47 @@ namespace MeshTools
 		{
 			resultMesh.indices.push_back(marker[index]);
 		}
+	}
+
+
+	//UTILS
+	std::string MeshTools::convertVecToStrKey(const btVector3& vector)
+	{
+		int a = vector.x() * 1000;
+		int b = vector.y() * 1000;
+		int c = vector.z() * 1000;
+		return std::to_string(a) + std::to_string(b) + std::to_string(c);
+	}
+
+	bool MeshTools::compareEdgeVertices(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices)
+	{
+		const btVector3& e0_v0 = sharedVertices[e0.p0_i];
+		const btVector3& e0_v1 = sharedVertices[e0.p1_i];
+		const btVector3& e1_v0 = sharedVertices[e1.p0_i];
+		const btVector3& e1_v1 = sharedVertices[e1.p1_i];
+
+		bool v0s_equal = (e0_v0 - e1_v0).length2() < btScalar(1e-4);
+		bool v1s_equal = (e0_v1 - e1_v1).length2() < btScalar(1e-4);
+
+		bool v0s_cross_equal = (e0_v0 - e1_v1).length2() < btScalar(1e-4);
+		bool v1s_cross_equal = (e0_v1 - e1_v0).length2() < btScalar(1e-4);
+
+		return (v0s_equal && v1s_equal) || (v0s_cross_equal && v1s_cross_equal);
+	}
+
+	bool MeshTools::edgesShareVertex(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices)
+	{
+		const btVector3& e0_v0 = sharedVertices[e0.p0_i];
+		const btVector3& e0_v1 = sharedVertices[e0.p1_i];
+		const btVector3& e1_v0 = sharedVertices[e1.p0_i];
+		const btVector3& e1_v1 = sharedVertices[e1.p1_i];
+		bool v0s_equal = (e0_v0 - e1_v0).length2() < btScalar(1e-4);
+		bool v1s_equal = (e0_v1 - e1_v1).length2() < btScalar(1e-4);
+
+		bool v0s_cross_equal = (e0_v0 - e1_v1).length2() < btScalar(1e-4);
+		bool v1s_cross_equal = (e0_v1 - e1_v0).length2() < btScalar(1e-4);
+
+		return (v0s_equal || v1s_equal || v0s_cross_equal || v1s_cross_equal);
 	}
 
 	// SOURCE FUNCTION: http://www.xbdev.net/java/tutorials_3d/clipping/index.php
