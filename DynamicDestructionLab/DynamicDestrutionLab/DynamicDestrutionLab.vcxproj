@@ -92,10 +92,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\MeshTools\MeshTools.h" />
+    <ClInclude Include="..\src\Poly2Tri\common\shapes.h" />
+    <ClInclude Include="..\src\Poly2Tri\common\utils.h" />
+    <ClInclude Include="..\src\Poly2Tri\poly2tri.h" />
+    <ClInclude Include="..\src\Poly2Tri\sweep\advancing_front.h" />
+    <ClInclude Include="..\src\Poly2Tri\sweep\cdt.h" />
+    <ClInclude Include="..\src\Poly2Tri\sweep\sweep.h" />
+    <ClInclude Include="..\src\Poly2Tri\sweep\sweep_context.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\MeshTools\MeshTools.cpp" />
+    <ClCompile Include="..\src\Poly2Tri\common\shapes.cc" />
+    <ClCompile Include="..\src\Poly2Tri\sweep\advancing_front.cc" />
+    <ClCompile Include="..\src\Poly2Tri\sweep\cdt.cc" />
+    <ClCompile Include="..\src\Poly2Tri\sweep\sweep.cc" />
+    <ClCompile Include="..\src\Poly2Tri\sweep\sweep_context.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\build3\vs2010\Bullet3Common.vcxproj">

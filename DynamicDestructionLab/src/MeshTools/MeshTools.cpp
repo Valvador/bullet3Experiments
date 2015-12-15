@@ -5,6 +5,64 @@
 
 namespace MeshTools
 {
+	Bridge2dTo3dPoint::Bridge2dTo3dPoint(const std::vector<Edge>& edges, const std::vector<btVector3>& sharedVert)
+	{
+		// HACK AS FACK but will generally get the idea without me having to
+		// grab code earlier.
+		for (unsigned int i = 0; i < edges.size(); i++)
+		{
+			const btVector3& vector = sharedVert[edges[i].p0_i];
+			if (vector.x() == 0 && vector.y() != 0 && vector.z() != 0)
+			{
+				flatDimension = ZeroDim_X;
+				break;
+			}
+			if (vector.y() == 0 && vector.x() != 0 && vector.z() != 0)
+			{
+				flatDimension = ZeroDim_Y;
+				break;
+			}
+			if (vector.z() == 0 && vector.x() != 0 && vector.y() != 0)
+			{
+				flatDimension = ZeroDim_Z;
+				break;
+			}
+		}
+	}
+
+	p2t::Point* Bridge2dTo3dPoint::convertVec3ToPoint(const btVector3& vec) const
+	{
+		switch (flatDimension)
+		{
+		case ZeroDim_X:
+			return new p2t::Point(vec.y(), vec.z());
+		case ZeroDim_Y:
+			return new p2t::Point(vec.x(), vec.z());
+		case ZeroDim_Z:
+			return new p2t::Point(vec.x(), vec.y());
+		default:
+			NULL;
+		}
+	}
+
+	btVector3 Bridge2dTo3dPoint::convertPointToVec3(p2t::Point* pt) const
+	{
+		if (pt)
+		{
+			switch (flatDimension)
+			{
+			case ZeroDim_X:
+				return btVector3(0, pt->x, pt->y);
+			case ZeroDim_Y:
+				return btVector3(pt->x, 0, pt->y);
+			case ZeroDim_Z:
+				return btVector3(pt->x, pt->y, 0);
+			default:;
+			}
+		}
+		return btVector3();
+	}
+
 	SplitMeshResult MeshTools::SplitMeshSlow(	const TriangleMeshData& originalTriangleMesh,
 												const btVector3& planeNormal,
 												const btVector3& pointOnPlane)
@@ -223,8 +281,6 @@ namespace MeshTools
 	{
 		// We first need to figure out which of the edges combine into a loop together.
 		std::vector<std::vector<Edge>> edgeLoops;
-		
-		// We have to remove components from both Edge Maps 
 		while (newEdgesFront.size())
 		{
 			std::vector<Edge> closedLoop;
@@ -244,12 +300,39 @@ namespace MeshTools
 			while (iterateToNextEdge(sharedVertices, lastEdgeFlipped, newEdgesFront, newEdgesBack, currentEdge)
 				&& !compareEdgeVertices(currentEdge, firstEdge, sharedVertices))
 			{
-				closedLoop.push_back(currentEdge);
+				Edge toPush;
+				// Flip edges so that they go in a circle
+				if (lastEdgeFlipped)
+				{
+					toPush.p0_i = currentEdge.p1_i;
+					toPush.p1_i = currentEdge.p0_i;
+				}
+				else
+				{
+					toPush = currentEdge;
+				}
+				closedLoop.push_back(toPush);
 			}
 
 			if (closedLoop.size() > 2 && edgesShareVertex(currentEdge, firstEdge, sharedVertices))
 			{
 				edgeLoops.push_back(closedLoop);
+			}
+		}
+
+		// Now we have all the closed loops, go through them with Triangulation code.
+		for (unsigned int i = 0; i < edgeLoops.size(); i++)
+		{
+			Bridge2dTo3dPoint converter(edgeLoops[i], sharedVertices);
+			std::vector<p2t::Point*> polyLine = getPolyLineFromEdges(edgeLoops[i], sharedVertices, converter);
+			p2t::CDT* triangulator = new p2t::CDT(polyLine);
+			triangulator->Triangulate();
+			addP2tTrianglesToMeshes(triangulator->GetTriangles(), sharedVertices, sharedIndices,
+									leftTrianglesOut, rightTrianglesOut, converter);
+			delete triangulator;
+			for (unsigned int j = 0; j < polyLine.size(); j++)
+			{
+				delete polyLine[j];
 			}
 		}
 	}
@@ -380,6 +463,42 @@ namespace MeshTools
 		bool v1s_cross_equal = (e0_v1 - e1_v0).length2() < btScalar(1e-4);
 
 		return (v0s_equal || v1s_equal || v0s_cross_equal || v1s_cross_equal);
+	}
+
+	std::vector<p2t::Point*> MeshTools::getPolyLineFromEdges(std::vector<Edge> edges, const std::vector<btVector3>& sharedVertices, const Bridge2dTo3dPoint& converter)
+	{
+		std::vector<p2t::Point*> result;
+		for (unsigned int i = 0; i < edges.size(); i++)
+		{
+			const btVector3& frontVertex = sharedVertices[edges[i].p0_i];
+			result.push_back(converter.convertVec3ToPoint(frontVertex));
+		}
+		return result;
+	}
+
+	void MeshTools::addP2tTrianglesToMeshes(std::vector<p2t::Triangle*>& triangles, std::vector<btVector3>& sharedVertices, std::vector<unsigned int>& sharedIndices,
+											std::vector<MeshTriangle>& leftTrianglesOut, std::vector<MeshTriangle>& rightTrianglesOut, const Bridge2dTo3dPoint& converter)
+	{
+		for (unsigned int i = 0; i < triangles.size(); i++)
+		{
+			// TODO, MAY WANT TO RE-ARRANGE THE ORDER OF TRIANGLES FOR DIFFERENT 
+			// HALVES OF THE OBJECTS!
+			btVector3 p0 = converter.convertPointToVec3(triangles[i]->GetPoint(0));
+			btVector3 p1 = converter.convertPointToVec3(triangles[i]->GetPoint(1));
+			btVector3 p2 = converter.convertPointToVec3(triangles[i]->GetPoint(2));
+			unsigned int p0_index = sharedVertices.size();
+			unsigned int p1_index = p0_index + 1;
+			unsigned int p2_index = p0_index + 2;
+
+			sharedVertices.push_back(p0);
+			sharedVertices.push_back(p1);
+			sharedVertices.push_back(p2);
+
+			MeshTriangle leftTriangle(p0_index, p1_index, p2_index);
+			MeshTriangle rightTriangle(p2_index, p1_index, p0_index);
+			leftTrianglesOut.push_back(leftTriangle);
+			rightTrianglesOut.push_back(rightTriangle);
+		}
 	}
 
 	// SOURCE FUNCTION: http://www.xbdev.net/java/tutorials_3d/clipping/index.php

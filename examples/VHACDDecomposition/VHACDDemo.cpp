@@ -197,7 +197,7 @@ void VHACDDemo::initPhysics()
 	}
 	btBvhTriangleMeshShape* baseMesh = new btBvhTriangleMeshShape(mesh, true, true);
 	//btCompoundShape* compoundShape = createCompoundFromObj( mesh_obj );
-	std::vector<btBvhTriangleMeshShape*> splitMeshes = splitMeshesFromObj(mesh_obj, 1);
+	std::vector<btBvhTriangleMeshShape*> splitMeshes = splitMeshesFromObj(mesh_obj, 2);
 	m_guiHelper->setUpAxis(1);
 
 	createEmptyDynamicsWorld();
@@ -236,7 +236,7 @@ void VHACDDemo::initPhysics()
 	{
 		btTransform meshTransform;
 		meshTransform.setIdentity();
-		meshTransform.setOrigin(btVector3(60, 20, 0));
+		meshTransform.setOrigin(btVector3(60-1*i, 20 - 1*i, 0));
 		createRigidBody(0., meshTransform, splitMeshes[i]);
 	}
 

@@ -1,4 +1,5 @@
 #include "LinearMath/btVector3.h"
+#include "../Poly2Tri/poly2tri.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -16,8 +17,28 @@ typedef std::multimap<std::string, MeshTools::Edge> EdgeMap;
 
 namespace MeshTools
 {
-	struct Edge
+
+	class Bridge2dTo3dPoint
 	{
+		enum ZeroDimension
+		{
+			ZeroDim_X,
+			ZeroDim_Y,
+			ZeroDim_Z
+		};
+
+		ZeroDimension flatDimension;
+
+	public:
+		Bridge2dTo3dPoint(const std::vector<Edge>& edges, const std::vector<btVector3>& sharedVert);
+
+		p2t::Point* convertVec3ToPoint(const btVector3& vec) const;
+		btVector3 convertPointToVec3(p2t::Point* pt) const;
+	};
+
+	class Edge
+	{
+	public:
 		unsigned int p0_i;
 		unsigned int p1_i;
 
@@ -119,6 +140,13 @@ namespace MeshTools
 		static std::string convertVecToStrKey(const btVector3& vector);
 		static bool compareEdgeVertices(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices);
 		static bool edgesShareVertex(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices);
+		static std::vector<p2t::Point*> getPolyLineFromEdges(std::vector<Edge> edges, const std::vector<btVector3>& sharedVertices, const Bridge2dTo3dPoint& converter);
+		static void addP2tTrianglesToMeshes(std::vector<p2t::Triangle*>& triangles,
+											std::vector<btVector3>& sharedVertices,				// Container of Vertices to modify when we add new Triangles (shared between left and right)
+											std::vector<unsigned int>& sharedIndices,           // Container of Indices to modify when we add new Triangles
+											std::vector<MeshTriangle>& leftTrianglesOut,        // Triangles split to the left
+											std::vector<MeshTriangle>& rightTrianglesOut,
+											const Bridge2dTo3dPoint& converter);
 
 		static int ClipTriangle(const Triangle& triangle, const btVector3& planeNormal, const btVector3& pointOnPlane, Triangles& leftTrianglesOut, Triangles& rightTrianglesOut);
 		static float distRayPlane(const btVector3& vStart, const btVector3& vEnd, const btVector3& vnPlaneNormal, const btVector3& vPointOnPlane);
