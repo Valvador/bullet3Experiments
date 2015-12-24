@@ -81,13 +81,27 @@ std::vector<btBvhTriangleMeshShape*> VHACDDemo::splitMeshesFromObj(ConvexDecompo
 	std::vector<MeshTools::TriangleMeshData> splitMeshes;
 	for (int i = 0; i < splitTimes; i++)
 	{
-		btVector3 splittingPlane = i%2 ? btVector3(1, 0, 0) : btVector3(0, 1, 0);
+		btVector3 cutPlane;
+		switch (i % 3)
+		{
+		case 0:
+			cutPlane = btVector3(1, 0, 0);
+			break;
+		case 1:
+			cutPlane = btVector3(0, 1, 0);
+			break;
+		case 2:
+			cutPlane = btVector3(0, 0, 1);
+			break;
+		default:;
+		}
+
 		btVector3 splittingPoint = btVector3(0, 0, 0);
 		splitMeshes.clear();
 		for (unsigned int i = 0; i < meshesToSplit.size(); i++)
 		{
 			MeshTools::SplitMeshResult resultMeshes = MeshTools::MeshTools::SplitMeshSlow(	meshesToSplit[i],
-																							splittingPlane,
+																							cutPlane,
 																							splittingPoint);
 			splitMeshes.push_back(resultMeshes.leftMesh);
 			splitMeshes.push_back(resultMeshes.rightMesh);
@@ -197,7 +211,7 @@ void VHACDDemo::initPhysics()
 	}
 	btBvhTriangleMeshShape* baseMesh = new btBvhTriangleMeshShape(mesh, true, true);
 	//btCompoundShape* compoundShape = createCompoundFromObj( mesh_obj );
-	std::vector<btBvhTriangleMeshShape*> splitMeshes = splitMeshesFromObj(mesh_obj, 2);
+	std::vector<btBvhTriangleMeshShape*> splitMeshes = splitMeshesFromObj(mesh_obj, 3);
 	m_guiHelper->setUpAxis(1);
 
 	createEmptyDynamicsWorld();

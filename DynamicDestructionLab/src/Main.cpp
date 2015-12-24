@@ -9,15 +9,17 @@ int main()
 	//  /  \  /  \
 	//A/    \/    \E
 	// ¯¯¯¯¯¯C¯¯¯¯¯
-	std::vector<btVector3> meshVert = { btVector3(-1, 0, 0),
-										btVector3(-.5, 0, 1),
-										btVector3(0, 0, 0),
-										btVector3(.5, 0, 1),
-										btVector3(1, 0, 0) };
+	std::vector<btVector3> meshVert;  
+	meshVert.push_back( btVector3(-1, 0, 0) );
+	meshVert.push_back( btVector3(-.5, 0, 1) );
+	meshVert.push_back( btVector3(0, 0, 0) );
+	meshVert.push_back( btVector3(.5, 0, 1) );
+	meshVert.push_back( btVector3(1, 0, 0) );
 
-	std::vector<unsigned int> meshInd = {	0, 1, 2,
-											1, 2, 3,
-											2, 3, 4 };
+	std::vector<unsigned int> meshInd; 
+	meshInd.push_back(0); meshInd.push_back(1); meshInd.push_back(2);
+	meshInd.push_back(1); meshInd.push_back(2); meshInd.push_back(3);
+	meshInd.push_back(2); meshInd.push_back(3); meshInd.push_back(4);
 
 	const MeshTools::TriangleMeshData mesh(meshVert, meshInd);
 	btVector3 plane(-1, 0, 0);

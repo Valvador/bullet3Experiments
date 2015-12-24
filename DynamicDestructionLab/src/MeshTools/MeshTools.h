@@ -1,9 +1,12 @@
+#pragma once
+
 #include "LinearMath/btVector3.h"
 #include "../Poly2Tri/poly2tri.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <functional>
+
 
 namespace MeshTools
 {
@@ -71,6 +74,17 @@ namespace MeshTools
 
 	};
 
+	class SplitVerticesResult
+	{
+	public:
+		std::vector<btVector3> verticesLeft;
+		std::vector<btVector3> verticesRight;
+		SplitVerticesResult(const std::vector<btVector3>& left, const std::vector<btVector3>& right) :
+			verticesLeft(left),
+			verticesRight(right)
+		{};
+	};
+
 	class SplitMeshResult
 	{
 	public:
@@ -99,6 +113,7 @@ namespace MeshTools
 			b_index(b),
 			c_index(c)
 		{};
+		MeshTriangle() {};
 
 	};
 
@@ -106,7 +121,9 @@ namespace MeshTools
 	class MeshTools
 	{
 	public:
-
+		static SplitMeshResult SplitMeshConvexNoClose(	const TriangleMeshData& originalTriangleMesh,
+															const btVector3& planeNormal,
+															const btVector3& pointOnPlane);
 		static SplitMeshResult SplitMeshSlow(	const TriangleMeshData& originalTriangleMesh,
 												const btVector3& planeNormal,
 												const btVector3& pointOnPlane);
@@ -134,13 +151,20 @@ namespace MeshTools
 		static TriangleMeshData assembleMeshFromSharedData(	const std::vector<btVector3>& sharedVert,
 															const std::vector<MeshTriangle>& triangles);
 
-		static void assemblyProcessTriangleVertex(const unsigned int& index, const std::vector<btVector3>& sharedVert, const std::vector<unsigned int>& marker, TriangleMeshData& resultMesh);
+		static void assemblyProcessTriangleVertex(const unsigned int& index, const std::vector<btVector3>& sharedVert, std::vector<unsigned int>& marker, TriangleMeshData& resultMesh);
 
 		// UTILS
+		static bool insertEdgeIfUnique(Edge& edge, EdgeMap& edgeMapFront, EdgeMap& edgeMapBack, const std::vector<btVector3>& sharedVertices);
+		static bool flippedNormals(btVector3& oA, btVector3& oB, btVector3& oC, btVector3& pA, btVector3& pB, btVector3& pC);
+		static bool uniqueSlopes(p2t::Point* origin, p2t::Point* pA, p2t::Point* pB);
 		static std::string convertVecToStrKey(const btVector3& vector);
+		static bool edgeIsSinglePoint(Edge& edge, const std::vector<btVector3>& sharedVertices);
 		static bool compareEdgeVertices(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices);
+		static bool edgesHasThisVertex(const btVector3& vertex, Edge& edge, const std::vector<btVector3>& sharedVertices, bool& equalIfFlipped);
 		static bool edgesShareVertex(Edge& e0, Edge& e1, const std::vector<btVector3>& sharedVertices);
 		static std::vector<p2t::Point*> getPolyLineFromEdges(std::vector<Edge> edges, const std::vector<btVector3>& sharedVertices, const Bridge2dTo3dPoint& converter);
+		static void moveAndScalePointsToOrigin(std::vector<p2t::Point*>& points, btVector3& movedBy, float& scaledBy);
+		static void undoScaleAndOriginMove(std::vector<p2t::Triangle*>& triangles, const btVector3& movedBy, const float& scaledBy);
 		static void addP2tTrianglesToMeshes(std::vector<p2t::Triangle*>& triangles,
 											std::vector<btVector3>& sharedVertices,				// Container of Vertices to modify when we add new Triangles (shared between left and right)
 											std::vector<unsigned int>& sharedIndices,           // Container of Indices to modify when we add new Triangles
