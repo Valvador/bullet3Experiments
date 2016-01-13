@@ -81,7 +81,15 @@ std::vector<btBvhTriangleMeshShape*> VHACDDemo::splitMeshesFromObj(ConvexDecompo
 	std::vector<MeshTools::TriangleMeshData> splitMeshes;
 	for (int i = 0; i < splitTimes; i++)
 	{
-		btVector3 splittingPlane = i % 2 ? btVector3(1, 0, 0) : btVector3(0, 1, 0);
+		btVector3 splittingPlane;
+		switch (i % 3)
+		{
+		case 0: splittingPlane = btVector3(1, 0, 0); break;
+		case 1: splittingPlane = btVector3(0, 1, 0); break;
+		case 2: splittingPlane = btVector3(0, 0, 1); break;
+		default:;
+		}
+		
 		btVector3 splittingPoint = btVector3(0, 0, 0);
 		splitMeshes.clear();
 		for (unsigned int i = 0; i < meshesToSplit.size(); i++)
@@ -89,8 +97,10 @@ std::vector<btBvhTriangleMeshShape*> VHACDDemo::splitMeshesFromObj(ConvexDecompo
 			MeshTools::SplitMeshResult resultMeshes = MeshTools::MeshTools::SplitMeshSlow(meshesToSplit[i],
 				splittingPlane,
 				splittingPoint);
-			splitMeshes.push_back(resultMeshes.leftMesh);
-			splitMeshes.push_back(resultMeshes.rightMesh);
+			if (resultMeshes.leftMesh.indices.size())
+				splitMeshes.push_back(resultMeshes.leftMesh);
+			if (resultMeshes.rightMesh.indices.size())
+				splitMeshes.push_back(resultMeshes.rightMesh);
 		}
 		meshesToSplit = splitMeshes;
 	}
@@ -101,6 +111,11 @@ std::vector<btBvhTriangleMeshShape*> VHACDDemo::splitMeshesFromObj(ConvexDecompo
 		btTriangleMesh* newMesh = new btTriangleMesh();
 		std::vector<unsigned int>& indices = splitMeshes[i].indices;
 		std::vector<btVector3>& vertices = splitMeshes[i].vertices;
+		
+		//skip empty meshes.
+		if (!vertices.size() || !indices.size())
+			continue;
+
 		for (unsigned int i = 0; i < indices.size(); i += 3)
 		{
 			newMesh->addTriangle(vertices[indices[i + 0]],
