@@ -49,6 +49,16 @@ namespace MeshTools
 		bool operator!=(Edge& b) { return (p0_i != b.p0_i || p1_i != b.p1_i); };
 	};
 
+
+	class tIndex
+	{
+	public:
+		unsigned int vI;  // vertex Index
+		btVector3 normal; // Normal for the Vertex at that Index
+		float uv_x;       // no btVector2, so UV's in Indices. Lame I know.
+		float uv_y;
+	};
+
 	class TriangleMeshData
 	{
 	public:

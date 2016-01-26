@@ -875,8 +875,8 @@ namespace MeshTools
 			sharedVertices.push_back(p1);
 			sharedVertices.push_back(p2);
 
-			MeshTriangle leftTriangle(p0_index, p1_index, p2_index);
-			MeshTriangle rightTriangle(p2_index, p1_index, p0_index);
+			MeshTriangle rightTriangle(p0_index, p1_index, p2_index);
+			MeshTriangle leftTriangle(p2_index, p1_index, p0_index);
 			leftTrianglesOut.push_back(leftTriangle);
 			rightTrianglesOut.push_back(rightTriangle);
 		}
