@@ -1,4 +1,6 @@
 #include "Stdafx.h"
+#include <climits>
+#include <cstdlib>
 #include "CollisionConstraint.h"
 
 using namespace PGSSOlver;

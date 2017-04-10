@@ -418,6 +418,12 @@ struct CommonRigidBodyBase : public CommonExampleInterface
 		return box;
 	}
 
+	btCylinderShape* createCylinderShape(const btVector3& halfExtents)
+	{
+		btCylinderShape* cyl = new btCylinderShape(halfExtents);
+		return cyl;
+	}
+
 	btRigidBody*	createRigidBody(float mass, const btTransform& startTransform, btCollisionShape* shape,  const btVector4& color = btVector4(1, 0, 0, 1))
 	{
 		btAssert((!shape || shape->getShapeType() != INVALID_SHAPE_PROXYTYPE));

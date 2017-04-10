@@ -18,10 +18,12 @@ subject to the following restrictions:
 #include "BasicExample.h"
 
 #include "btBulletDynamicsCommon.h"
-#define ARRAY_SIZE_Y 5
-#define ARRAY_SIZE_X 5
-#define ARRAY_SIZE_Z 5
+#define ARRAY_SIZE_Y 1
+#define ARRAY_SIZE_X 1
+#define ARRAY_SIZE_Z 1
 
+
+#define BASEPLATE_NUM 100
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h"
 
@@ -58,30 +60,33 @@ void BasicExample::initPhysics()
 	if (m_dynamicsWorld->getDebugDrawer())
 		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
 
-	///create a few basic rigid bodies
-	btBoxShape* groundShape = createBoxShape(btVector3(btScalar(50.),btScalar(50.),btScalar(50.)));
 	
 
 	//groundShape->initializePolyhedralFeatures();
 //	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
 	
-	m_collisionShapes.push_back(groundShape);
-
-	btTransform groundTransform;
-	groundTransform.setIdentity();
-	groundTransform.setOrigin(btVector3(0,-50,0));
-
+	float baseplateWidth = 1.0;
+	btVector3 offset(-baseplateWidth*BASEPLATE_NUM / 2.0f, 0, 0);
+	for (int i = 0; i < BASEPLATE_NUM; i++)
 	{
+		///create a few basic rigid bodies
+		btBoxShape* groundShape = createBoxShape(btVector3(btScalar(baseplateWidth/2.0f), btScalar(100/2.0f), btScalar(128.)));
+		m_collisionShapes.push_back(groundShape);
+		btTransform groundTransform;
+		groundTransform.setIdentity();
+		groundTransform.setOrigin(offset + btVector3(baseplateWidth * i, -50, 0));
 		btScalar mass(0.);
-		btRigidBody* body = createRigidBody(mass,groundTransform,groundShape, btVector4(0,0,1,1));
+		btRigidBody* body = createRigidBody(mass, groundTransform, groundShape, btVector4(0, 0, 1/BASEPLATE_NUM * i, 1));
 	}
+
+
 
 
 	{
 		//create a few dynamic rigidbodies
 		// Re-using the same collision is better for memory usage and performance
 
-		btBoxShape* colShape = createBoxShape(btVector3(1,1,1));
+		btCylinderShape* colShape = createCylinderShape(btVector3(3,3,7));
 		
 
 		//btCollisionShape* colShape = new btSphereShape(btScalar(1.));
@@ -107,10 +112,11 @@ void BasicExample::initPhysics()
 			{
 				for(int j = 0;j<ARRAY_SIZE_Z;j++)
 				{
+					startTransform.setRotation(btQuaternion(btVector3(1, .7, 0).normalized(), SIMD_HALF_PI));
 					startTransform.setOrigin(btVector3(
-										btScalar(2.0*i),
-										btScalar(20+2.0*k),
-										btScalar(2.0*j)));
+										btScalar(6.0*i),
+										btScalar(20+6.0*k),
+										btScalar(14.0*j)));
 
 			
 					btRigidBody* body = createRigidBody(mass,startTransform,colShape);
