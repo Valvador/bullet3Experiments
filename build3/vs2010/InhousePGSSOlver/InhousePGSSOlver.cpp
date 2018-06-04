@@ -127,15 +127,31 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			*/
 	}
 	// We've solved x!
-}void Solver::ComputeFreeFall(float dt){	const int numBodies = m_rigidBodies.size();	const int numConstraints = m_constraints.size();	if (numConstraints != 0 || numBodies == 0) return;	DMatrix s(numBodies * 7, 1);							// pos & qrot
+}
+
+void Solver::ComputeFreeFall(float dt)
+{
+	const int numBodies = m_rigidBodies.size();
+	const int numConstraints = m_constraints.size();
+	if (numConstraints != 0 || numBodies == 0) return;
+
+	DMatrix s(numBodies * 7, 1);							// pos & qrot
 	DMatrix u(numBodies * 6, 1);							// vel & rotvel
 	DMatrix s_next(numBodies * 7, 1);						// pos & qrot after timestep
 	DMatrix u_next(numBodies * 6, 1);						// vel & rotvel after timestep
 	DMatrix S(numBodies * 7, numBodies * 6);
 	DMatrix MInverse(numBodies * 6, numBodies * 6);
 	DMatrix Fext(numBodies * 6, 1);
-	setUpBodyMatricies(s, u, s_next, u_next, S, MInverse, Fext);	u_next = u + dt*MInverse*Fext;
-	s_next = s + dt*S*u_next;	applyIntegrationOnRigidBodies(s_next, u_next);}void Solver::setUpBodyMatricies(DMatrix& s, DMatrix& u, DMatrix& s_next, DMatrix& u_next, DMatrix& S, DMatrix& MInverse, DMatrix& Fext){	for (int i = 0; i<m_rigidBodies.size(); i++)
+	setUpBodyMatricies(s, u, s_next, u_next, S, MInverse, Fext);
+
+	u_next = u + dt*MInverse*Fext;
+	s_next = s + dt*S*u_next;
+	applyIntegrationOnRigidBodies(s_next, u_next);
+}
+
+void Solver::setUpBodyMatricies(DMatrix& s, DMatrix& u, DMatrix& s_next, DMatrix& u_next, DMatrix& S, DMatrix& MInverse, DMatrix& Fext)
+{
+	for (int i = 0; i<m_rigidBodies.size(); i++)
 	{
 		const RigidBody_c* rb = m_rigidBodies[i];
 		s.Set(i * 7 + 0) = rb->m_position.x;
@@ -191,7 +207,12 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		T.Set(2, 0) = rF.z;
 		Fext.SetSubMatrix(i * 6, 0, F);
 		Fext.SetSubMatrix(i * 6 + 3, 0, T);
-	}}void Solver::applyIntegrationOnRigidBodies(DMatrix& s_next, DMatrix& u_next){	for (int i = 0; i< m_rigidBodies.size(); i++)
+	}
+}
+
+void Solver::applyIntegrationOnRigidBodies(DMatrix& s_next, DMatrix& u_next)
+{
+	for (int i = 0; i< m_rigidBodies.size(); i++)
 	{
 		RigidBody_c* rb = m_rigidBodies[i];
 		rb->m_position.x = s_next.Get(i * 7 + 0);
@@ -212,7 +233,11 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 		
 		XMVECTOR normalQuaternion = XMQuaternionNormalize(XMLoadFloat4(&rb->m_orientation));
 		XMStoreFloat4(&rb->m_orientation, normalQuaternion);
-	}}void Solver::ComputeJointConstraints(float dt){
+	}
+}
+
+void Solver::ComputeJointConstraints(float dt)
+{
 	// Magic Formula
 	//
 	// J * M^-1 * J^t * lamba = -1.0 * J * (1/dt*V + M^-1 * Fext)
@@ -317,4 +342,11 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 	// 3rd – re-inject solved values back into the simulator
 	//-------------------------------------------------------------------------
 	applyIntegrationOnRigidBodies(s_next, u_next);
-}void Solver::Update(float dt){	ComputeFreeFall(dt); 	ComputeJointConstraints(dt);}
+}
+
+void Solver::Update(float dt)
+{
+	ComputeFreeFall(dt); 
+
+	ComputeJointConstraints(dt);
+}
