@@ -10,7 +10,7 @@ namespace ProjGJK
 		bool initialized;
 		btTransform transform;
 	public:
-		GJKConvex(btTransform tForm = btTransform(), bool init = false):
+		GJKConvex(const btTransform& tForm = btTransform(), bool init = false):
 			initialized(init),
 			transform(tForm)
 		{};
@@ -29,10 +29,10 @@ namespace ProjGJK
 		GJKConvexHull() :
 			GJKConvex()
 		{};
-		GJKConvexHull(btTransform transform, const btAlignedObjectArray<btVector3>& vertices, const btAlignedObjectArray<int>& edges) :
+		GJKConvexHull(const btTransform& transform, const btAlignedObjectArray<btVector3>& vertices, const btAlignedObjectArray<int>& edges) :
 			GJKConvex(transform, true),
 			vertices(vertices),
 			edges(edges)
 		{};
 	};
-};
+}

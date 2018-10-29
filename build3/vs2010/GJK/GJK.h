@@ -31,4 +31,4 @@ namespace ProjGJK
 
 		bool doGJK();
 	};
-};
+}

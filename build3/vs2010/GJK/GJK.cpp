@@ -4,7 +4,7 @@
 #include "GJK.h"
 #include "GJKConvex.h"
 
-#define GJK_MAX_NUM_ITERATIONS 1000;
+int maxGJKIterations = 1000;
 /// THIS CODE USES https://github.com/kevinmoran/GJK/blob/master/GJK.h AS REFERENCE
 /// 
 
@@ -126,7 +126,7 @@ namespace ProjGJK
 		}
 
 		int simpDim = 2; // Current Dimension of Simplex
-		for (int iterations = 0; iterations < GJK_MAX_NUM_ITERATIONS; iterations++)
+		for (int i = 0; i < maxGJKIterations; i++)
 		{
 			simplex.vertices[0] = obj1->getSupport(searchDir) - obj0->getSupport(-searchDir);
 			if (simplex.vertices[0].dot(searchDir) < 0.0f)

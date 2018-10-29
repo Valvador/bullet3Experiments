@@ -82,7 +82,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InhousePGSSOlver", "Inhouse
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicDestrutionLab", "..\..\DynamicDestructionLab\DynamicDestrutionLab\DynamicDestrutionLab.vcxproj", "{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GJK", "..\GJK\GJK\GJK.vcxproj", "{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GJK", "GJK\GJK.vcxproj", "{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
