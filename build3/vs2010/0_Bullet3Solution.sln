@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "App_ExampleBrowser", "App_ExampleBrowser.vcxproj", "{8F06F5AE-882F-F749-899A-F06B9750867C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -81,6 +81,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InhousePGSSOlver", "InhousePGSSOlver\InhousePGSSOlver.vcxproj", "{4CA0B899-823F-4E12-94AF-16587E29794B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicDestrutionLab", "..\..\DynamicDestructionLab\DynamicDestrutionLab\DynamicDestrutionLab.vcxproj", "{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GJK", "..\GJK\GJK\GJK.vcxproj", "{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -306,6 +308,16 @@ Global
 		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|Win32.ActiveCfg = Release|Win32
 		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|Win32.Build.0 = Release|Win32
 		{330EF1A9-2EDD-4B7B-9CC2-D4649C06CD07}.Release|x64.ActiveCfg = Release|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Debug|ARM.ActiveCfg = Debug|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Debug|Win32.Build.0 = Debug|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Debug|x64.ActiveCfg = Debug|x64
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Debug|x64.Build.0 = Debug|x64
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|ARM.ActiveCfg = Release|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|Win32.ActiveCfg = Release|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|Win32.Build.0 = Release|Win32
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|x64.ActiveCfg = Release|x64
+		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
