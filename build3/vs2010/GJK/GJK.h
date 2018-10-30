@@ -1,5 +1,7 @@
 #include "btVector3.h"
 
+#pragma once
+
 namespace ProjGJK
 {
 	class GJKConvex;

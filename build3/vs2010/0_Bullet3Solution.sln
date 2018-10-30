@@ -84,6 +84,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicDestrutionLab", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GJK", "GJK\GJK.vcxproj", "{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{639ADFA7-096C-42D8-875D-F294B74EAA2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -318,6 +320,16 @@ Global
 		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|Win32.Build.0 = Release|Win32
 		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|x64.ActiveCfg = Release|x64
 		{F980DB0A-731F-4D09-B0AD-4278A7DBE3B4}.Release|x64.Build.0 = Release|x64
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Debug|ARM.ActiveCfg = Debug|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Debug|Win32.Build.0 = Debug|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Debug|x64.ActiveCfg = Debug|x64
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Debug|x64.Build.0 = Debug|x64
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|ARM.ActiveCfg = Release|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|Win32.ActiveCfg = Release|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|Win32.Build.0 = Release|Win32
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|x64.ActiveCfg = Release|x64
+		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
