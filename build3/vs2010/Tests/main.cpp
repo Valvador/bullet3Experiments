@@ -8,9 +8,7 @@
 #include "GJKTest.h"
 #include <assert.h>
 
-using namespace GJKTest;
-
-int main(int argc, char** argv)
+int main()
 {
 	// GJKTest
 	btVector3 partSize = btVector3(1.0f, 1.0f, 1.0f);
@@ -21,9 +19,9 @@ int main(int argc, char** argv)
 	collidingTForm.setOrigin(partSize / 2.0f);
 	btTransform notCollidingTForm = originTForm;
 	notCollidingTForm.setOrigin(partSize * 2.0f);
-	ProjGJK::GJKConvexHull* obj0 = GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(originTForm));
-	ProjGJK::GJKConvexHull* obj1 = GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(collidingTForm));
-	ProjGJK::GJKConvexHull* obj2 = GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(notCollidingTForm));
+	ProjGJK::GJKConvexHull* obj0 = GJKTest::GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(originTForm));
+	ProjGJK::GJKConvexHull* obj1 = GJKTest::GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(collidingTForm));
+	ProjGJK::GJKConvexHull* obj2 = GJKTest::GJKTestHelper::newGJKConvexHullTetrahedron(partSize, btTransform(notCollidingTForm));
 
 	ProjGJK::GJKPair collidingPair(obj0, obj1);
 	ProjGJK::GJKPair nonCollidingPair(obj0, obj2);
@@ -33,4 +31,6 @@ int main(int argc, char** argv)
 
 	assert(collidingGJK);
 	assert(!nonCollidingGJK);
+
+	return 1;
 }
