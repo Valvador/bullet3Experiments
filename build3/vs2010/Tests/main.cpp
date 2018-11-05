@@ -26,8 +26,10 @@ int main()
 	ProjGJK::GJKPair collidingPair(obj0, obj1);
 	ProjGJK::GJKPair nonCollidingPair(obj0, obj2);
 
-	bool collidingGJK = collidingPair.doGJK();
-	bool nonCollidingGJK = nonCollidingPair.doGJK();
+	ProjGJK::GJKContactResult result0;
+	ProjGJK::GJKContactResult result1;
+	bool collidingGJK = collidingPair.doGJK(&result0);
+	bool nonCollidingGJK = nonCollidingPair.doGJK(&result1);
 
 	assert(collidingGJK);
 	assert(!nonCollidingGJK);

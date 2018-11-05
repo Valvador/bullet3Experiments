@@ -1,10 +1,20 @@
 #include "btVector3.h"
 
+// GJK IMPLEMETNATION USING https://github.com/kevinmoran/GJK/blob/master/GJK.h AS REFERENCE
+/// 
+
 #pragma once
 
 namespace ProjGJK
 {
 	class GJKConvex;
+
+	struct GJKContactResult
+	{
+		btVector3 normal;
+		btVector3 position;
+		float depth;
+	};
 
 	struct GJKSimplex
 	{
@@ -18,6 +28,7 @@ namespace ProjGJK
 		void updateSimplexVertex(int i, const btVector3& vertex);
 		void updateSimplex3(int &simpDim, btVector3& searchDir);
 		bool updateSimplex4CheckInside(int &simpDim, btVector3& searchDir);
+		GJKContactResult doEPAForSimplexContact(GJKConvex* shape0, GJKConvex* shape1);
 	};
 
 	class GJKPair
@@ -31,6 +42,6 @@ namespace ProjGJK
 			obj1(shape1)
 		{};
 
-		bool doGJK();
+		bool doGJK(GJKContactResult* resultOut = nullptr);
 	};
 }
