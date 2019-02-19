@@ -215,12 +215,20 @@ namespace PGSSOlver {
 			DMatrix output(m_numRows, other.m_numCols);
 			for (int i = 0; i < m_numRows; i++)
 			{
-				for (int j = 0; j < other.m_numCols; j++)
+				for (int k = 0; k < m_numCols; k++)
 				{
-					assert(output.Get(i, j) == 0);
-					for (int k = 0; k < m_numCols; k++)
+					float a_ik = Get(i, k);
+					if (a_ik)
 					{
-						output.Set(i, j) += Get(i, k) * other.Get(k, j);
+						for (int j = 0; j < other.m_numCols; j++)
+						{
+							assert(output.Get(i, j) == 0);
+							float b_kj = other.Get(k, j);
+							if (b_kj)
+							{
+								output.Set(i, j) += a_ik * b_kj;
+							}
+						}
 					}
 				}
 			}

@@ -60,7 +60,11 @@ void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* l
 			{
 				if (i != j)
 				{
-					sum = sum - (a.Get(i, j) * x->Get(j));
+					float a_ij = a.Get(i, j);
+					if (a_ij)
+					{
+						sum = sum - (a_ij * x->Get(j)); // This is where we differ from Jacobi, by using 'x', which is our answer.
+					}
 				}
 			}
 			// If a.Get(i,i) is zero – you have a bad matrix!
