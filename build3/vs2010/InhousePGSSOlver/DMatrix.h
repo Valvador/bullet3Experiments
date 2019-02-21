@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+#include <vector>
 
 #ifndef DMATRIX_H
 #define DMATRIX_H
@@ -11,6 +12,11 @@ namespace PGSSOlver {
 	class DMatrix
 	{
 	public:
+		DMatrix()
+		{
+			Init(0, 0, NULL);
+		}
+
 		DMatrix(const int numRows, const int numCols, const float* data = NULL)
 		{
 			Init(numRows, numCols, data);
@@ -18,12 +24,11 @@ namespace PGSSOlver {
 
 		DMatrix(const DMatrix &other)
 		{
-			Init(other.GetNumRows(), other.GetNumCols(), other.m_data);
+			Init(other.GetNumRows(), other.GetNumCols(), &other.m_data[0]);
 		}
 
 		~DMatrix()
 		{
-			delete[] m_data;
 		}
 
 		inline int GetNumRows() const { return m_numRows; }
@@ -58,6 +63,11 @@ namespace PGSSOlver {
 			}
 
 			return output;
+		}
+
+		inline void Resize(const int numRows, const int numCol)
+		{
+			InitSize(numRows, numCol);
 		}
 
 		inline void SetSubMatrix(int row, int col, DMatrix& subMatrix)
@@ -100,7 +110,7 @@ namespace PGSSOlver {
 			return m_data[index];
 		};
 
-		inline float& Set(int row, int col = 0) const
+		inline float& Set(int row, int col = 0)
 		{
 			assert(row >= 0 && row < m_numRows);
 			assert(col >= 0 && col < m_numCols);
@@ -121,7 +131,7 @@ namespace PGSSOlver {
 			assert(m_numRows >= 0);
 			if (m_numRows > 0 && m_numCols > 0)
 			{
-				memset(m_data, 0, sizeof(float)*m_numCols*m_numRows);
+				memset(&m_data[0], 0, sizeof(float)*m_numCols*m_numRows);
 			}
 		}
 
@@ -138,30 +148,36 @@ namespace PGSSOlver {
 		}
 
 	private:
-		void Init(const int numRows, const int numCols, const float* data = NULL)
+		void InitSize(const int numRows, const int numCols)
 		{
 			assert(numRows >= 0 && numRows < 1000); // May not be necessary, 500 just for sanity
 			assert(numCols >= 0 && numCols < 1000); // Same as above for Cols
 			assert((numRows == 0 && numCols == 0) || (numRows > 0 && numCols > 0));
-			m_data = NULL;
 			m_numRows = numRows;
 			m_numCols = numCols;
-			if (numRows > 0 && numCols > 0)
+
+			size_t newSize = numRows * numCols;
+			if (m_data.size() != newSize)
+				m_data.resize(newSize);
+		}
+
+		void Init(const int numRows, const int numCols, const float* data = NULL)
+		{
+			InitSize(numRows, numCols);
+			if (m_numRows > 0 && m_numCols > 0)
 			{
-				m_data = new float[numRows * numCols];
-				assert(m_data);
 				if (data)
 				{
-					memcpy(m_data, data, sizeof(float)*numRows*numCols);
+					memcpy(&m_data[0], data, sizeof(float)*numRows*numCols);
 				}
 				else
 				{
-					memset(m_data, 0, sizeof(float)*numRows*numCols);
+					memset(&m_data[0], 0, sizeof(float)*numRows*numCols);
 				}
 			}
 		}
 
-		float* m_data;
+		std::vector<float> m_data;
 		int    m_numRows;
 		int    m_numCols;
 
@@ -206,7 +222,7 @@ namespace PGSSOlver {
 
 		void operator= (const DMatrix other)
 		{
-			Init(other.GetNumRows(), other.GetNumCols(), other.m_data);
+			Init(other.GetNumRows(), other.GetNumCols(), &other.m_data[0]);
 		}
 
 		inline DMatrix operator* (DMatrix& other)

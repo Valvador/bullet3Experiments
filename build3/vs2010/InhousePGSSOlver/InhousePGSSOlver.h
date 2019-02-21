@@ -42,6 +42,11 @@ namespace PGSSOlver {
 		btAlignedObjectArray<RigidBody_c*>		m_rigidBodies;
 		std::vector<Constraint_c*>				m_constraints;
 
+		// Computational Buffers
+		DMatrix									m_jacobianBuffer;  //J             
+		DMatrix	                                m_resultImpulseBuffer; //x
+		DMatrix									m_virtualDisplacementBuffer; // M_inverse * Jt * x
+
 		// UTIL
 		void setUpBodyMatricies(DMatrix& s, DMatrix& u, DMatrix& s_next, DMatrix& u_next, DMatrix& S, DMatrix& MInverse, DMatrix& Fext);
 		void applyIntegrationOnRigidBodies(DMatrix& s_next, DMatrix& u_next);
