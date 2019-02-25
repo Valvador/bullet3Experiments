@@ -65,12 +65,19 @@ namespace PGSSOlver {
 			return output;
 		}
 
-		inline void Resize(const int numRows, const int numCol)
+		inline void Resize(const int numRows, const int numCol, bool memReset = false)
 		{
-			InitSize(numRows, numCol);
+			if (memReset)
+			{
+				Init(numRows, numCol);
+			}
+			else
+			{
+				InitSize(numRows, numCol);
+			}
 		}
 
-		inline void SetSubMatrix(int row, int col, DMatrix& subMatrix)
+		inline void SetSubMatrix(int row, int col, const DMatrix& subMatrix)
 		{
 			assert(row + subMatrix.m_numRows <= m_numRows);
 			assert(col + subMatrix.m_numCols <= m_numCols);
@@ -86,7 +93,7 @@ namespace PGSSOlver {
 			}
 		}
 
-		inline void AddSubMatrix(int row, int col, DMatrix& subMatrix)
+		inline void AddSubMatrix(int row, int col, const DMatrix& subMatrix)
 		{
 			assert(row + subMatrix.m_numRows <= m_numRows);
 			assert(col + subMatrix.m_numCols <= m_numCols);
@@ -184,7 +191,7 @@ namespace PGSSOlver {
 
 		// Operator Overloads
 	public:
-		inline DMatrix operator+ (DMatrix& other)
+		inline DMatrix operator+ (const DMatrix& other) const
 		{
 			assert(m_numCols >= 0);
 			assert(m_numRows >= 0);
@@ -202,7 +209,7 @@ namespace PGSSOlver {
 			return output;
 		};
 
-		inline DMatrix operator- (DMatrix& other)
+		inline DMatrix operator- (const DMatrix& other) const
 		{
 			assert(m_numCols >= 0);
 			assert(m_numRows >= 0);
@@ -225,7 +232,7 @@ namespace PGSSOlver {
 			Init(other.GetNumRows(), other.GetNumCols(), &other.m_data[0]);
 		}
 
-		inline DMatrix operator* (DMatrix& other)
+		inline DMatrix operator* (const DMatrix& other) const
 		{
 			assert(m_numCols == other.m_numRows);
 			DMatrix output(m_numRows, other.m_numCols);
@@ -254,7 +261,7 @@ namespace PGSSOlver {
 
 
 
-		inline DMatrix operator* (float x)
+		inline DMatrix operator* (const float x) const
 		{
 			assert(m_numCols >= 0);
 			assert(m_numRows >= 0);
@@ -269,9 +276,90 @@ namespace PGSSOlver {
 
 			return output;
 		};
+
+		// Generates a Vector with only the Diagonal Components of the
+		// Multiplication
+		inline DMatrix diagonalProduct(const DMatrix& other) const
+		{
+			assert(m_numCols == other.m_numRows); // Multiplicable
+			assert(m_numRows == other.m_numCols); // Results in Square Matrix
+			DMatrix output(m_numRows, 1);
+			for (int i = 0; i < m_numRows; i++)
+			{
+				for (int k = 0; k < m_numCols; k++)
+				{
+					float a_ik = Get(i, k);
+					if (a_ik)
+					{
+						assert(output.Get(i) == 0);
+						float b_ki = other.Get(k, i);
+						if (b_ki)
+						{
+							output.Set(i) += a_ik * b_ki;
+						}
+					}
+				}
+			}
+
+			return output;
+		}
+
+		// Generates a single row of a product result for Matrix Multiplication.
+		// Result dimensions are 1xN
+		inline DMatrix rowProduct(const DMatrix& other, int resultRow) const
+		{
+			assert(m_numCols == other.m_numRows); // Multiplicable
+			DMatrix output(1, other.m_numCols);
+			int i = resultRow;
+			for (int k = 0; k < m_numCols; k++)
+			{
+				float a_ik = Get(i, k);
+				if (a_ik)
+				{
+					for (int j = 0; j < other.m_numCols; j++)
+					{
+						assert(output.Get(i, j) == 0);
+						float b_kj = other.Get(k, j);
+						if (b_kj)
+						{
+							output.Set(0, j) += a_ik * b_kj;
+						}
+					}
+				}
+			}
+
+			return output;
+		}
+
+		// Generates a single column of a product result for Matrilx Multiplication
+		// Result dimensions are Nx1
+		inline DMatrix colProduct(const DMatrix& other, int resultCol) const
+		{
+			assert(m_numCols == other.m_numRows); // Multiplicable
+			DMatrix output(m_numRows, 1);
+			for (int i = 0; i < m_numRows; i++)
+			{
+				int k = resultCol;
+				float a_ik = Get(i, k);
+				if (a_ik)
+				{
+					for (int j = 0; j < other.m_numCols; j++)
+					{
+						assert(output.Get(i, j) == 0);
+						float b_kj = other.Get(k, j);
+						if (b_kj)
+						{
+							output.Set(i, 0) += a_ik * b_kj;
+						}
+					}
+				}
+			}
+
+			return output;
+		}
 	};
 
-	inline DMatrix operator* (float x, DMatrix& matrix)
+	inline DMatrix operator* (const float x, const DMatrix& matrix)
 	{
 		assert(matrix.GetNumCols() >= 0);
 		assert(matrix.GetNumRows() >= 0);

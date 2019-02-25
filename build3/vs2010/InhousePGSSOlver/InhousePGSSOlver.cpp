@@ -11,6 +11,7 @@
 using namespace DirectX;
 using namespace PGSSOlver;
 
+static const bool UseJVSolverOpt = false;
 
 Solver::Solver()
 {
@@ -42,6 +43,48 @@ void Solver::clearRigidBodies()
 	}
 
 	m_rigidBodies.clear();
+}
+
+void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix& b, DMatrix& V, DMatrix& x, const DMatrix* lo, const DMatrix* hi)
+{
+	int maxIterations = 20;
+	x.SetToZero();
+	const int n = x.GetNumRows();
+
+	DMatrix aDiag = J.diagonalProduct(W_Jt);
+	float xi_prime;
+	float xi;
+	float delta_xi;
+	while (maxIterations--)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			// xi' = xi + 1/Aii (bi - Ai*x)
+			// xi' = xi + 1/Aii (bi - J*Vi)
+			xi = x.Get(i);
+			xi_prime = xi;
+			assert(aDiag.Get(i) != 0.0f);
+			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - J.rowProduct(V, i).Get(0));
+
+			if (lo && (xi_prime < lo->Get(i)))
+			{
+				xi_prime = lo->Get(i);
+			}
+			if (hi && xi_prime > hi->Get(i))
+			{
+				xi_prime = hi->Get(i);
+			}
+			// Update X-component with new result
+			x.Set(i) = xi_prime;
+
+			// Fix V component with latest X result by using delta between current
+			// and previous result for the X component.
+			// V' = V + W*Jt * delta_x
+			float delta_xi = xi_prime - xi;
+			const DMatrix& V_adjust = W_Jt.colProduct(x, i);
+			V.AddSubMatrix(0, i, V_adjust);
+		}
+	}
 }
 
 void Solver::GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi)
@@ -266,7 +309,8 @@ void Solver::ComputeJointConstraints(float dt)
 	DMatrix s_next(numBodies * 7, 1);						// pos & qrot after timestep
 	DMatrix u_next(numBodies * 6, 1);						// vel & rotvel after timestep
 	DMatrix S(numBodies * 7, numBodies * 6);
-	DMatrix MInverse(numBodies * 6, numBodies * 6);
+	DMatrix& MInverse = m_MInverseBuffer;
+	MInverse.Resize(numBodies * 6, numBodies * 6, true);	// ToDo - This may be mostly static!
 	DMatrix Fext(numBodies * 6, 1);
 	setUpBodyMatricies(s, u, s_next, u_next, S, MInverse, Fext);
 	//-------------------------------------------------------------------------
@@ -283,9 +327,11 @@ void Solver::ComputeJointConstraints(float dt)
 	// Allocate it, and fill it
 	DMatrix minForces(numRows, 1);
 	DMatrix maxForces(numRows, 1);
-	DMatrix J(numRows, 6 * numBodies);
+	DMatrix& J = m_jacobianBuffer;
+	J.Resize(numRows, 6 * numBodies, /*memReset*/true);
 	DMatrix rst(numRows, numRows);			// Restitution
-	DMatrix s_err(numRows, 1);
+	DMatrix& s_err = m_cBuffer;
+	s_err.Resize(numRows, 1, true);
 	int constraintRow = 0;
 	for (int c = 0; c<numConstraints; c++)
 	{
@@ -318,26 +364,56 @@ void Solver::ComputeJointConstraints(float dt)
 
 		constraintRow += constraint->GetDimension();
 	}
-	// Velocity Gauss Seidel
-	DMatrix Jt = DMatrix::Transpose(J);
-	DMatrix A = J*MInverse*Jt;
-	DMatrix b = rst*J*(u) +J*(dt*MInverse*Fext);          // HIGHLY UNOPTIMIZED! NEEDS WORK!
-	DMatrix x(A.GetNumRows(), b.GetNumCols());
 
-	DMatrix* lo = NULL; // Don’t set any min/max boundaries for this demo/sample
-	DMatrix* hi = NULL;
+	if (UseJVSolverOpt)
+	{
+		DMatrix& W_Jt = m_MInverseJtBuffer;
+		DMatrix& V = m_virtualDisplacementBuffer;
+		DMatrix& b = m_bBuffer;
+		DMatrix& x = m_resultImpulseBuffer;
+		W_Jt = MInverse * DMatrix::Transpose(J);
+		b = rst*J*(u)+J*(dt*MInverse*Fext);
+		// TODO - To implement Caching/Warmstarting we have to pre-set x and V with previous Data!
+		x.Resize(J.GetNumRows(), b.GetNumCols(), /*memReset*/ true);
+		V.Resize(W_Jt.GetNumRows(), x.GetNumRows(), /*memReset*/ true);
 
-	// Solve for x
-	//GaussSeidelLCP(A, b, &x, lo, hi);
-	GaussSeidelLCP(A, b, &x, &minForces, &maxForces);
+		// Solve for x [Velocity Stage]
+		GaussSeidelLCP(J, W_Jt, b, V, x, &minForces, &maxForces);
 
-	// Positional Correction Gauss Seidel
-	DMatrix c = s_err;
-	DMatrix y(A.GetNumRows(), b.GetNumCols());
-	GaussSeidelLCP(A, c, &y, lo, hi);
+		DMatrix& y = m_resultPositionCorrectionBuffer;
+		DMatrix& Z = m_virtualCorrectionBuffer;
+		y.Resize(J.GetNumRows(), b.GetNumCols(), /*memReset*/ true);
+		Z.Resize(W_Jt.GetNumRows(), y.GetNumRows(), /*memReset*/ true);
 
-	u_next = u - MInverse*Jt*x + dt*MInverse*Fext;
-	s_next = s + dt*S*u_next -S*MInverse*Jt*y * Config::positionalCorrectionFactor;
+		// Solve for y [Position Stage]
+		GaussSeidelLCP(J, W_Jt, s_err, Z, y, nullptr, nullptr);
+
+		u_next = u - W_Jt*x + dt*MInverse*Fext;
+		s_next = s + dt*S*u_next - S*W_Jt*y * Config::positionalCorrectionFactor;
+	}
+	else
+	{
+		// Velocity Gauss Seidel
+		DMatrix Jt = DMatrix::Transpose(J);
+		DMatrix A = J*MInverse*Jt;
+		DMatrix b = rst*J*(u)+J*(dt*MInverse*Fext);          
+		DMatrix x(A.GetNumRows(), b.GetNumCols());
+
+		DMatrix* lo = NULL; // Don’t set any min/max boundaries for this demo/sample
+		DMatrix* hi = NULL;
+
+		// Solve for x
+		//GaussSeidelLCP(A, b, &x, lo, hi);
+		GaussSeidelLCP(A, b, &x, &minForces, &maxForces);
+
+		// Positional Correction Gauss Seidel
+		DMatrix c = s_err;
+		DMatrix y(A.GetNumRows(), b.GetNumCols());
+		GaussSeidelLCP(A, c, &y, lo, hi);
+
+		u_next = u - MInverse*Jt*x + dt*MInverse*Fext;
+		s_next = s + dt*S*u_next - S*MInverse*Jt*y * Config::positionalCorrectionFactor;
+	}
 
 	// Basic integration without - euler integration standalone
 	// u_next = u + dt*MInverse*Fext;

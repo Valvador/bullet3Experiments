@@ -18,13 +18,19 @@ namespace PGSSOlver {
 
 	class Solver
 	{
-		// TODO: Add your methods for this class here.
-
 	public:
 		Solver();
 		~Solver();
 
 		static void GaussSeidelLCP(DMatrix& a, DMatrix& b, DMatrix* x, const DMatrix* lo, const DMatrix* hi);
+		static void GaussSeidelLCP(	const DMatrix& J,	// Jacobian - Constraint Info
+			                        const DMatrix& W_Jt,// Mass Inverse * J Transpose
+									const DMatrix& b,	// b side of the A * x = b equation
+									DMatrix& V,			// M_inverse * Jt * x, J*V replace the A * x side of the equation.
+									DMatrix& x, 
+									const DMatrix* lo,	// low clamp of x
+									const DMatrix* hi);	// high clamp of x
+
 		void Update(float dt = 0.0166666f);
 		void ComputeForces(float dt = 0.0166666f);
 		void ComputeJointConstraints(float dt = 0.0166666f);
@@ -43,9 +49,18 @@ namespace PGSSOlver {
 		std::vector<Constraint_c*>				m_constraints;
 
 		// Computational Buffers
-		DMatrix									m_jacobianBuffer;  //J             
+		DMatrix									m_jacobianBuffer;  //J 
+		DMatrix									m_MInverseBuffer; //W or M_inverse
+		DMatrix									m_MInverseJtBuffer; // W * Jt
+		// Velocity Stage
 		DMatrix	                                m_resultImpulseBuffer; //x
+		DMatrix									m_bBuffer;
 		DMatrix									m_virtualDisplacementBuffer; // M_inverse * Jt * x
+
+		// Position Stage
+		DMatrix									m_resultPositionCorrectionBuffer; //y
+		DMatrix									m_cBuffer;
+		DMatrix									m_virtualCorrectionBuffer; // M_inverse * Jt * y
 
 		// UTIL
 		void setUpBodyMatricies(DMatrix& s, DMatrix& u, DMatrix& s_next, DMatrix& u_next, DMatrix& S, DMatrix& MInverse, DMatrix& Fext);
