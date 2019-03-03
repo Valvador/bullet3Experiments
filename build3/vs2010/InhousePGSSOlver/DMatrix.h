@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <vector>
+#include <climits>
 
 #ifndef DMATRIX_H
 #define DMATRIX_H
@@ -191,6 +192,24 @@ namespace PGSSOlver {
 
 		// Operator Overloads
 	public:
+		inline bool fuzzyEq(const DMatrix& other) const
+		{
+			if (m_numCols != other.m_numCols || m_numRows != other.m_numRows)
+			{
+				return false;
+			}
+
+			for (size_t i = 0; i < m_data.size(); i++)
+			{
+				if (std::abs(m_data[i] - other.m_data[i]) > 0.00001f)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		inline DMatrix operator+ (const DMatrix& other) const
 		{
 			assert(m_numCols >= 0);
@@ -227,9 +246,19 @@ namespace PGSSOlver {
 			return output;
 		};
 
-		void operator= (const DMatrix other)
+		void operator= (const DMatrix& other)
 		{
 			Init(other.GetNumRows(), other.GetNumCols(), &other.m_data[0]);
+		}
+
+		bool operator== (const DMatrix& other)
+		{
+			if (m_numCols != other.m_numCols || m_numRows != other.m_numRows)
+			{
+				return false;
+			}
+
+			return m_data == other.m_data;
 		}
 
 		inline DMatrix operator* (const DMatrix& other) const
@@ -333,6 +362,26 @@ namespace PGSSOlver {
 
 		// Generates a single column of a product result for Matrilx Multiplication
 		// Result dimensions are Nx1
+		inline DMatrix colProduct(const float otherValue, int resultCol) const
+		{
+			DMatrix output(m_numRows, 1);
+			for (int i = 0; i < m_numRows; i++)
+			{
+				int k = resultCol;
+				float a_ik = Get(i, k);
+				if (a_ik)
+				{
+					float b_kj = otherValue;
+					if (b_kj)
+					{
+						output.Set(i, 0) += a_ik * b_kj;
+					}
+				}
+			}
+
+			return output;
+		}
+
 		inline DMatrix colProduct(const DMatrix& other, int resultCol) const
 		{
 			assert(m_numCols == other.m_numRows); // Multiplicable

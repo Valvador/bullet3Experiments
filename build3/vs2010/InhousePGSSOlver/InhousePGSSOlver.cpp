@@ -69,7 +69,7 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 #ifdef _DEBUG
 			float Ai_x = A.rowProduct(x, i).Get(0);
 			float J_Vi = J.rowProduct(V, i).Get(0);
-			assert(Ai_x == J_Vi); // REMOVE DEBUGGING
+			assert( std::abs(Ai_x - J_Vi) < 0.00001f ); // REMOVE DEBUGGING
 #endif
 			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - A.rowProduct(x, i).Get(0));// J.rowProduct(V, i).Get(0));
 
@@ -88,8 +88,15 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 			// and previous result for the X component.
 			// V' = V + W*Jt * delta_x
 			float delta_xi = xi_prime - xi;
-			const DMatrix& V_adjust = W_Jt.colProduct(x, i);
-			V.SetSubMatrix(0, i, V_adjust);
+			// TODO How to update V AFTER x update???
+			const DMatrix& V_adjust = W_Jt.colProduct(delta_xi, i); // COLUMN PRODUCT IS PROBABLY AT FAULT, WE SHOULD REVISIT THIS.
+			V.AddSubMatrix(0, i, V_adjust);
+#ifdef _DEBUG
+			DMatrix V_fixed = W_Jt * x;
+			assert(A.fuzzyEq(J*W_Jt));
+			assert((A*x).fuzzyEq(J*V_fixed));
+			assert((A*x).fuzzyEq(J*V));
+#endif
 		}
 	}
 }
