@@ -19,8 +19,8 @@ subject to the following restrictions:
 
 #include "btBulletDynamicsCommon.h"
 #define ARRAY_SIZE_Y 1
-#define ARRAY_SIZE_X 1
-#define ARRAY_SIZE_Z 1
+#define ARRAY_SIZE_X 5
+#define ARRAY_SIZE_Z 5
 
 #include "LinearMath/btVector3.h"
 #include "LinearMath/btAlignedObjectArray.h"

@@ -385,7 +385,7 @@ namespace PGSSOlver {
 		inline DMatrix colProduct(const DMatrix& other, int resultCol) const
 		{
 			assert(m_numCols == other.m_numRows); // Multiplicable
-			DMatrix output(m_numRows, 1);
+			DMatrix output(m_numRows, other.m_numCols);
 			for (int i = 0; i < m_numRows; i++)
 			{
 				int k = resultCol;
@@ -398,7 +398,7 @@ namespace PGSSOlver {
 						float b_kj = other.Get(k, j);
 						if (b_kj)
 						{
-							output.Set(i, 0) += a_ik * b_kj;
+							output.Set(i, j) += a_ik * b_kj;
 						}
 					}
 				}

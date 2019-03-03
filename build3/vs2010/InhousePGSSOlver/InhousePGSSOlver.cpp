@@ -56,7 +56,6 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 	float xi;
 	float delta_xi;
 
-	DMatrix A = J * W_Jt; // REMOVE DEBUGGING
 	while (maxIterations--)
 	{
 		for (int i = 0; i < n; i++)
@@ -66,12 +65,7 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 			xi = x.Get(i);
 			xi_prime = xi;
 			assert(aDiag.Get(i) != 0.0f);
-#ifdef _DEBUG
-			float Ai_x = A.rowProduct(x, i).Get(0);
-			float J_Vi = J.rowProduct(V, i).Get(0);
-			assert( std::abs(Ai_x - J_Vi) < 0.00001f ); // REMOVE DEBUGGING
-#endif
-			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - A.rowProduct(x, i).Get(0));// J.rowProduct(V, i).Get(0));
+			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - J.rowProduct(V, i).Get(0));// A.rowProduct(x, i).Get(0));// 
 
 			if (lo && (xi_prime < lo->Get(i)))
 			{
@@ -88,15 +82,8 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 			// and previous result for the X component.
 			// V' = V + W*Jt * delta_x
 			float delta_xi = xi_prime - xi;
-			// TODO How to update V AFTER x update???
-			const DMatrix& V_adjust = W_Jt.colProduct(delta_xi, i); // COLUMN PRODUCT IS PROBABLY AT FAULT, WE SHOULD REVISIT THIS.
-			V.AddSubMatrix(0, i, V_adjust);
-#ifdef _DEBUG
-			DMatrix V_fixed = W_Jt * x;
-			assert(A.fuzzyEq(J*W_Jt));
-			assert((A*x).fuzzyEq(J*V_fixed));
-			assert((A*x).fuzzyEq(J*V));
-#endif
+			const DMatrix& V_adjust = W_Jt.colProduct(delta_xi, i);
+			V.AddSubMatrix(0, 0, V_adjust);
 		}
 	}
 }
@@ -389,7 +376,7 @@ void Solver::ComputeJointConstraints(float dt)
 		b = rst*J*(u)+J*(dt*MInverse*Fext);
 		// TODO - To implement Caching/Warmstarting we have to pre-set x and V with previous Data!
 		x.Resize(J.GetNumRows(), b.GetNumCols(), /*memReset*/ true);
-		V.Resize(W_Jt.GetNumRows(), x.GetNumRows(), /*memReset*/ true);
+		V.Resize(W_Jt.GetNumRows(), x.GetNumCols(), /*memReset*/ true);
 
 		// Solve for x [Velocity Stage]
 		GaussSeidelLCP(J, W_Jt, b, V, x, &minForces, &maxForces);
@@ -397,7 +384,7 @@ void Solver::ComputeJointConstraints(float dt)
 		DMatrix& y = m_resultPositionCorrectionBuffer;
 		DMatrix& Z = m_virtualCorrectionBuffer;
 		y.Resize(J.GetNumRows(), b.GetNumCols(), /*memReset*/ true);
-		Z.Resize(W_Jt.GetNumRows(), y.GetNumRows(), /*memReset*/ true);
+		Z.Resize(W_Jt.GetNumRows(), y.GetNumCols(), /*memReset*/ true);
 
 		// Solve for y [Position Stage]
 		GaussSeidelLCP(J, W_Jt, s_err, Z, y, nullptr, nullptr);

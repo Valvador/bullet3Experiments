@@ -22,16 +22,23 @@
     <ProjectReference Include="..\GJK\GJK.vcxproj">
       <Project>{f980db0a-731f-4d09-b0ad-4278a7dbe3b4}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\InhousePGSSOlver\InhousePGSSOlver.vcxproj">
+      <Project>{4ca0b899-823f-4e12-94af-16587e29794b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\LinearMath.vcxproj">
       <Project>{ba3bab8c-ba3d-7240-b810-138d54051b7f}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DMatrixTests.cpp" />
     <ClCompile Include="GJKTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DMatrixTests.h" />
     <ClInclude Include="GJKTest.h" />
+    <ClInclude Include="TestRunner.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{639ADFA7-096C-42D8-875D-F294B74EAA2F}</ProjectGuid>
