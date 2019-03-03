@@ -11,7 +11,7 @@
 using namespace DirectX;
 using namespace PGSSOlver;
 
-static const bool UseJVSolverOpt = false;
+static const bool UseJVSolverOpt = true;
 
 Solver::Solver()
 {
@@ -55,6 +55,8 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 	float xi_prime;
 	float xi;
 	float delta_xi;
+
+	DMatrix A = J * W_Jt; // REMOVE DEBUGGING
 	while (maxIterations--)
 	{
 		for (int i = 0; i < n; i++)
@@ -64,7 +66,12 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 			xi = x.Get(i);
 			xi_prime = xi;
 			assert(aDiag.Get(i) != 0.0f);
-			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - J.rowProduct(V, i).Get(0));
+#ifdef _DEBUG
+			float Ai_x = A.rowProduct(x, i).Get(0);
+			float J_Vi = J.rowProduct(V, i).Get(0);
+			assert(Ai_x == J_Vi); // REMOVE DEBUGGING
+#endif
+			xi_prime += 1 / aDiag.Get(i) * (b.Get(i) - A.rowProduct(x, i).Get(0));// J.rowProduct(V, i).Get(0));
 
 			if (lo && (xi_prime < lo->Get(i)))
 			{
@@ -82,7 +89,7 @@ void Solver::GaussSeidelLCP(const DMatrix& J, const DMatrix& W_Jt, const DMatrix
 			// V' = V + W*Jt * delta_x
 			float delta_xi = xi_prime - xi;
 			const DMatrix& V_adjust = W_Jt.colProduct(x, i);
-			V.AddSubMatrix(0, i, V_adjust);
+			V.SetSubMatrix(0, i, V_adjust);
 		}
 	}
 }

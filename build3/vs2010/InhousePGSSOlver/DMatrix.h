@@ -245,7 +245,7 @@ namespace PGSSOlver {
 					{
 						for (int j = 0; j < other.m_numCols; j++)
 						{
-							assert(output.Get(i, j) == 0);
+							assert(k != 0 || output.Get(i, j) == 0);
 							float b_kj = other.Get(k, j);
 							if (b_kj)
 							{
@@ -291,7 +291,7 @@ namespace PGSSOlver {
 					float a_ik = Get(i, k);
 					if (a_ik)
 					{
-						assert(output.Get(i) == 0);
+						assert(k != 0 || output.Get(i) == 0);
 						float b_ki = other.Get(k, i);
 						if (b_ki)
 						{
@@ -318,7 +318,7 @@ namespace PGSSOlver {
 				{
 					for (int j = 0; j < other.m_numCols; j++)
 					{
-						assert(output.Get(i, j) == 0);
+						assert(k != 0 || output.Get(0, j) == 0);
 						float b_kj = other.Get(k, j);
 						if (b_kj)
 						{
