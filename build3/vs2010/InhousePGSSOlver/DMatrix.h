@@ -105,7 +105,9 @@ namespace PGSSOlver {
 			{
 				for (int j = 0; j < subMatrix.m_numRows; j++)
 				{
-					Set(row + j, col + i) += subMatrix.Get(j, i);
+					float sub_j_i = subMatrix.Get(j, i);
+					if (sub_j_i)
+						Set(row + j, col + i) += sub_j_i;
 				}
 			}
 		}
@@ -378,7 +380,6 @@ namespace PGSSOlver {
 					}
 				}
 			}
-
 			return output;
 		}
 
