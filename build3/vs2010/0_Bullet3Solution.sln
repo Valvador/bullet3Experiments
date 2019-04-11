@@ -86,10 +86,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GJK", "GJK\GJK.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{639ADFA7-096C-42D8-875D-F294B74EAA2F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxmapSphereCollision", "..\VoxmapSphereCollision\VoxmapSphereCollision.vcxproj", "{183B451E-E432-48E5-A394-95B88BF04D2B}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
 		Debug|Win32 = Debug|Win32
@@ -333,6 +332,16 @@ Global
 		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|Win32.Build.0 = Release|Win32
 		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|x64.ActiveCfg = Release|x64
 		{639ADFA7-096C-42D8-875D-F294B74EAA2F}.Release|x64.Build.0 = Release|x64
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Debug|ARM.ActiveCfg = Debug|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Debug|Win32.Build.0 = Debug|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Debug|x64.ActiveCfg = Debug|x64
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Debug|x64.Build.0 = Debug|x64
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Release|ARM.ActiveCfg = Release|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Release|Win32.ActiveCfg = Release|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Release|Win32.Build.0 = Release|Win32
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Release|x64.ActiveCfg = Release|x64
+		{183B451E-E432-48E5-A394-95B88BF04D2B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
