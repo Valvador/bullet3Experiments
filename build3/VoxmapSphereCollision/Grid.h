@@ -18,6 +18,6 @@ protected:
 
 private:
 	// Sparse Grid storage
-	std::unordered_map<Vector3int32, T> gridMap;
+	std::unordered_map<Vector3int32, T, Vector3int32::Hash> gridMap;
 };
 }; //namespace VSC
