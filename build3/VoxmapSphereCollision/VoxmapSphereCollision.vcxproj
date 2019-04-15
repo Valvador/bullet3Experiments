@@ -126,9 +126,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Math\Vector3int32.h" />
+    <ClInclude Include="VoxelGridFactory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Grid.h" />
-    <ClInclude Include="Vector3int32.h" />
     <ClInclude Include="VoxelGrid.h" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +142,7 @@
     </ClCompile>
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="VoxelGrid.cpp" />
+    <ClCompile Include="VoxelGridFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
