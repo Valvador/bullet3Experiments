@@ -20,7 +20,6 @@ public:
 		size_t operator()(const Vector3int32& k) const
 		{
 			/*
-			Copying from SpatialHashMultiRes.cpp:
 			See: http://graphics.ethz.ch/Downloads/Publications/Papers/2003/tes03/p_tes03.pdf
 			"Optimized Spatial Hashing for Collision Detection of Deformable Objects"
 
