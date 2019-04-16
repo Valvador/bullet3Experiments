@@ -4,13 +4,15 @@
 
 namespace VSC
 {
-struct MeshToGrid
+struct VoxelGridDesc
 {
 public:
 	// Defines Width of 1 Voxel
 	float voxWidth;
 	Vector3 min;
 	Vector3 max;
+
+	VoxelGridDesc(float _voxWidth, const Vector3* verts, size_t numVerticess);
 };
 
 class VoxelGrid : public SparseGrid<int32_t>
@@ -21,6 +23,15 @@ public:
 	const int32_t* getVoxel(const Vector3int32& pos) const;
 	void clearVoxel(const Vector3int32& pos);
 
-	VoxelGrid() {};
+	VoxelGrid(VoxelGridDesc desc)
+	: gridDesc(desc)
+	{};
+
+	// Used during Grid Generation
+	void fillGridWithTriangleSurfaceVoxels(const Vector3& v0, const Vector3& v1, const Vector3& v2);
+
+protected:
+
+	VoxelGridDesc gridDesc;
 };
 }; //namespace VSC

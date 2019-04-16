@@ -9,20 +9,19 @@ namespace VSC
 	VoxelGrid* VoxelGridFactory::generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth)
 	{
 		Vector3* verts = (Vector3*)vertices;
-		MeshToGrid meshToGrid;
-		meshToGrid.voxWidth = voxWidth;
-		meshToGrid.min = Vector3(FLT_MAX);
-		meshToGrid.max = Vector3(-FLT_MAX);
-
-		// Generate Bounding Box
-		for (size_t i = 0; i < numVertices; i++)
-		{
-			const Vector3& vec = verts[numVertices];
-			meshToGrid.min.setMinAxis(vec);
-			meshToGrid.max.setMaxAxis(vec);
-		}
+		VoxelGridDesc gridDesc(voxWidth, verts, numVertices);
+		VoxelGrid* gridOut = new VoxelGrid(gridDesc);
 
 		// Go through Triangles, Colliding Against Grid
+		for (size_t i = 0; i < numTriangles; i++)
+		{
+			const Vector3& v0 = verts[indices[i * 3 + 0]];
+			const Vector3& v1 = verts[indices[i * 3 + 1]];
+			const Vector3& v2 = verts[indices[i * 3 + 2]];
+
+			// Fill "Surface Voxels"
+			gridOut->fillGridWithTriangleSurfaceVoxels(v0, v1, v2);
+		}
 
 	}
 }; //namespace VSC
