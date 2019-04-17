@@ -13,6 +13,8 @@ public:
 	Vector3 max;
 
 	VoxelGridDesc(float _voxWidth, const Vector3* verts, size_t numVerticess);
+
+	Vector3int32 coordToGrid(const Vector3& coord);
 };
 
 class VoxelGrid : public SparseGrid<int32_t>
