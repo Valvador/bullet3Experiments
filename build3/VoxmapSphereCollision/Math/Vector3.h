@@ -4,16 +4,13 @@ namespace VSC
 {
 class Vector3
 {
-protected:
-	float x, y, z;
-
 public:
 	Vector3(const Vector3& other) : x(other.x), y(other.y), z(other.z) {};
 	Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 	Vector3(float v) : x(v), y(v), z(v) {};
 	Vector3() {}; // Uninitialized
 
-	
+	float x, y, z;
     // Operators
 	const float& operator[](int i) const
 	{
@@ -25,30 +22,44 @@ public:
 		return ((float*)(this))[i];
 	}
 
-	Vector3 operator*(const Vector3& other)
+	Vector3 operator*(const Vector3& other) const
 	{
 		return Vector3(x*other.x, y*other.y, z*other.z);
 	}
 
-	Vector3 operator*(float scale)
+	Vector3 operator*(float scale) const
 	{
 		return Vector3(x*scale, y*scale, z*scale);
 	}
 
-	Vector3 operator+(const Vector3& other)
+	Vector3 operator+(const Vector3& other) const
 	{
 		return Vector3(x + other.x, y + other.y, z + other.z);
 	}
 
+	void operator*=(float scale)
+	{
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+
+	void operator*=(const Vector3& other)
+	{
+		x *= other.x;
+		y *= other.y;
+		z *= other.z;
+	}
+
 	// Operations
-	Vector3 cross(const Vector3& other)
+	Vector3 cross(const Vector3& other) const
 	{
 		return Vector3(	y * other.z - z * other.y,
 						z * other.x - x * other.z,
 						x * other.y - y * other.x);
 	}
 
-	float dot(const Vector3& other)
+	float dot(const Vector3& other) const
 	{
 		return x * other.x + y * other.y + z * other.z;
 	}

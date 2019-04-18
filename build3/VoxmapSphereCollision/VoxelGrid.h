@@ -15,6 +15,7 @@ public:
 	VoxelGridDesc(float _voxWidth, const Vector3* verts, size_t numVerticess);
 
 	Vector3int32 coordToGrid(const Vector3& coord);
+	void minMaxCoordsOfGrid(const Vector3int32& gridId, Vector3& min, Vector3& max);
 };
 
 class VoxelGrid : public SparseGrid<int32_t>
