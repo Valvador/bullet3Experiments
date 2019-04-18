@@ -19,20 +19,20 @@ VoxelGridDesc::VoxelGridDesc(float _voxWidth, const Vector3* verts, size_t numVe
 	}
 }
 
+// GRID MODEL:
+// GridID * voxWidth == Coord Center of Grid Cell
 Vector3int32 VoxelGridDesc::coordToGrid(const Vector3& coord)
 {
-	// May not be a symmetric grid
-	// What does Vector3int32(0,0,0) mean in this case?
-	return Vector3int32((int)std::ceilf(coord.x / voxWidth), (int)std::ceilf(coord.y / voxWidth), (int)std::ceilf(coord.z / voxWidth));
+	return Vector3int32((int)std::ceilf(coord.x / voxWidth - 0.5f), (int)std::ceilf(coord.y / voxWidth - 0.5f), (int)std::ceilf(coord.z / voxWidth - 0.5f));
 }
 
 void VoxelGridDesc::minMaxCoordsOfGrid(const Vector3int32& gridId, Vector3& min, Vector3& max)
 {
-	// Converting gridId to coord gives "most extreme" corner. (Furthest from Origin)
-	// We want min - max as output.
-	Vector3 extreme(gridId.x, gridId.y, gridId.z);
-	extreme *= voxWidth;
-	// TODO - NEED TO FIGURE OUT MY COORDINATE SYSTEM FOR GRID FIRST.
+	Vector3 gridCoord(gridId.x, gridId.y, gridId.z);
+	gridCoord *= voxWidth;
+	float halfWidth = voxWidth * 0.5f;
+	min = gridCoord - Vector3(halfWidth);
+	max = gridCoord + Vector3(halfWidth);
 }
 
 void VoxelGrid::setVoxel(const Vector3int32& pos, int32_t state)
