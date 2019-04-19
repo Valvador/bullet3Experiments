@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "VoxelGrid.h"
+#include "Math/Geometry2D.h"
 #include <math.h>
+#include <vector>
 
 namespace VSC
 {
@@ -28,7 +30,7 @@ Vector3int32 VoxelGridDesc::coordToGrid(const Vector3& coord)
 
 void VoxelGridDesc::minMaxCoordsOfGrid(const Vector3int32& gridId, Vector3& min, Vector3& max)
 {
-	Vector3 gridCoord(gridId.x, gridId.y, gridId.z);
+	Vector3 gridCoord((float)gridId.x, (float)gridId.y, (float)gridId.z);
 	gridCoord *= voxWidth;
 	float halfWidth = voxWidth * 0.5f;
 	min = gridCoord - Vector3(halfWidth);
@@ -65,12 +67,47 @@ void VoxelGrid::fillGridWithTriangleSurfaceVoxels(const Vector3& v0, const Vecto
 	Vector3int32 minGrid = gridDesc.coordToGrid(min);
 	Vector3int32 maxGrid = gridDesc.coordToGrid(max);
 
-	// Scan the X-Z side of grid to check for Triangle Projection
+	Geometry2D::LineSegment2D edges[3] = { 
+		Geometry2D::LineSegment2D(v0.xy(), v1.xy()), 
+		Geometry2D::LineSegment2D(v0.xy(), v2.xy()), 
+		Geometry2D::LineSegment2D(v1.xy(), v2.xy()) 
+	};
+
+	// Scan the XY side of grid to check for Triangle Projection
 	for (int32_t x = minGrid.x; x <= maxGrid.x; x++)
 	{
 		for (int32_t y = minGrid.y; y <= maxGrid.y; y++)
 		{
+			Vector3 gridMin, gridMax;
+			gridDesc.minMaxCoordsOfGrid(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
+			Vector2 aabbMin(gridMin.xy());
+			Vector2 aabbMax(gridMax.xy());
 
+			if (Geometry2D::lineSegmentsAABBIntersect(&edges[0], 3, aabbMin, aabbMax))
+			{
+				// We found an intersection, no we start at END and work our way back.
+				// Once we find intersection from end, we can start traversing along Z
+				// until we finish iteration.
+				float foundClosingIntersect = false;
+				for (int32_t yBack = maxGrid.y; yBack >= y; y--)
+				{
+					if (!foundClosingIntersect)
+					{
+						Vector3 gridMin, gridMax;
+						gridDesc.minMaxCoordsOfGrid(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
+						Vector2 aabbMin(gridMin.xy());
+						Vector2 aabbMax(gridMax.xy());
+						foundClosingIntersect = Geometry2D::lineSegmentsAABBIntersect(&edges[0], 3, aabbMin, aabbMax);
+					}
+
+					if (foundClosingIntersect)
+					{
+						// Z TRAVERSAL + 3D VOXEL TRIANGLE COLLISION GOES HERE
+					}
+				}
+
+				break;
+			}
 		}
 	}
 }

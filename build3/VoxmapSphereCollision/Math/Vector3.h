@@ -2,6 +2,49 @@
 
 namespace VSC
 {
+class Vector2
+{
+public:
+	Vector2(const Vector2& other) : x(other.x), y(other.y) {};
+	Vector2(float _x, float _y) : x(_x), y(_y) {};
+	Vector2(float v) : x(v), y(v) {};
+	Vector2() {}; // Uninitialized
+
+	float x, y;
+
+	// Operators
+	Vector2 operator*(const Vector2& other) const
+	{
+		return Vector2(x*other.x, y*other.y);
+	}
+
+	Vector2 operator*(float scale) const
+	{
+		return Vector2(x*scale, y*scale);
+	}
+
+	Vector2 operator+(const Vector2& other) const
+	{
+		return Vector2(x + other.x, y + other.y);
+	}
+
+	Vector2 operator-(const Vector2& other) const
+	{
+		return Vector2(x - other.x, y - other.y);
+	}
+
+	//Operations
+	float cross(const Vector2& other) const
+	{
+		return x * other.y - y * other.x;
+	}
+
+	float dot(const Vector2& other) const
+	{
+		return x * other.x + y * other.y;
+	}
+};
+
 class Vector3
 {
 public:
@@ -11,6 +54,7 @@ public:
 	Vector3() {}; // Uninitialized
 
 	float x, y, z;
+
     // Operators
 	const float& operator[](int i) const
 	{
@@ -54,6 +98,21 @@ public:
 		x *= other.x;
 		y *= other.y;
 		z *= other.z;
+	}
+
+	Vector2 xy() const
+	{
+		return Vector2(x, y);
+	}
+
+	Vector2 xz() const
+	{
+		return Vector2(x, z);
+	}
+
+	Vector2 yz() const
+	{
+		return Vector2(y, z);
 	}
 
 	// Operations
