@@ -42,6 +42,9 @@
     <ClInclude Include="Math\Geometry2D.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Geometry3D.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

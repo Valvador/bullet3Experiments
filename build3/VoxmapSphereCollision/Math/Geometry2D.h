@@ -46,22 +46,22 @@ public:
 		return true;
 	}
 
-	static bool pointInsideAABB(const Vector2& pt, const Vector2& AABBmin, const Vector2& AABBmax)
+	static bool pointInsideAABB(const Vector2& pt, const Vector2& aabbMin, const Vector2& aabbMax)
 	{
-		return (pt.x >= AABBmin.x && pt.x <= AABBmax.x && pt.y >= AABBmin.y && pt.y <= AABBmax.y);
+		return (pt.x >= aabbMin.x && pt.x <= aabbMax.x && pt.y >= aabbMin.y && pt.y <= aabbMax.y);
 	}
 
-	static bool lineSegmentAABBIntersect(const LineSegment2D& seg, const Vector2& AABBmin, const Vector2& AABBmax)
+	static bool lineSegmentAABBIntersect(const LineSegment2D& seg, const Vector2& aabbMin, const Vector2& aabbMax)
 	{
 		// Check if either of segments points are in the AABB
-		if (pointInsideAABB(seg.a, AABBmin, AABBmax) || pointInsideAABB(seg.b, AABBmin, AABBmax))
+		if (pointInsideAABB(seg.a, aabbMin, aabbMax) || pointInsideAABB(seg.b, aabbMin, aabbMax))
 			return true;
 
 
-		LineSegment2D left(AABBmin, Vector2(AABBmin.x, AABBmax.y)); // Edge from bottom left, to top left
-		LineSegment2D bottom(AABBmin, Vector2(AABBmax.x, AABBmin.y)); // Edge from bottom left, to bottom right
-		LineSegment2D right(Vector2(AABBmax.x, AABBmin.y), AABBmax); // Edge from bottom right, to top right
-		LineSegment2D top(Vector2(AABBmin.x, AABBmax.y), AABBmax); // Edge from top left, to top right
+		LineSegment2D left(aabbMin, Vector2(aabbMin.x, aabbMax.y)); // Edge from bottom left, to top left
+		LineSegment2D bottom(aabbMin, Vector2(aabbMax.x, aabbMin.y)); // Edge from bottom left, to bottom right
+		LineSegment2D right(Vector2(aabbMax.x, aabbMin.y), aabbMax); // Edge from bottom right, to top right
+		LineSegment2D top(Vector2(aabbMin.x, aabbMax.y), aabbMax); // Edge from top left, to top right
 
 		Vector2 placeholder;
 		return	lineSegmentIntersect(seg, left, placeholder) ||
@@ -70,11 +70,11 @@ public:
 				lineSegmentIntersect(seg, top, placeholder);
 	}
 
-	static bool lineSegmentsAABBIntersect(LineSegment2D* segments, int32_t numSegments, const Vector2& AABBmin, const Vector2& AABBmax)
+	static bool lineSegmentsAABBIntersect(LineSegment2D* segments, int32_t numSegments, const Vector2& aabbMin, const Vector2& aabbMax)
 	{
 		for (int32_t i = 0; i < numSegments; i++)
 		{
-			if (lineSegmentAABBIntersect(segments[i], AABBmin, AABBmax))
+			if (lineSegmentAABBIntersect(segments[i], aabbMin, aabbMax))
 			{
 				return true;
 			}
