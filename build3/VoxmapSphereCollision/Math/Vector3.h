@@ -1,4 +1,6 @@
 #pragma once
+#include <limits>
+
 
 namespace VSC
 {
@@ -42,6 +44,12 @@ public:
 	float dot(const Vector2& other) const
 	{
 		return x * other.x + y * other.y;
+	}
+
+	//Misc
+	Vector2 abs() const
+	{
+		return Vector2(std::fabs(x), std::fabs(y));
 	}
 };
 
