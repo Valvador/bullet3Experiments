@@ -136,6 +136,7 @@ public:
 		return x * other.x + y * other.y + z * other.z;
 	}
 
+	// Misc
 	void setMinAxis(const Vector3& other)
 	{
 		if (other[0] < x)
@@ -166,6 +167,11 @@ public:
 		{
 			z = other[2];
 		}
+	}
+
+	Vector3 abs()
+	{
+		return Vector3(std::fabs(x), std::fabs(y), std::fabs(z));
 	}
 };
 };

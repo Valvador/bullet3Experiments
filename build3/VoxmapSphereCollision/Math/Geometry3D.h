@@ -69,7 +69,8 @@ public:
 		// a22 = u2 x s2 = (-edge[2].y, edge[2].x, 0)
 		static const Vector3 u[3] = { Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1) };
 		Vector3 edge[3] = { v1t - v0t, v2t - v1t, v2t - v0t };
-		/*
+
+#ifdef TRIANGLE_AABB_USE_GENERIC
 		// THIS IS GENERIC FORMULATION OF THE BELOW 9 AXES TESTS.
 		// THIS CODE DOES A LOT OF OPERATION ON AXES THAT ARE ESSENTIALLY ZERO
 		// DUE TO THIS WE HAVE TO WRITE UGLY CODE THAT HAS WAY FEWER OPERATIONS.
@@ -78,7 +79,7 @@ public:
 			for (int j = 0; j < 3; j++)
 			{
 				Vector3 axis = u[i].cross(edge[j]);
-				float r = extents.x * std::fabs(u[0].dot(axis)) + extents.y * std::fabs(u[1].dot(axis)) + extents.z * std::fabs(u[2].dot(axis));
+				float r = extents.dot(axis.abs());
 				float p0 = v0t.dot(axis);
 				float p1 = v1t.dot(axis);
 				float p2 = v2t.dot(axis);
@@ -86,7 +87,7 @@ public:
 					return false;
 			}
 		}
-		*/
+#else
 		{
 			// Convert this problem to 2D space, and then to 1D distance space.
 			Vector2 vProj[3]; // Triangle vertices projected onto plane.
@@ -134,6 +135,7 @@ public:
 				}
 			}
 		}
+#endif
 
 		// Final, Triangle Face Normal test
 		Plane tFacePlane;
