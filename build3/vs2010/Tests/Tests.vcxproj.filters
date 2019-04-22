@@ -27,6 +27,9 @@
     <ClCompile Include="DMatrixTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VoxelmapPointshellTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GJKTest.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DMatrixTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelmapPointshellTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

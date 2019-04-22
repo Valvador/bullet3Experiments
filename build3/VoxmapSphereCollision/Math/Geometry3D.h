@@ -139,7 +139,7 @@ public:
 
 		// Final, Triangle Face Normal test
 		Plane tFacePlane;
-		tFacePlane.normal = edge[0].cross(edge[1]);
+		tFacePlane.normal = (edge[0].cross(edge[1])).normalized();
 		tFacePlane.distance = tFacePlane.normal.dot(v0t);
 		return planeAABBIntersect(tFacePlane, aabbMin, aabbMax);
 	}

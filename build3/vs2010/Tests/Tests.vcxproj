@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\VoxmapSphereCollision\VoxmapSphereCollision.vcxproj">
+      <Project>{183b451e-e432-48e5-a394-95b88bf04d2b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GJK\GJK.vcxproj">
       <Project>{f980db0a-731f-4d09-b0ad-4278a7dbe3b4}</Project>
     </ProjectReference>
@@ -34,11 +37,13 @@
     <ClCompile Include="GJKTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestRunner.cpp" />
+    <ClCompile Include="VoxelmapPointshellTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DMatrixTests.h" />
     <ClInclude Include="GJKTest.h" />
     <ClInclude Include="TestRunner.h" />
+    <ClInclude Include="VoxelmapPointshellTests.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{639ADFA7-096C-42D8-875D-F294B74EAA2F}</ProjectGuid>

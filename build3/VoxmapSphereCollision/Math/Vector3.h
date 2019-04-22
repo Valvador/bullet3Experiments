@@ -51,6 +51,21 @@ public:
 	{
 		return Vector2(std::fabs(x), std::fabs(y));
 	}
+
+	float sqrMagnitude() const
+	{
+		return x*x + y*y;
+	}
+
+	bool fuzzyEquals(const Vector2& other, float eps = std::numeric_limits<float>::epsilon()) const
+	{
+		return (*this - other).sqrMagnitude() <= (eps * eps);
+	}
+
+	Vector2 normalized() const
+	{
+		return *this * (1.0f / (sqrtf(sqrMagnitude())));
+	}
 };
 
 class Vector3
@@ -172,6 +187,21 @@ public:
 	Vector3 abs()
 	{
 		return Vector3(std::fabs(x), std::fabs(y), std::fabs(z));
+	}
+
+	float sqrMagnitude() const
+	{
+		return x*x + y*y + z*z;
+	}
+
+	bool fuzzyEquals(const Vector3& other, float eps = std::numeric_limits<float>::epsilon()) const
+	{
+		return (*this - other).sqrMagnitude() <= (eps * eps);
+	}
+
+	Vector3 normalized() const
+	{
+		return *this * (1.0f / (sqrtf(sqrMagnitude())));
 	}
 };
 };

@@ -1,12 +1,16 @@
 #include "TestRunner.h"
 #include "GJKTest.h"
 #include "DMatrixTests.h"
+#include "VoxelmapPointshellTests.h"
 
 TestRunner::TestRunner()
 {
 	// REGISTER ALL TESTS HERE
 	registerTest(new DMatrixTests());
-	registerTest(new GJKTest());
+	//registerTest(new GJKTest());
+	registerTest(new Geometry2DTest());
+	registerTest(new Geometry3DTest());
+	registerTest(new VoxelmapTest());
 }
 
 void TestRunner::registerTest(TestRunnerTest* test)
