@@ -22,6 +22,7 @@ class VoxelGrid : public SparseGrid<int32_t>
 {
 public:
 	// Base API
+	size_t numVoxels() { return countVoxels(); }
 	void setVoxel(const Vector3int32& pos, int32_t state);
 	const int32_t* getVoxel(const Vector3int32& pos) const;
 	void clearVoxel(const Vector3int32& pos);
@@ -34,7 +35,6 @@ public:
 	void fillGridWithTriangleSurfaceVoxels(const Vector3& v0, const Vector3& v1, const Vector3& v2);
 
 protected:
-
 	VoxelGridDesc gridDesc;
 };
 }; //namespace VSC
