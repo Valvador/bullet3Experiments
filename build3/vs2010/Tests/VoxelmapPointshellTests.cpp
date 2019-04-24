@@ -1,9 +1,7 @@
 #include "VoxelmapPointshellTests.h"
 #include "../../VoxmapSphereCollision/Math/Geometry2D.h"
 #include "../../VoxmapSphereCollision/Math/Geometry3D.h"
-#include "../../VoxmapSphereCollision/Grid.h"
 #include "../../VoxmapSphereCollision/VoxelGrid.h"
-#include "../../VoxmapSphereCollision/VoxelGridFactory.h"
 #include <assert.h>
 
 using namespace VSC;
@@ -131,88 +129,7 @@ bool Geometry3DTest::runTest()
 	return true;
 }
 
-
-void makeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices)
-{
-	Vector3 halfSize = boxSize * 0.5f;
-	vertices.reserve(3 * 8); // 8 vertices
-	indices.reserve(3 * 12); // 12 Triangles
-
-	for (int x = -1; x <= 1; x += 2)
-	{
-		for (int y = -1; y <= 1; y += 2)
-		{
-			for (int z = -1; z <= 1; z += 2)
-			{
-				Vector3 vertex = boxOffset + halfSize * Vector3(x, y, z);
-				vertices.push_back(vertex.x);
-				vertices.push_back(vertex.y);
-				vertices.push_back(vertex.z);
-			}
-		}
-	}
-	// 0 = -1, -1, -1
-	// 1 = -1, -1,  1
-	// 2 = -1,  1, -1
-	// 3 = -1,  1,  1
-	// 4 =  1, -1, -1
-	// 5 =  1, -1,  1
-	// 6 =  1,  1, -1
-	// 7 =  1,  1,  1
-	/*
-	   3-----7
-	  /|    /|
-	 2-----6 |
-	 | 1---|-5
-     |/    |/
-	 0-----4
-	*/
-	assert(vertices.size() == 3 * 8);
-	// 12 Triangles for 6 Faces
-	// Front Face
-	indices.push_back(0); indices.push_back(4); indices.push_back(2); 
-	indices.push_back(4); indices.push_back(6); indices.push_back(2);
-	// Right Face
-	indices.push_back(4); indices.push_back(5); indices.push_back(6);
-	indices.push_back(5); indices.push_back(7); indices.push_back(6);
-	// Top Face
-	indices.push_back(2); indices.push_back(6); indices.push_back(3);
-	indices.push_back(6); indices.push_back(7); indices.push_back(3);
-	// Left Face
-	indices.push_back(3); indices.push_back(1); indices.push_back(0);
-	indices.push_back(3); indices.push_back(0); indices.push_back(2);
-	// Back Face
-	indices.push_back(3); indices.push_back(7); indices.push_back(1);
-	indices.push_back(7); indices.push_back(5); indices.push_back(1);
-	// Bottom Face
-	indices.push_back(5); indices.push_back(0); indices.push_back(1);
-	indices.push_back(5); indices.push_back(4); indices.push_back(0);
-	assert(indices.size() == 3 * 12);
-}
-
-
 bool VoxelmapTest::runTest()
 {
-	std::vector<bool> testResults;
-	{
-		// Basic Test, simple grid.
-		std::vector<float> boxVert;
-		std::vector<size_t> boxInd;
-		makeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
-
-		float voxelWidth = 1.0f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
-		VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], 8, &boxInd[0], 12, voxelWidth);
-		bool hasEightEntries = resultGrid->numVoxels() == (size_t)8; 
-		assert(hasEightEntries);
-		testResults.push_back(hasEightEntries);
-	}
-
-	for (auto testResult : testResults)
-	{
-		if (!testResult)
-		{
-			return false;
-		}
-	}
-	return true;
+	return false;
 }

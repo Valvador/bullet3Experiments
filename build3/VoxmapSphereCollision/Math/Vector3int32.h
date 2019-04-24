@@ -47,7 +47,7 @@ public:
 		return ((int32_t*)this)[i];
 	}
 
-	bool operator==(const Vector3int32& other) const
+	bool operator==(const Vector3int32& other)
 	{
 		return x == other.x && y == other.y && z == other.z;
 	}
