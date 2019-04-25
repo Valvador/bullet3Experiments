@@ -202,7 +202,8 @@ bool VoxelmapTest::runTest()
 
 		float voxelWidth = 1.0f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 		VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], 8, &boxInd[0], 12, voxelWidth);
-		bool hasEightEntries = resultGrid->numVoxels() == (size_t)8; 
+		int numVoxels = resultGrid->numVoxels();
+		bool hasEightEntries = numVoxels == 26; //27 - 1 [This test is set up so that the central box is empty]
 		assert(hasEightEntries);
 		testResults.push_back(hasEightEntries);
 	}

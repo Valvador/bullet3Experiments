@@ -89,7 +89,7 @@ void VoxelGrid::fillGridWithTriangleSurfaceVoxels(const Vector3& v0, const Vecto
 				// We found an intersection, no we start at END and work our way back.
 				// Once we find intersection from end, we can start traversing along Z
 				// until we finish iteration.
-				float foundClosingIntersect = false;
+				bool foundClosingIntersect = false;
 				for (int32_t yBack = maxGrid.y; yBack >= y; yBack--)
 				{
 					if (!foundClosingIntersect)

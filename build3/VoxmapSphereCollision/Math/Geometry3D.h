@@ -141,7 +141,9 @@ public:
 		Plane tFacePlane;
 		tFacePlane.normal = (edge[0].cross(edge[1])).normalized();
 		tFacePlane.distance = tFacePlane.normal.dot(v0t);
-		return planeAABBIntersect(tFacePlane, aabbMin, aabbMax);
+		// this plane is already assuming the center of the aabb is our origin,
+		// we have to adjust aabbMin and aabbMax to get correct planeAABBIntersect results.
+		return planeAABBIntersect(tFacePlane, aabbMin - aabbCenter, aabbMax - aabbCenter);
 	}
 };
 
