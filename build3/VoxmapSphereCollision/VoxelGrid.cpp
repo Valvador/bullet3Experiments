@@ -106,11 +106,10 @@ void VoxelGrid::fillGridWithTriangleSurfaceVoxels(const Vector3& v0, const Vecto
 						for (int32_t z = minGrid.z; z <= maxGrid.z; z++)
 						{
 							Vector3 gridMin, gridMax;
-							Vector3int32 gridId = Vector3int32(x, y, z);
+							Vector3int32 gridId = Vector3int32(x, yBack, z);
 							gridDesc.minMaxCoordsOfGrid(gridId, gridMin, gridMax);
 							if (Geometry3D::triangleAABBIntersect(v0, v1, v2, gridMin, gridMax))
 							{
-								// Mark Voxel 0, as "Surface"
 								setVoxel(gridId, 0);
 							}
 						}
