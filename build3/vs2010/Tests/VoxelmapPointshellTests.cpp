@@ -134,6 +134,8 @@ bool Geometry3DTest::runTest()
 
 void makeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices)
 {
+	size_t startIndicesSize = indices.size();
+	size_t startingVertSize = vertices.size() / 3;
 	Vector3 halfSize = boxSize * 0.5f;
 	vertices.reserve(3 * 8); // 8 vertices
 	indices.reserve(3 * 12); // 12 Triangles
@@ -167,27 +169,27 @@ void makeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std:
      |/    |/
 	 0-----4
 	*/
-	assert(vertices.size() == 3 * 8);
+	assert((vertices.size() - startingVertSize * 3) == 3 * 8);
 	// 12 Triangles for 6 Faces
 	// Front Face
-	indices.push_back(0); indices.push_back(4); indices.push_back(2); 
-	indices.push_back(4); indices.push_back(6); indices.push_back(2);
+	indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 2);
+	indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 2);
 	// Right Face
-	indices.push_back(4); indices.push_back(5); indices.push_back(6);
-	indices.push_back(5); indices.push_back(7); indices.push_back(6);
+	indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 6);
+	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 6);
 	// Top Face
-	indices.push_back(2); indices.push_back(6); indices.push_back(3);
-	indices.push_back(6); indices.push_back(7); indices.push_back(3);
+	indices.push_back(startingVertSize + 2); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 3);
+	indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 3);
 	// Left Face
-	indices.push_back(3); indices.push_back(1); indices.push_back(0);
-	indices.push_back(3); indices.push_back(0); indices.push_back(2);
+	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 1); indices.push_back(startingVertSize + 0);
+	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 2);
 	// Back Face
-	indices.push_back(3); indices.push_back(7); indices.push_back(1);
-	indices.push_back(7); indices.push_back(5); indices.push_back(1);
+	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 1);
+	indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 1);
 	// Bottom Face
-	indices.push_back(5); indices.push_back(0); indices.push_back(1);
-	indices.push_back(5); indices.push_back(4); indices.push_back(0);
-	assert(indices.size() == 3 * 12);
+	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 1);
+	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 0);
+	assert((indices.size() - startIndicesSize) == 3 * 12);
 }
 
 
@@ -201,11 +203,24 @@ bool VoxelmapTest::runTest()
 		makeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
 
 		float voxelWidth = 1.0f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
-		VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], 8, &boxInd[0], 12, voxelWidth);
-		int numVoxels = resultGrid->numVoxels();
-		bool hasEightEntries = numVoxels == 26; //27 - 1 [This test is set up so that the central box is empty]
-		assert(hasEightEntries);
-		testResults.push_back(hasEightEntries);
+		{
+			VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
+			int numVoxels = resultGrid->numVoxels();
+			bool hasEightEntries = numVoxels == 26; //27 - 1 [This test is set up so that the central box is empty]
+			assert(hasEightEntries);
+			testResults.push_back(hasEightEntries);
+		}
+
+		{
+			// Add another box around 4.0, 4.0, 4.0
+			makeBoxVertexIndices(Vector3(1.2f), Vector3(4.0f), boxVert, boxInd);
+			VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
+			int numVoxels = resultGrid->numVoxels();
+			bool hasEightEntries = numVoxels == 52; //27 - 1 [This test is set up so that the central box is empty]
+			assert(hasEightEntries);
+			testResults.push_back(hasEightEntries);
+		}
+
 	}
 
 	for (auto testResult : testResults)
