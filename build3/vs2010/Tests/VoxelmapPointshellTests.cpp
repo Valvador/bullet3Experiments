@@ -206,8 +206,8 @@ bool VoxelmapTest::runTest()
 			float voxelWidth = 1.0f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 			{
 				VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
-				int numVoxels = resultGrid->numVoxels();
-				bool hasCorrectNumEntries = numVoxels == 26; //27 - 1 [This test is set up so that the central box is empty]
+				int countSurfaceVoxels = resultGrid->countSurfaceVoxels();
+				bool hasCorrectNumEntries = countSurfaceVoxels == 26; //27 - 1 [This test is set up so that the central box is empty]
 				assert(hasCorrectNumEntries);
 				testResults.push_back(hasCorrectNumEntries);
 			}
@@ -216,8 +216,8 @@ bool VoxelmapTest::runTest()
 				// Add another box around 4.0, 4.0, 4.0
 				makeBoxVertexIndices(Vector3(1.2f), Vector3(4.0f), boxVert, boxInd);
 				VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
-				int numVoxels = resultGrid->numVoxels();
-				bool hasCorrectNumEntries = numVoxels == 52; //27 - 1 [This test is set up so that the central box is empty]
+				int countSurfaceVoxels = resultGrid->countSurfaceVoxels();
+				bool hasCorrectNumEntries = countSurfaceVoxels == 52; //27 - 1 [This test is set up so that the central box is empty]
 				assert(hasCorrectNumEntries);
 				testResults.push_back(hasCorrectNumEntries);
 			}
@@ -233,8 +233,8 @@ bool VoxelmapTest::runTest()
 			float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 			{
 				VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
-				int numVoxels = resultGrid->numVoxels();
-				bool hasCorrectNumEntries = numVoxels == 7 * 7 * 7 - 5 * 5 * 5;
+				int countSurfaceVoxels = resultGrid->countSurfaceVoxels();
+				bool hasCorrectNumEntries = countSurfaceVoxels == 7 * 7 * 7 - 5 * 5 * 5;
 				assert(hasCorrectNumEntries);
 				testResults.push_back(hasCorrectNumEntries);
 			}

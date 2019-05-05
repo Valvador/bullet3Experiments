@@ -51,5 +51,25 @@ public:
 	{
 		return x == other.x && y == other.y && z == other.z;
 	}
+
+	bool operator<=(const Vector3int32& other) const
+	{
+		return x <= other.x && y <= other.y && z <= other.z;
+	}
+
+	bool operator>=(const Vector3int32& other) const
+	{
+		return x >= other.x && y >= other.y && z >= other.z;
+	}
+
+	Vector3int32 operator-(const Vector3int32& other) const
+	{
+		return Vector3int32(x - other.x, y - other.y, z - other.z);
+	}
+
+	Vector3int32 operator+(const Vector3int32& other) const
+	{
+		return Vector3int32(x + other.x, y + other.y, z + other.z);
+	}
 };
 };
