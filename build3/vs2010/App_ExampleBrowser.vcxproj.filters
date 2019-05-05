@@ -175,6 +175,9 @@
     <Filter Include="examples\BasicDemoCustomSolver">
       <UniqueIdentifier>{6125a83b-8d1a-4a98-abe3-51ae00834da9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="examples\VoxelmapVisualization">
+      <UniqueIdentifier>{75d3f8a2-2e83-4ba6-9481-5ebc77879ea9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Extras\Serialize\BulletWorldImporter\CMakeLists.txt">
@@ -506,6 +509,9 @@
     <ClInclude Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.h">
       <Filter>examples\BasicDemoCustomSolver</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\examples\VoxelmapVisualization\VoxelmapVisualization.h">
+      <Filter>examples\VoxelmapVisualization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\clew\clew.c">
@@ -732,6 +738,9 @@
     </ClCompile>
     <ClCompile Include="..\..\examples\BasicDemoCustomSolver\BasicExampleCustomSolver.cpp">
       <Filter>examples\BasicDemoCustomSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\examples\VoxelmapVisualization\VoxelmapVisualization.cpp">
+      <Filter>examples\VoxelmapVisualization</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

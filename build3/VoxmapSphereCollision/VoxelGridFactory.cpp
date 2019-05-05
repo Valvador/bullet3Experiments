@@ -32,6 +32,68 @@ namespace VSC
 		return gridOut;
 	}
 
+	// Debug
+	void VoxelGridFactory::debug_MakeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices)
+	{
+		size_t startIndicesSize = indices.size();
+		size_t startingVertSize = vertices.size() / 3;
+		Vector3 halfSize = boxSize * 0.5f;
+		vertices.reserve(3 * 8); // 8 vertices
+		indices.reserve(3 * 12); // 12 Triangles
+
+		for (int x = -1; x <= 1; x += 2)
+		{
+			for (int y = -1; y <= 1; y += 2)
+			{
+				for (int z = -1; z <= 1; z += 2)
+				{
+					Vector3 vertex = boxOffset + halfSize * Vector3(x, y, z);
+					vertices.push_back(vertex.x);
+					vertices.push_back(vertex.y);
+					vertices.push_back(vertex.z);
+				}
+			}
+		}
+		// 0 = -1, -1, -1
+		// 1 = -1, -1,  1
+		// 2 = -1,  1, -1
+		// 3 = -1,  1,  1
+		// 4 =  1, -1, -1
+		// 5 =  1, -1,  1
+		// 6 =  1,  1, -1
+		// 7 =  1,  1,  1
+		/*
+		  3-----7
+		 /|    /|
+		2-----6 |
+		| 1---|-5
+		|/    |/
+		0-----4
+		*/
+		assert((vertices.size() - startingVertSize * 3) == 3 * 8);
+		// 12 Triangles for 6 Faces
+		// Front Face
+		indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 2);
+		indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 2);
+		// Right Face
+		indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 6);
+		indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 6);
+		// Top Face
+		indices.push_back(startingVertSize + 2); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 3);
+		indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 3);
+		// Left Face
+		indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 1); indices.push_back(startingVertSize + 0);
+		indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 2);
+		// Back Face
+		indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 1);
+		indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 1);
+		// Bottom Face
+		indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 1);
+		indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 0);
+		assert((indices.size() - startIndicesSize) == 3 * 12);
+	}
+
+
 	void VoxelGridFactory::fillGridWithTriangleSurfaceVoxels(VoxelGrid* grid, const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	{
 		// Find Triangle Bounding Box
@@ -116,7 +178,55 @@ namespace VSC
 		}
 	}
 
+	static void fillIdUsingAdjacentData(VoxelGrid* grid, const Vector3int32& id)
+	{
+		int32_t largestValue = OUTSIDE_MARKER;
+		for (int32_t x = -1; x <= 1; x++)
+		{
+			for (int32_t y = -1; y <= 1; y++)
+			{
+				for (int32_t z = -1; z <= 1; z++)
+				{
+					if (x == y && y == z && x == (int32_t)0)
+					{
+						continue;
+					}
 
+					if (const int32_t* value = grid->getVoxel(id + Vector3int32(x, y, z)))
+					{
+						if (*value > largestValue)
+						{
+							largestValue = *value;
+						}
+					}
+				}
+			}
+		}
+
+		grid->setVoxel(id, --largestValue);
+	}
+
+	static void fillCornerPocketsUsingAdjacentData(VoxelGrid* grid, const Vector3int32& start, const Vector3int32& end)
+	{
+		// Can no longer assume start and end are min, max. Have to check if each axis
+		Vector3int32 delta = end - start;
+		bool xPositive = delta.x >= 0;
+		bool yPositive = delta.y >= 0;
+		bool zPositive = delta.z >= 0;
+		for (int32_t x = start.x; xPositive ? x <= end.x : x >= end.x; xPositive ? x++ : x--)
+		{
+			for (int32_t y = start.y; yPositive ? y <= end.y : y >= end.y; yPositive ? y++ : y--)
+			{
+				for (int32_t z = start.z; zPositive ? z <= end.z : z >= end.z; zPositive ? z++ : z--)
+				{
+					// We can assert the below boolean check if we want to optimize this scan. If the else
+					// condition is ever called, it means we are scanning more voxels than we need to.
+					if (grid->getVoxel(Vector3int32(x, y, z)) && *grid->getVoxel(Vector3int32(x, y, z)) == OUTSIDE_MARKER)
+						fillIdUsingAdjacentData(grid, Vector3int32(x, y, z));
+				}
+			}
+		}
+	}
 
 	static void floodFillRecursiveOutside(VoxelGrid* grid, const Vector3int32& startVoxel)
 	{
@@ -232,6 +342,7 @@ namespace VSC
 				if (*value == 0) // Surface
 				{
 					foundFirstSurface = true;
+					fillValue = 0;
 				}
 			}
 		}
@@ -255,7 +366,7 @@ namespace VSC
 			// Negative scan
 			bool foundFirstSurface = false;
 			int32_t lastFillValue = 0;
-			for (int32_t x = max.x; x >= max.x; x--)
+			for (int32_t x = max.x; x >= min.x; x--)
 			{
 				Vector3int32 id = Vector3int32(x, y, z);
 				scanLineCheckId(grid, id, foundFirstSurface, lastFillValue);
@@ -281,7 +392,7 @@ namespace VSC
 			// Negative scan
 			bool foundFirstSurface = false;
 			int32_t lastFillValue = 0;
-			for (int32_t y = max.y; y >= max.y; y--)
+			for (int32_t y = max.y; y >= min.y; y--)
 			{
 				Vector3int32 id = Vector3int32(x, y, z);
 				scanLineCheckId(grid, id, foundFirstSurface, lastFillValue);
@@ -307,7 +418,7 @@ namespace VSC
 			// Negative scan
 			bool foundFirstSurface = false;
 			int32_t lastFillValue = 0;
-			for (int32_t z = max.z; z >= max.z; z--)
+			for (int32_t z = max.z; z >= min.z; z--)
 			{
 				Vector3int32 id = Vector3int32(x, y, z);
 				scanLineCheckId(grid, id, foundFirstSurface, lastFillValue);
@@ -359,24 +470,43 @@ namespace VSC
 		const Vector3int32 newMin = grid->gridDesc.min;
 		const Vector3int32 newMax = grid->gridDesc.max;
 
-		/*
-		// // COMMENTING OUT BELOW SECTION BECAUSE IF I PRE-FILE OBVIOUS EMPTY SLOTS IT MESSES WITH THE "Flood Fill" algorithm being able
-		// // to start with a single voxel.
-		// After expansion, we know that the 2 voxel layer outside is all "outside"
-		// so we must pre-process the "Outside"
-		// We will have to look at 6 sides to mark these as "outside"
-		markOutsideInRange(grid, newMin, Vector3int32(oldMin.x - 1, newMax.y, newMax.z)); // 1. From new X min to old X min
-		markOutsideInRange(grid, Vector3int32(oldMax.x + 1, newMin.y, newMin.z), newMax); // 2. From old X max to new X max
-		markOutsideInRange(grid, newMin, Vector3int32(newMax.x, oldMin.y - 1, newMax.z)); // 3. From new Y min to old Y min
-		markOutsideInRange(grid, Vector3int32(newMin.x, oldMax.y + 1, newMin.z), newMax); // 4. From old Y max to new Y max
-		markOutsideInRange(grid, newMin, Vector3int32(newMax.x, newMax.y, oldMin.z - 1)); // 5. From new Z min to old Z min
-		markOutsideInRange(grid, Vector3int32(newMin.x, newMin.y, oldMax.z + 1), newMax); // 6. From old Z max to new Z max
-		*/
-
-		// Now we have to flood fill remaining "Outside" voxels, by traversing to 26 adjacent voxels from a start voxel.
+		// Now we have to flood fill "Outside" voxels, by traversing to 26 adjacent voxels from a start voxel.
 		floodFillRecursiveOutside(grid, newMin);
 
 		// Now we need to do a 6-axis scan to fill "Outside" values
 		sixAxisScanlineFill(grid);
+
+		// Fill added Corners, the scanline fill algorithm misses the corner pockets of what we added with
+		// expandGridBy earlier in the function. To fix this, we need to manually check these from the inner-most
+		// corner going out. 8 corners total
+		Vector3int32 oldMinStart = oldMin - Vector3int32(1, 1, 1);
+		Vector3int32 oldMaxStart = oldMax + Vector3int32(1, 1, 1);
+		fillCornerPocketsUsingAdjacentData(grid, oldMinStart, newMin); // 1  [-, -, -]
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMaxStart.x, oldMinStart.y, oldMinStart.z), Vector3int32(newMax.x, newMin.y, newMin.z)); //2 [+, -, -]
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMaxStart.x, oldMaxStart.y, oldMinStart.z), Vector3int32(newMax.x, newMax.y, newMin.z)); //3 [+, +, -]
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMinStart.x, oldMinStart.y, oldMaxStart.z), Vector3int32(newMin.x, newMin.y, newMax.z)); //4 [-, -, +] 
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMinStart.x, oldMaxStart.y, oldMaxStart.z), Vector3int32(newMin.x, newMax.y, newMax.z)); //5 [-, +, +] 
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMinStart.x, oldMaxStart.y, oldMinStart.z), Vector3int32(newMin.x, newMax.y, newMin.z)); //6 [-, +, -] 
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMaxStart.x, oldMinStart.y, oldMaxStart.z), Vector3int32(newMax.x, newMin.y, newMax.z)); //7 [+, -, +]
+		fillCornerPocketsUsingAdjacentData(grid, oldMaxStart, newMax); //8 [+, +, +]
+		
+		// Now the 12 Edges between them.
+		// Front Face [ x, x, -]
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMin.y, oldMin.z), Vector3int32(oldMax.x, newMin.y, newMin.z)); // 1 - 2
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMin.y, oldMin.z), Vector3int32(newMax.x, oldMax.y, newMin.z)); // 2 - 3
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMin.y, oldMin.z), Vector3int32(newMin.x, oldMax.y, newMin.z)); // 1 - 6
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMax.y, oldMin.z), Vector3int32(oldMax.x, newMax.y, newMin.z)); // 6 - 3
+		
+		// Back Face [ x, x, +]
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMin.y, oldMax.z), Vector3int32(oldMax.x, newMin.y, newMax.z)); // 4 - 7
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMin.y, oldMax.z), Vector3int32(newMax.x, oldMax.y, newMax.z)); // 7 - 8
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMax.y, oldMax.z), Vector3int32(oldMax.x, newMax.y, newMax.z)); // 5 - 8
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMin.y, oldMax.z), Vector3int32(newMin.x, oldMax.y, newMax.z)); // 4 - 5
+
+		// Merging Faces
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMin.y, oldMin.z), Vector3int32(newMin.x, newMin.y, oldMax.z));									  // 1 - 4
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMax.y, oldMin.z), Vector3int32(newMax.x, newMax.y, oldMax.z)); // 3 - 8
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMin.y, oldMin.z), Vector3int32(newMax.x, newMin.y, oldMax.z)); // 2 - 7
+		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMax.y, oldMin.z), Vector3int32(newMin.x, newMax.y, oldMax.z)); // 6 - 5
 	}
 }; //namespace VSC

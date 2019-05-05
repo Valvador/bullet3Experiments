@@ -221,6 +221,7 @@
     <ClInclude Include="..\..\examples\VHACDDecomposition\cd_wavefront.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\float_math.h" />
     <ClInclude Include="..\..\examples\VHACDDecomposition\VHACDDemo.h" />
+    <ClInclude Include="..\..\examples\VoxelmapVisualization\VoxelmapVisualization.h" />
     <ClInclude Include="..\..\src\clew\clew.h" />
     <ClInclude Include="..\..\examples\ExampleBrowser\EmptyBrowser.h" />
     <ClInclude Include="..\..\examples\ExampleBrowser\EmptyExample.h" />
@@ -325,6 +326,7 @@
     <ClCompile Include="..\..\examples\VHACDDecomposition\cd_wavefront.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\float_math.cpp" />
     <ClCompile Include="..\..\examples\VHACDDecomposition\VHACDDemo.cpp" />
+    <ClCompile Include="..\..\examples\VoxelmapVisualization\VoxelmapVisualization.cpp" />
     <ClCompile Include="..\..\src\clew\clew.c">
     </ClCompile>
     <ClCompile Include="..\..\examples\ThirdPartyLibs\Glew\glew.c">
@@ -483,6 +485,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\VHACD\VHACD\VHACD.vcxproj">
       <Project>{16a13289-c208-4cd7-a27e-ecdbc95298c8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VoxmapSphereCollision\VoxmapSphereCollision.vcxproj">
+      <Project>{183b451e-e432-48e5-a394-95b88bf04d2b}</Project>
     </ProjectReference>
     <ProjectReference Include="InhousePGSSOlver\InhousePGSSOlver.vcxproj">
       <Project>{4ca0b899-823f-4e12-94af-16587e29794b}</Project>

@@ -32,6 +32,7 @@
 #include "../FractureDemo/FractureDemo.h"
 #include "../DynamicControlDemo/MotorDemo.h"
 #include "../RollingFrictionDemo/RollingFrictionDemo.h"
+#include "../VoxelmapVisualization/VoxelmapVisualization.h"
 
 #ifdef B3_USE_CLEW
 #ifndef NO_OPENGL3
@@ -178,7 +179,7 @@ static ExampleEntry gDefaultExamples[]=
 	
 
 	ExampleEntry(0,"Experiments"),
-
+	ExampleEntry(1, "VoxelmapVisualization", "Visualize voxelization of map.", VoxelmapVisualizationCreateFunc),
 	ExampleEntry(1,"Voronoi Fracture", "Automatically create a compound rigid body using voronoi tesselation. Individual parts are modeled as rigid bodies using a btConvexHullShape.",
 				 VoronoiFractureCreateFunc),
 

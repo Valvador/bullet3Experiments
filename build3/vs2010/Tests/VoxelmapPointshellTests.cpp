@@ -132,67 +132,6 @@ bool Geometry3DTest::runTest()
 }
 
 
-void makeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices)
-{
-	size_t startIndicesSize = indices.size();
-	size_t startingVertSize = vertices.size() / 3;
-	Vector3 halfSize = boxSize * 0.5f;
-	vertices.reserve(3 * 8); // 8 vertices
-	indices.reserve(3 * 12); // 12 Triangles
-
-	for (int x = -1; x <= 1; x += 2)
-	{
-		for (int y = -1; y <= 1; y += 2)
-		{
-			for (int z = -1; z <= 1; z += 2)
-			{
-				Vector3 vertex = boxOffset + halfSize * Vector3(x, y, z);
-				vertices.push_back(vertex.x);
-				vertices.push_back(vertex.y);
-				vertices.push_back(vertex.z);
-			}
-		}
-	}
-	// 0 = -1, -1, -1
-	// 1 = -1, -1,  1
-	// 2 = -1,  1, -1
-	// 3 = -1,  1,  1
-	// 4 =  1, -1, -1
-	// 5 =  1, -1,  1
-	// 6 =  1,  1, -1
-	// 7 =  1,  1,  1
-	/*
-	   3-----7
-	  /|    /|
-	 2-----6 |
-	 | 1---|-5
-     |/    |/
-	 0-----4
-	*/
-	assert((vertices.size() - startingVertSize * 3) == 3 * 8);
-	// 12 Triangles for 6 Faces
-	// Front Face
-	indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 2);
-	indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 2);
-	// Right Face
-	indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 6);
-	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 6);
-	// Top Face
-	indices.push_back(startingVertSize + 2); indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 3);
-	indices.push_back(startingVertSize + 6); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 3);
-	// Left Face
-	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 1); indices.push_back(startingVertSize + 0);
-	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 2);
-	// Back Face
-	indices.push_back(startingVertSize + 3); indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 1);
-	indices.push_back(startingVertSize + 7); indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 1);
-	// Bottom Face
-	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 0); indices.push_back(startingVertSize + 1);
-	indices.push_back(startingVertSize + 5); indices.push_back(startingVertSize + 4); indices.push_back(startingVertSize + 0);
-	assert((indices.size() - startIndicesSize) == 3 * 12);
-}
-
-
 bool VoxelmapTest::runTest()
 {
 	std::vector<bool> testResults;
@@ -201,7 +140,7 @@ bool VoxelmapTest::runTest()
 			// Basic Test, simple grid.
 			std::vector<float> boxVert;
 			std::vector<size_t> boxInd;
-			makeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
+			VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
 
 			float voxelWidth = 1.0f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 			{
@@ -214,7 +153,7 @@ bool VoxelmapTest::runTest()
 
 			{
 				// Add another box around 4.0, 4.0, 4.0
-				makeBoxVertexIndices(Vector3(1.2f), Vector3(4.0f), boxVert, boxInd);
+				VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(4.0f), boxVert, boxInd);
 				VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
 				int countSurfaceVoxels = resultGrid->countSurfaceVoxels();
 				bool hasCorrectNumEntries = countSurfaceVoxels == 52; //27 - 1 [This test is set up so that the central box is empty]
@@ -228,7 +167,7 @@ bool VoxelmapTest::runTest()
 			// Basic Test, simple grid.
 			std::vector<float> boxVert;
 			std::vector<size_t> boxInd;
-			makeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
+			VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
 
 			float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 			{
