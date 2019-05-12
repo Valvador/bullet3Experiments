@@ -43,7 +43,7 @@ bool VoxelGridDesc::withinGrid(const Vector3int32& id) const
 	return id >= min && id <= max;
 }
 
-void VoxelGridDesc::minMaxCoordsOfGrid(const Vector3int32& gridId, Vector3& min, Vector3& max) const
+void VoxelGridDesc::minMaxCoordsOfGridVoxel(const Vector3int32& gridId, Vector3& min, Vector3& max) const
 {
 	Vector3 gridCoord((float)gridId.x, (float)gridId.y, (float)gridId.z);
 	gridCoord *= voxWidth;
@@ -72,16 +72,6 @@ void VoxelGrid::setVoxel(const Vector3int32& pos, int32_t state)
 	}
 
 	insertAt(pos, state);
-}
-
-const int32_t* VoxelGrid::getVoxel(const Vector3int32& pos) const
-{
-	return getAt(pos);
-}
-
-void VoxelGrid::clearVoxel(const Vector3int32& pos)
-{
-	eraseAt(pos);
 }
 
 }; //namespace VSC

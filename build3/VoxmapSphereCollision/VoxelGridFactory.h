@@ -12,12 +12,20 @@ class VoxelGridFactory
 public:
 	// Assumes Stride of 12 bytes per vertex. numVertices implies # of 12 byte vertices. Assumes stride of 12 bytes per triangle.
 	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth);
+	static VoxelGridDistanceField* generateDistanceFieldFromMeshAndVoxelGrid(
+		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid);
 
 	// Debug
 	static void debug_MakeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices);
 private:
 	// Helps the creation of Voxelmap Pointshells
+
+	// VoxelGrid helpers
 	static void fillGridWithTriangleSurfaceVoxels(VoxelGrid* grid, const Vector3& v0, const Vector3& v1, const Vector3& v2);
 	static void fillGridVoxelDistanceLayers(VoxelGrid* grid);
+
+	// VoxelGridDistanceField helpers
+	static void findIntermediateClosestSurfacePoints(
+		SparseGrid<Vector3>& surfaceProjection, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, const Vector3& v0, const Vector3& v1, const Vector3& v2);
 };
 }; //namespace VSC

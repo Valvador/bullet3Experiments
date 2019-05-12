@@ -7,7 +7,7 @@ namespace VSC
 template <class T>
 class SparseGrid
 {
-protected:
+public:
 	// public API
 	void insertAt(const Vector3int32& pos, const T& t);
 	const T* getAt(const Vector3int32& pos) const;

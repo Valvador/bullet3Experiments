@@ -32,6 +32,52 @@ namespace VSC
 		return gridOut;
 	}
 
+	// Brute forcish method that finds "0" voxels in the grid, which are surface voxels, and then finds any triangles that 
+	// are part of this voxel grid.
+	VoxelGridDistanceField* VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(
+		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid)
+	{
+		Vector3* verts = (Vector3*)vertices;
+		SparseGrid<Vector3> surfaceProjections;
+		VoxelGridDistanceField* result = new VoxelGridDistanceField();
+
+		// Go through Grid, looking for surface voxels.
+		const Vector3int32& min = voxelGrid->getGridDescConst().min;
+		const Vector3int32& max = voxelGrid->getGridDescConst().max;
+		for (int32_t x = min.x; x <= max.x; x++)
+		{
+			for (int32_t y = min.y; y <= max.y; y++)
+			{
+				for (int32_t z = min.z; z <= max.z; z++)
+				{
+					const Vector3int32& gridId = Vector3int32(x, y, z);
+					if (const int32_t* voxel = voxelGrid->getVoxel(gridId))
+					{
+						if (*voxel == 0)
+						{
+							// Find which triangles collide with Voxel, and store the best projection of
+							// voxel center on triangle surface in surfaceProjections.
+							for (size_t i = 0; i < numTriangles; i++)
+							{
+								const Vector3& v0 = verts[indices[i * 3 + 0]];
+								const Vector3& v1 = verts[indices[i * 3 + 1]];
+								const Vector3& v2 = verts[indices[i * 3 + 2]];
+
+								findIntermediateClosestSurfacePoints(surfaceProjections, gridId, voxelGrid, v0, v1, v2);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// TODO (Do I need to save surface voxel "direction" so that I can properly project "distance"? Or can I use gradient for this?)
+		// We now have EVERY surface voxel with its closest point projection inside of surfaceProjections
+		// We now use this information to generate distance fields for every voxel in the grid...
+
+		return result;
+	}
+
 	// Debug
 	void VoxelGridFactory::debug_MakeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices)
 	{
@@ -121,7 +167,7 @@ namespace VSC
 			for (int32_t y = minGrid.y; y <= maxGrid.y; y++)
 			{
 				Vector3 gridMin, gridMax;
-				grid->getGridDescConst().minMaxCoordsOfGrid(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
+				grid->getGridDescConst().minMaxCoordsOfGridVoxel(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
 				Vector2 aabbMin(gridMin.xy());
 				Vector2 aabbMax(gridMax.xy());
 
@@ -136,7 +182,7 @@ namespace VSC
 						if (!foundClosingIntersect)
 						{
 							Vector3 gridMin, gridMax;
-							grid->getGridDescConst().minMaxCoordsOfGrid(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
+							grid->getGridDescConst().minMaxCoordsOfGridVoxel(Vector3int32(x, y, minGrid.z), gridMin, gridMax);
 							Vector2 aabbMin(gridMin.xy());
 							Vector2 aabbMax(gridMax.xy());
 							foundClosingIntersect = Geometry2D::lineSegmentsAABBIntersect(&edges[0], 3, aabbMin, aabbMax);
@@ -148,7 +194,7 @@ namespace VSC
 							{
 								Vector3 gridMin, gridMax;
 								Vector3int32 gridId = Vector3int32(x, yBack, z);
-								grid->getGridDescConst().minMaxCoordsOfGrid(gridId, gridMin, gridMax);
+								grid->getGridDescConst().minMaxCoordsOfGridVoxel(gridId, gridMin, gridMax);
 								if (Geometry3D::triangleAABBIntersect(v0, v1, v2, gridMin, gridMax))
 								{
 									grid->setVoxel(gridId, 0);
@@ -508,5 +554,81 @@ namespace VSC
 		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMax.y, oldMin.z), Vector3int32(newMax.x, newMax.y, oldMax.z)); // 3 - 8
 		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMax.x, oldMin.y, oldMin.z), Vector3int32(newMax.x, newMin.y, oldMax.z)); // 2 - 7
 		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMax.y, oldMin.z), Vector3int32(newMin.x, newMax.y, oldMax.z)); // 6 - 5
+	}
+
+
+	void updateBestAdjacentTriangleProjectionDistance(
+		float& existingBestDistanceSqr, float& newBestDistanceSqr, const VoxelGrid* voxelGrid, const Vector3int32& offsetId,
+		const Vector3& currentProjection, const Vector3& newProjection)
+	{
+		if (const int32_t* adjacentVoxel = voxelGrid->getVoxel(offsetId))
+		{
+			if (*adjacentVoxel < 0)
+			{
+				Vector3 adjacentCoord = voxelGrid->getGridDescConst().gridCenterToCoord(offsetId);
+				float existingCoordDistSqr = (adjacentCoord - currentProjection).sqrMagnitude();
+				float newCoordDistSqr = (adjacentCoord - newProjection).sqrMagnitude();
+
+				if (existingCoordDistSqr < existingBestDistanceSqr)
+				{
+					existingBestDistanceSqr = existingCoordDistSqr;
+				}
+				if (newCoordDistSqr < newBestDistanceSqr)
+				{
+					newBestDistanceSqr = newCoordDistSqr;
+				}
+			}
+		}
+	}
+
+	// surfaceProjection values in WorldSpace
+	void VoxelGridFactory::findIntermediateClosestSurfacePoints(
+		SparseGrid<Vector3>& surfaceProjection, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, const Vector3& v0, const Vector3& v1, const Vector3& v2)
+	{
+		Vector3 min, max;
+		voxelGrid->getGridDescConst().minMaxCoordsOfGridVoxel(voxelId, min, max);
+		if (Geometry3D::triangleAABBIntersect(v0, v1, v2, min, max))
+		{
+			Vector3 voxelCenterCoord = voxelGrid->getGridDescConst().gridCenterToCoord(voxelId);
+			Vector3 closestPoint = Geometry3D::closestPointBetweenPointTriangle(voxelCenterCoord, v0, v1, v2);
+
+			// We can also "ignore" if we find too many triangles on the same voxel...
+			// This will generate less accurate topology, but may save generation time.
+			if (const Vector3* currentProjection = surfaceProjection.getAt(voxelId))
+			{
+				if (!(*currentProjection).fuzzyEquals(closestPoint))
+				{
+					// Check adjacent voxels, as we care about the triangle projection closest to the "outside" of the shape.
+					// Lets look for closest negative voxel.
+					Vector3int32 offsetId;
+					float existingBestDistanceSqr = std::numeric_limits<float>::max(); // check current projection against adjacents as we scan
+					float newBestDistanceSqr = std::numeric_limits<float>::max(); // check this new projection against adjacents as we scan
+					for (int32_t x = -1; x <= 1; x++)
+					{
+						for (int32_t y = -1; y <= 1; y++)
+						{
+							for (int32_t z = -1; z <= 1; z++)
+							{
+								if (x == y && y == z && x == 0)
+									continue;
+
+								offsetId = voxelId + Vector3int32(x, y, z);
+								updateBestAdjacentTriangleProjectionDistance(existingBestDistanceSqr, newBestDistanceSqr, voxelGrid, offsetId, *currentProjection, closestPoint);
+							}
+						}
+					}
+
+					// else, we keep the old value.
+					if (newBestDistanceSqr < existingBestDistanceSqr)
+					{
+						surfaceProjection.insertAt(voxelId, closestPoint);
+					}
+				}
+			}
+			else
+			{
+				surfaceProjection.insertAt(voxelId, closestPoint);
+			}
+		}
 	}
 }; //namespace VSC

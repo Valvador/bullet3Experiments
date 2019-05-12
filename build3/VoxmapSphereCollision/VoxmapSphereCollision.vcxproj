@@ -128,6 +128,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DistanceGridSphereTreeShape.h" />
     <ClInclude Include="Math\Geometry2D.h" />
     <ClInclude Include="Math\Geometry3D.h" />
     <ClInclude Include="Math\Vector3.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="VoxelGrid.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DistanceGridSphereTreeShape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

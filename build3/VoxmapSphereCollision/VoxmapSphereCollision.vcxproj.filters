@@ -45,6 +45,9 @@
     <ClInclude Include="Math\Geometry3D.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="DistanceGridSphereTreeShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -54,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VoxelGridFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceGridSphereTreeShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
