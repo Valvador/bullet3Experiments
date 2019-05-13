@@ -25,7 +25,9 @@ private:
 	static void fillGridVoxelDistanceLayers(VoxelGrid* grid);
 
 	// VoxelGridDistanceField helpers
+	static void generateVoxelGridGradient(SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
 	static void findIntermediateClosestSurfacePoints(
-		SparseGrid<Vector3>& surfaceProjection, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, const Vector3& v0, const Vector3& v1, const Vector3& v2);
+		SparseGrid<Vector3>& surfaceProjection, SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
+		const Vector3& v0, const Vector3& v1, const Vector3& v2);
 };
 }; //namespace VSC

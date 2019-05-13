@@ -40,6 +40,8 @@ namespace VSC
 		Vector3* verts = (Vector3*)vertices;
 		SparseGrid<Vector3> surfaceProjections;
 		VoxelGridDistanceField* result = new VoxelGridDistanceField();
+		SparseGrid<Vector3> gradientGrid;
+		generateVoxelGridGradient(gradientGrid, voxelGrid);
 
 		// Go through Grid, looking for surface voxels.
 		const Vector3int32& min = voxelGrid->getGridDescConst().min;
@@ -63,7 +65,7 @@ namespace VSC
 								const Vector3& v1 = verts[indices[i * 3 + 1]];
 								const Vector3& v2 = verts[indices[i * 3 + 2]];
 
-								findIntermediateClosestSurfacePoints(surfaceProjections, gridId, voxelGrid, v0, v1, v2);
+								findIntermediateClosestSurfacePoints(surfaceProjections, gradientGrid, gridId, voxelGrid, v0, v1, v2);
 							}
 						}
 					}
@@ -71,7 +73,7 @@ namespace VSC
 			}
 		}
 
-		// TODO (Do I need to save surface voxel "direction" so that I can properly project "distance"? Or can I use gradient for this?)
+		// TODO (Use Gradient to generate "assist" traversal from Surface points, to fill other systems.)
 		// We now have EVERY surface voxel with its closest point projection inside of surfaceProjections
 		// We now use this information to generate distance fields for every voxel in the grid...
 
@@ -556,6 +558,58 @@ namespace VSC
 		fillCornerPocketsUsingAdjacentData(grid, Vector3int32(oldMin.x, oldMax.y, oldMin.z), Vector3int32(newMin.x, newMax.y, oldMax.z)); // 6 - 5
 	}
 
+	Vector3 computeVoxelGradient(const VoxelGrid* voxelGrid, const Vector3int32& gridId)
+	{
+		Vector3 result(0);
+		int count = 0;
+
+		const int32_t& centerValue = *voxelGrid->getVoxel(gridId);
+		for (int32_t x = -1; x <= 1; x++)
+		{
+			for (int32_t y = -1; y <= 1; y++)
+			{
+				for (int32_t z = -1; z <= 1; z++)
+				{
+					if (x == y && x == z && x == 0)
+						continue;
+
+					Vector3int32 offsetId = gridId + Vector3int32(x, y, z);
+					if (const int32_t* value = voxelGrid->getVoxel(offsetId))
+					{
+						int32_t delta = *value - centerValue;
+						Vector3 deltaDir(x, y, z);
+						deltaDir = deltaDir.normalized();
+
+						result += deltaDir * (float)delta;
+						count++;
+					}
+				}
+			}
+		}
+
+		if (count)
+			return result * (1 /((float)count));
+		
+		return Vector3(0);
+	}
+
+	void VoxelGridFactory::generateVoxelGridGradient(SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid)
+	{
+		const Vector3int32& gridMin = voxelGrid->getGridDescConst().min;
+		const Vector3int32& gridMax = voxelGrid->getGridDescConst().max;
+
+		for (int32_t x = gridMin.x; x <= gridMax.x; x++)
+		{
+			for (int32_t y = gridMin.y; y <= gridMax.y; y++)
+			{
+				for (int32_t z = gridMin.z; z <= gridMax.z; z++)
+				{
+					Vector3int32 gridId(x, y, z);
+					gradientGrid.insertAt(gridId, computeVoxelGradient(voxelGrid, gridId));
+				}
+			}
+		}
+	}
 
 	void updateBestAdjacentTriangleProjectionDistance(
 		float& existingBestDistanceSqr, float& newBestDistanceSqr, const VoxelGrid* voxelGrid, const Vector3int32& offsetId,
@@ -581,9 +635,11 @@ namespace VSC
 		}
 	}
 
+#define VSC_USE_GRADIENT_FOR_SURFACE_PROJ
 	// surfaceProjection values in WorldSpace
 	void VoxelGridFactory::findIntermediateClosestSurfacePoints(
-		SparseGrid<Vector3>& surfaceProjection, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, const Vector3& v0, const Vector3& v1, const Vector3& v2)
+		SparseGrid<Vector3>& surfaceProjection, SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
+		const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	{
 		Vector3 min, max;
 		voxelGrid->getGridDescConst().minMaxCoordsOfGridVoxel(voxelId, min, max);
@@ -600,9 +656,15 @@ namespace VSC
 				{
 					// Check adjacent voxels, as we care about the triangle projection closest to the "outside" of the shape.
 					// Lets look for closest negative voxel.
-					Vector3int32 offsetId;
+#ifdef VSC_USE_GRADIENT_FOR_SURFACE_PROJ
+					const Vector3 gradientAtId = *gradientGrid.getAt(voxelId);
+					Vector3 testCoord = voxelCenterCoord - gradientAtId * voxelGrid->getGridDescConst().voxWidth;
+					float existingBestDistanceSqr = (testCoord - *currentProjection).sqrMagnitude(); // check current projection against adjacents as we scan
+					float newBestDistanceSqr = (testCoord - closestPoint).sqrMagnitude(); // check this new projection against adjacents as we scan
+#else
 					float existingBestDistanceSqr = std::numeric_limits<float>::max(); // check current projection against adjacents as we scan
 					float newBestDistanceSqr = std::numeric_limits<float>::max(); // check this new projection against adjacents as we scan
+					Vector3int32 offsetId;
 					for (int32_t x = -1; x <= 1; x++)
 					{
 						for (int32_t y = -1; y <= 1; y++)
@@ -617,6 +679,7 @@ namespace VSC
 							}
 						}
 					}
+#endif
 
 					// else, we keep the old value.
 					if (newBestDistanceSqr < existingBestDistanceSqr)

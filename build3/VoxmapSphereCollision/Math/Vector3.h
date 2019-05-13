@@ -123,6 +123,13 @@ public:
 		z *= other.z;
 	}
 
+	void operator+=(const Vector3& other)
+	{
+		x += other.x;
+		y += other.y;
+		z += other.z;
+	}
+
 	Vector2 xy() const
 	{
 		return Vector2(x, y);
