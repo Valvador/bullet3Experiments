@@ -17,6 +17,10 @@ public:
 	// Operators
 	T& operator[](const Vector3int32& pos);
 
+	// Iterator
+	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator begin();
+	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator end();
+
 private:
 	// Sparse Grid storage
 	std::unordered_map<Vector3int32, T, Vector3int32::Hash> gridMap;
@@ -55,4 +59,17 @@ size_t SparseGrid<T>::countVoxels()
 {
 	return gridMap.size();
 }
+
+template <class T>
+typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator SparseGrid<T>::begin()
+{
+	return gridMap.begin();
+}
+
+template <class T>
+typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator SparseGrid<T>::end()
+{
+	return gridMap.end();
+}
+
 }; //namespace VSC
