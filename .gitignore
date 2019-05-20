@@ -233,3 +233,7 @@ build3/vs2010/0_Bullet3Solution.v12.suo
 *.exe
 *.sdf
 *.exe
+*.pdb
+*.pdb
+*.tlog
+*.obj
