@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include <assert.h>
+#include <stack>
+#include <cmath>
 
 #include "Math/Vector3.h"
 #include "Math/Vector3int32.h"
@@ -39,7 +41,7 @@ namespace VSC
 	{
 		Vector3* verts = (Vector3*)vertices;
 		SparseGrid<Vector3> surfaceProjections;
-		VoxelGridDistanceField* result = new VoxelGridDistanceField();
+		VoxelGridDistanceField* resultDistanceField = new VoxelGridDistanceField();
 		SparseGrid<Vector3> gradientGrid;
 		generateVoxelGridGradient(gradientGrid, voxelGrid);
 
@@ -73,11 +75,29 @@ namespace VSC
 			}
 		}
 
-		// TODO (Use Gradient to generate "assist" traversal from Surface points, to fill other systems.)
 		// We now have EVERY surface voxel with its closest point projection inside of surfaceProjections
 		// We now use this information to generate distance fields for every voxel in the grid...
+		// Start with Surface
+		fillDistanceFieldSurfaceValues(resultDistanceField, surfaceProjections, gradientGrid, voxelGrid->getGridDescConst());
 
-		return result;
+		for (int32_t x = min.x; x <= max.x; x++)
+		{
+			for (int32_t y = min.y; y <= max.y; y++)
+			{
+				for (int32_t z = min.z; z <= max.z; z++)
+				{
+					const Vector3int32& gridId = Vector3int32(x, y, z);
+					if (const float* distanceValue = resultDistanceField->getVoxel(gridId))
+					{
+						continue;
+					}
+
+					fillDistanceFieldAlongGradientLine(resultDistanceField, gridId, surfaceProjections, gradientGrid, voxelGrid);
+				}
+			}
+		}
+
+		return resultDistanceField;
 	}
 
 
@@ -575,9 +595,8 @@ namespace VSC
 	}
 
 #define VSC_USE_GRADIENT_FOR_SURFACE_PROJ
-	// surfaceProjection values in WorldSpace
 	void VoxelGridFactory::findIntermediateClosestSurfacePoints(
-		SparseGrid<Vector3>& surfaceProjection, SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
+		SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
 		const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	{
 		Vector3 min, max;
@@ -631,6 +650,85 @@ namespace VSC
 			{
 				surfaceProjection.insertAt(voxelId, closestPoint);
 			}
+		}
+	}
+
+	void VoxelGridFactory::fillDistanceFieldSurfaceValues(
+		VoxelGridDistanceField* distanceFieldOut, const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, 
+		const VoxelGridDesc& gridDesc)
+	{
+		for (auto gridIt = surfaceProjection.cbegin(); gridIt != surfaceProjection.cend(); gridIt++)
+		{
+			const Vector3int32& gridId = gridIt->first;
+			const Vector3& surfaceProjection = gridIt->second;
+			const Vector3& voxelCenter = gridDesc.gridCenterToCoord(gridId);
+			assert(gradientGrid.getAt(gridId) != nullptr);
+			const Vector3& gardientAtVoxel = *gradientGrid.getAt(gridId);
+
+			Vector3 delta = surfaceProjection - voxelCenter;
+			float distance = gardientAtVoxel.sqrMagnitude() > 0.f ? delta.dot(gardientAtVoxel.normalized()) : 0.f;
+
+			distanceFieldOut->setVoxel(gridId, distance);
+		}
+	}
+
+	void VoxelGridFactory::fillDistanceFieldAlongGradientLine(
+		VoxelGridDistanceField* distanceFieldOut, const Vector3int32& startId, const SparseGrid<Vector3>& surfaceProjection, 
+		const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid)
+	{
+		const VoxelGridDesc& gridDesc = voxelGrid->getGridDescConst();
+		bool reverseGradient = (*voxelGrid->getVoxel(startId)) > 0; // If we're "inside" the shape, we go against the gradient.
+		
+		float lastDistanceValue = 0.f;
+		Vector3int32 lastGridId;
+		std::stack<Vector3int32> idsAlongGradientStack;
+		idsAlongGradientStack.push(startId);
+		for (;;)
+		{
+			// Found something we already processed (surface, or something that was hit by another gradient line)
+			// Use this as our distance starting value.
+			if (const float* distanceAtVoxel = distanceFieldOut->getVoxel(idsAlongGradientStack.top()))
+			{
+				lastDistanceValue = *distanceAtVoxel;
+				lastGridId = idsAlongGradientStack.top();
+				idsAlongGradientStack.pop();
+				break;
+			}
+			
+			const Vector3& gradientAtVoxel = *gradientGrid.getAt(idsAlongGradientStack.top());
+			// Check for Dead End
+			if (gradientAtVoxel.sqrMagnitude() <= 0.f)
+				break;
+
+			// Find next voxel to check.
+			Vector3 rescaledGradient = gradientAtVoxel * ( 1.0f / gradientAtVoxel.maxValue());
+			if (reverseGradient)
+			{
+				// Flip direction
+				rescaledGradient *= -1.0f;
+			}
+
+			// Follow gradient to next voxel
+			idsAlongGradientStack.push(startId + 
+				Vector3int32((int32_t)std::roundf(rescaledGradient.x), (int32_t)std::roundf(rescaledGradient.y), (int32_t)std::roundf(rescaledGradient.z)));
+		}
+
+		while (idsAlongGradientStack.size())
+		{
+			const Vector3int32& topId = idsAlongGradientStack.top();
+			Vector3int32 deltaGrid = topId - lastGridId;
+			Vector3 deltaGridFloat = Vector3(deltaGrid.x, deltaGrid.y, deltaGrid.z);
+			float distanceAdjust = sqrtf(deltaGridFloat.sqrMagnitude()) * gridDesc.voxWidth;
+			if (!reverseGradient)
+			{
+				// Outside points get more negative
+				distanceAdjust *= -1.0f;
+			}
+
+			lastDistanceValue += distanceAdjust;
+			distanceFieldOut->setVoxel(topId, lastDistanceValue);
+			lastGridId = topId;
+			idsAlongGradientStack.pop();
 		}
 	}
 

@@ -18,16 +18,24 @@ public:
 	// Debug
 	static void debug_MakeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices);
 private:
-	// Helps the creation of Voxelmap Pointshells
+	// Helpers
 
-	// VoxelGrid helpers
+	// // VoxelGrid helpers
 	static void fillGridWithTriangleSurfaceVoxels(VoxelGrid* grid, const Vector3& v0, const Vector3& v1, const Vector3& v2);
 	static void fillGridVoxelDistanceLayers(VoxelGrid* grid);
 
-	// VoxelGridDistanceField helpers
+	// // VoxelGridDistanceField helpers
+	// // // Populates 'gradientGrid', which contains gradient value per voxel from from negative to positive "depths" of object
 	static void generateVoxelGridGradient(SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
+	// // // Populates 'surfaceProjection', which contains the outer-most triangle projection in the surface voxels
 	static void findIntermediateClosestSurfacePoints(
-		SparseGrid<Vector3>& surfaceProjection, SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
+		SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
 		const Vector3& v0, const Vector3& v1, const Vector3& v2);
+	// // // Populates 'distanceFieldOut' for the surface. Uses gradient to figure out which direction to project the distance.
+	static void fillDistanceFieldSurfaceValues(VoxelGridDistanceField* distanceFieldOut, const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGridDesc& gridDesc);
+	// // // Populates 'distanceFieldOut' along the gradient line starting at 'startId' until we hit an existing 'distanceField' value.
+	static void fillDistanceFieldAlongGradientLine(
+		VoxelGridDistanceField* distanceFieldOut, const Vector3int32& startId, const SparseGrid<Vector3>& surfaceProjection, 
+		const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
 };
 }; //namespace VSC

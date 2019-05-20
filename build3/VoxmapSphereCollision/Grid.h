@@ -20,6 +20,8 @@ public:
 	// Iterator
 	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator begin();
 	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator end();
+	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::const_iterator cbegin() const;
+	typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::const_iterator cend() const;
 
 private:
 	// Sparse Grid storage
@@ -70,6 +72,18 @@ template <class T>
 typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::iterator SparseGrid<T>::end()
 {
 	return gridMap.end();
+}
+
+template <class T>
+typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::const_iterator SparseGrid<T>::cbegin() const
+{
+	return gridMap.cbegin();
+}
+
+template <class T>
+typename std::unordered_map<Vector3int32, T, Vector3int32::Hash>::const_iterator SparseGrid<T>::cend() const
+{
+	return gridMap.cend();
 }
 
 }; //namespace VSC

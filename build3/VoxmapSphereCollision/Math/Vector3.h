@@ -210,5 +210,10 @@ public:
 	{
 		return *this * (1.0f / (sqrtf(sqrMagnitude())));
 	}
+
+	float maxValue() const
+	{
+		return std::fmaxf(std::fmaxf(x, y), z);
+	}
 };
 };
