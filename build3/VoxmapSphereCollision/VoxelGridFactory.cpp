@@ -37,49 +37,20 @@ namespace VSC
 	// Brute forcish method that finds "0" voxels in the grid, which are surface voxels, and then finds any triangles that 
 	// are part of this voxel grid.
 	VoxelGridDistanceField* VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(
-		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid)
+		const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid)
 	{
-		Vector3* verts = (Vector3*)vertices;
-		SparseGrid<Vector3> surfaceProjections;
+		// surfaceProjection and gradientGrid should be pre-computed before using this.
+		assert(surfaceProjection.countVoxels() != 0);
+		assert(gradientGrid.countVoxels() != 0);
 		VoxelGridDistanceField* resultDistanceField = new VoxelGridDistanceField();
-		SparseGrid<Vector3> gradientGrid;
-		generateVoxelGridGradient(gradientGrid, voxelGrid);
-
-		// Go through Grid, looking for surface voxels.
-		const Vector3int32& min = voxelGrid->getGridDescConst().min;
-		const Vector3int32& max = voxelGrid->getGridDescConst().max;
-		for (int32_t x = min.x; x <= max.x; x++)
-		{
-			for (int32_t y = min.y; y <= max.y; y++)
-			{
-				for (int32_t z = min.z; z <= max.z; z++)
-				{
-					const Vector3int32& gridId = Vector3int32(x, y, z);
-					if (const int32_t* voxel = voxelGrid->getVoxel(gridId))
-					{
-						if (*voxel == 0)
-						{
-							// Find which triangles collide with Voxel, and store the best projection of
-							// voxel center on triangle surface in surfaceProjections.
-							for (size_t i = 0; i < numTriangles; i++)
-							{
-								const Vector3& v0 = verts[indices[i * 3 + 0]];
-								const Vector3& v1 = verts[indices[i * 3 + 1]];
-								const Vector3& v2 = verts[indices[i * 3 + 2]];
-
-								findIntermediateClosestSurfacePoints(surfaceProjections, gradientGrid, gridId, voxelGrid, v0, v1, v2);
-							}
-						}
-					}
-				}
-			}
-		}
 
 		// We now have EVERY surface voxel with its closest point projection inside of surfaceProjections
 		// We now use this information to generate distance fields for every voxel in the grid...
 		// Start with Surface
-		fillDistanceFieldSurfaceValues(resultDistanceField, surfaceProjections, gradientGrid, voxelGrid->getGridDescConst());
+		fillDistanceFieldSurfaceValues(resultDistanceField, surfaceProjection, gradientGrid, voxelGrid->getGridDescConst());
 
+		const Vector3int32& min = voxelGrid->getGridDescConst().min;
+		const Vector3int32& max = voxelGrid->getGridDescConst().max;
 		for (int32_t x = min.x; x <= max.x; x++)
 		{
 			for (int32_t y = min.y; y <= max.y; y++)
@@ -92,7 +63,7 @@ namespace VSC
 						continue;
 					}
 
-					fillDistanceFieldAlongGradientLine(resultDistanceField, gridId, surfaceProjections, gradientGrid, voxelGrid);
+					fillDistanceFieldAlongGradientLine(resultDistanceField, gridId, surfaceProjection, gradientGrid, voxelGrid);
 				}
 			}
 		}
@@ -550,6 +521,43 @@ namespace VSC
 			return result * (1 /((float)count));
 		
 		return Vector3(0);
+	}
+
+	void VoxelGridFactory::generateSurfaceProjectionPoints(SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid,
+		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid)
+	{
+		assert(surfaceProjection.countVoxels() == 0);
+		Vector3* verts = (Vector3*)vertices;
+
+		// Go through Grid, looking for surface voxels.
+		const Vector3int32& min = voxelGrid->getGridDescConst().min;
+		const Vector3int32& max = voxelGrid->getGridDescConst().max;
+		for (int32_t x = min.x; x <= max.x; x++)
+		{
+			for (int32_t y = min.y; y <= max.y; y++)
+			{
+				for (int32_t z = min.z; z <= max.z; z++)
+				{
+					const Vector3int32& gridId = Vector3int32(x, y, z);
+					if (const int32_t* voxel = voxelGrid->getVoxel(gridId))
+					{
+						if (*voxel == 0)
+						{
+							// Find which triangles collide with Voxel, and store the best projection of
+							// voxel center on triangle surface in surfaceProjections.
+							for (size_t i = 0; i < numTriangles; i++)
+							{
+								const Vector3& v0 = verts[indices[i * 3 + 0]];
+								const Vector3& v1 = verts[indices[i * 3 + 1]];
+								const Vector3& v2 = verts[indices[i * 3 + 2]];
+
+								findIntermediateClosestSurfacePoints(surfaceProjection, gradientGrid, gridId, voxelGrid, v0, v1, v2);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	void VoxelGridFactory::generateVoxelGridGradient(SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid)

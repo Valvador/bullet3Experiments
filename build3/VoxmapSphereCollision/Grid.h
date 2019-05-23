@@ -12,7 +12,7 @@ public:
 	void insertAt(const Vector3int32& pos, const T& t);
 	const T* getAt(const Vector3int32& pos) const;
 	size_t eraseAt(const Vector3int32& pos);
-	size_t countVoxels();
+	size_t countVoxels() const;
 
 	// Operators
 	T& operator[](const Vector3int32& pos);
@@ -57,7 +57,7 @@ T& SparseGrid<T>::operator[](const Vector3int32& pos)
 }
 
 template <class T>
-size_t SparseGrid<T>::countVoxels()
+size_t SparseGrid<T>::countVoxels() const
 {
 	return gridMap.size();
 }
