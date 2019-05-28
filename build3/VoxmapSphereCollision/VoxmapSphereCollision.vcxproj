@@ -128,14 +128,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base\Grid.h" />
+    <ClInclude Include="Base\TreeNode.h" />
     <ClInclude Include="DistanceGridSphereTreeShape.h" />
     <ClInclude Include="Math\Geometry2D.h" />
     <ClInclude Include="Math\Geometry3D.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector3int32.h" />
+    <ClInclude Include="SphereTree.h" />
     <ClInclude Include="VoxelGridFactory.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Grid.h" />
     <ClInclude Include="VoxelGrid.h" />
   </ItemGroup>
   <ItemGroup>

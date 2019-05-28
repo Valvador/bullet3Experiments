@@ -16,15 +16,15 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{99aaec08-8bce-4910-9acd-9ed7b58e6a28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{4e1622dc-fc64-4320-b242-5d6b7842fc1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VoxelGrid.h">
@@ -47,6 +47,15 @@
     </ClInclude>
     <ClInclude Include="DistanceGridSphereTreeShape.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\TreeNode.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Grid.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
