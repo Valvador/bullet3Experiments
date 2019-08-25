@@ -240,3 +240,6 @@ build3/vs2010/0_Bullet3Solution.v12.suo
 *.exe
 *.ilk
 *.pdb
+*.exe
+*.pdb
+*.ilk
