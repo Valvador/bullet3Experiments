@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Vector3int32.h"
+#include "../Math/Vector3int32.h"
 #include <unordered_map>
 
 namespace VSC

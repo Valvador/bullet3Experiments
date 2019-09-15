@@ -1,7 +1,7 @@
 #include "VoxelmapPointshellTests.h"
 #include "../../VoxmapSphereCollision/Math/Geometry2D.h"
 #include "../../VoxmapSphereCollision/Math/Geometry3D.h"
-#include "../../VoxmapSphereCollision/Grid.h"
+#include "../../VoxmapSphereCollision/Base/Grid.h"
 #include "../../VoxmapSphereCollision/VoxelGrid.h"
 #include "../../VoxmapSphereCollision/VoxelGridFactory.h"
 #include <assert.h>
