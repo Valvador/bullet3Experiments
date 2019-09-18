@@ -211,9 +211,8 @@ struct sth_stash* SimpleOpenGL3App::getFontStash()
 	return m_data->m_fontStash;
 }
 
-void SimpleOpenGL3App::drawText3D( const char* txt, float worldPosX, float worldPosY, float worldPosZ, float size1)
+void SimpleOpenGL3App::drawText3D( const char* txt, float worldPosX, float worldPosY, float worldPosZ, float size1, float colorR, float colorG, float colorB, float colorAlpha)
 {
-
 	float viewMat[16];
 	float projMat[16];
 	CommonCameraInterface* cam = m_instancingRenderer->getActiveCamera();
@@ -285,7 +284,7 @@ void SimpleOpenGL3App::drawText3D( const char* txt, float worldPosX, float world
 			float endY = posY;
 
 
-			float currentColor[]={1.f,0.2,0.2f,1.f};
+			float currentColor[]={colorR, colorG, colorB, colorAlpha};
 
 		//	m_primRenderer->drawTexturedRect(startX, startY, endX, endY, currentColor,g_DefaultLargeFont->m_CharU0[c],g_DefaultLargeFont->m_CharV0[c],g_DefaultLargeFont->m_CharU1[c],g_DefaultLargeFont->m_CharV1[c]);
 			float u0 = g_DefaultLargeFont->m_CharU0[c];

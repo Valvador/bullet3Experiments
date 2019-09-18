@@ -305,7 +305,8 @@ static void createCollisionShapeGraphicsObjectInternal(btCollisionShape* collisi
 					vertices.push_back(triangleVerts[2]);
 
 					btVector3 triNormal = (triangleVerts[1]-triangleVerts[0]).cross(triangleVerts[2]-triangleVerts[0]);
-					triNormal.normalize();
+					if (!triNormal.fuzzyZero())
+						triNormal.normalize();
 
 					for (int v=0;v<3;v++)
 					{
@@ -542,10 +543,10 @@ void OpenGLGuiHelper::autogenerateGraphicsObjects(btDiscreteDynamicsWorld* rbWor
 	}
 }
     
-void OpenGLGuiHelper::drawText3D( const char* txt, float posX, float posY, float posZ, float size)
+void OpenGLGuiHelper::drawText3D( const char* txt, float posX, float posY, float posZ, float size, float colorR, float colorG, float colorB, float colorAlpha)
 {
     btAssert(m_data->m_glApp);
-    m_data->m_glApp->drawText3D(txt,posX,posY,posZ,size);
+    m_data->m_glApp->drawText3D(txt,posX,posY,posZ,size, colorR, colorG, colorB, colorAlpha);
 }
 
 struct CommonGraphicsApp* OpenGLGuiHelper::getAppInterface()

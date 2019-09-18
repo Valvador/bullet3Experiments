@@ -47,7 +47,7 @@ struct OpenGLGuiHelper : public GUIHelperInterface
 
 	virtual void autogenerateGraphicsObjects(btDiscreteDynamicsWorld* rbWorld) ;
     
-    virtual void drawText3D( const char* txt, float posX, float posY, float posZ, float size);
+    virtual void drawText3D( const char* txt, float posX, float posY, float posZ, float size, float colorR = 1.0f, float colorG = 0.2f, float colorB = 0.2f, float colorAlpha = 1.0f);
 
 	void renderInternalGl2(int  pass, const btDiscreteDynamicsWorld* dynamicsWorld);
 };

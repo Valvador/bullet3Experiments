@@ -312,7 +312,7 @@ void SimpleOpenGL2App::drawText( const char* txt, int posX, int posY)
 
 			}
 
-void SimpleOpenGL2App::drawText3D( const char* txt, float worldPosX, float worldPosY, float worldPosZ, float size1)
+void SimpleOpenGL2App::drawText3D(const char* txt, float worldPosX, float worldPosY, float worldPosZ, float size1, float colorR, float colorG, float colorB, float colorAlpha)
 {
 	saveOpenGLState(gApp2->m_renderer->getScreenWidth(),gApp2->m_renderer->getScreenHeight());
 	float viewMat[16];

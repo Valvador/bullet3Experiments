@@ -27,7 +27,7 @@ public:
 	{
 		return 0;
 	}
-    virtual void drawText3D( const char* txt, float posX, float posZY, float posZ, float size);
+    virtual void drawText3D(const char* txt, float posX, float posZY, float posZ, float size, float colorR = 1.0f, float colorG = 0.2f, float colorB = 0.2f, float colorAlpha = 1.0f);
     virtual void registerGrid(int xres, int yres, float color0[4], float color1[4]);
 
     

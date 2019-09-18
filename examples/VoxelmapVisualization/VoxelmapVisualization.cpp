@@ -1,5 +1,6 @@
 #include "../build3/VoxmapSphereCollision/VoxelGridFactory.h"
 #include "../CommonInterfaces/CommonRigidBodyBase.h"
+#include <string>
 
 
 struct VoxelmapVisualization : public CommonRigidBodyBase
@@ -10,6 +11,7 @@ struct VoxelmapVisualization : public CommonRigidBodyBase
 	virtual ~VoxelmapVisualization() {}
 	virtual void initPhysics();
 	virtual void renderScene();
+	virtual void physicsDebugDraw(int debugFlags);
 	void resetCamera()
 	{
 		float dist = 41;
@@ -18,6 +20,8 @@ struct VoxelmapVisualization : public CommonRigidBodyBase
 		float targetPos[3] = { 0, 0.46, 0 };
 		m_guiHelper->resetCamera(dist, pitch, yaw, targetPos[0], targetPos[1], targetPos[2]);
 	}
+
+	VSC::VoxelGrid* resultGrid;
 };
 
 void VoxelmapVisualization::initPhysics()
@@ -33,51 +37,60 @@ void VoxelmapVisualization::initPhysics()
 	std::vector<size_t> boxInd;
 	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
 	float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
-	VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
-
-	const Vector3int32& min = resultGrid->getGridDescConst().min;
-	const Vector3int32& max = resultGrid->getGridDescConst().max;
-	btScalar mass(0.f);
-
-	btVector3 size = btVector3(1, 1, 1);
-	btBoxShape* colShape = createBoxShape(size);
-	const Vector3int32& delta = max - min;
+	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
 
 
-	// Make 5 different shapes for 
-	// -2, -1, 0,  1,  2
-	btVector3 offset[5];
-	for (int i = 0; i < 5; i++)
-	{
-		int indexOffset = i - 2;
-		offset[i] = btVector3(delta.x * indexOffset * 4.0, 0, 0);
-	}
-	
+	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
+}
+
+void getRGB(float& r, float& g, float& b, float a)
+{
+	btAssert(a <= 1.0f && a >= 0.f);
+	btVector3 red = btVector3(1, 0, 0);
+	btVector3 green = btVector3(0, 1, 0);
+	btVector3 blue = btVector3(0, 0, 1);
+
+	btVector3 layer0 = red * a + green * (1 - a);
+	btVector3 layer1 = green * a + blue * (1 - a);
+	btVector3 finalColor = layer0 * a  + layer1 * (1 - a);
+
+	r = finalColor.x();
+	g = finalColor.y();
+	b = finalColor.z();
+}
+
+void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
+{
 	btTransform startTransform;
 	startTransform.setIdentity();
+	using namespace VSC;
+	const Vector3int32& min = resultGrid->getGridDescConst().min;
+	const Vector3int32& max = resultGrid->getGridDescConst().max;
+	btVector3 size = btVector3(1, 1, 1);
+
 	for (int32_t x = min.x; x <= max.x; x++)
 	{
 		for (int32_t y = min.y; y <= max.y; y++)
 		{
 			for (int32_t z = min.z; z <= max.z; z++)
 			{
-				if (const int32_t* value = resultGrid->getVoxel(Vector3int32(x, y, z)))
+				if (const int32_t * value = resultGrid->getVoxel(Vector3int32(x, y, z)))
 				{
 					for (int i = -2; i <= 2; i++)
 					{
 						int indexOffset = i + 2;
 						if (*value == i)
 						{
-							startTransform.setOrigin(btVector3(x, y, z) * size * 2.0 + offset[indexOffset]);
-							btRigidBody* body = createRigidBody(mass, startTransform, colShape);
+							btVector3 position = btVector3(x, y, z) * size * 2.0;
+							float r, g, b;
+							getRGB(r, g, b, (i + 2) / 5.0f);
+							m_guiHelper->drawText3D(std::to_string(i).c_str(), position.x(), position.y(), position.z(), 1.0f, r,g,b);
 						}
 					}
 				}
 			}
 		}
 	}
-
-	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
 void VoxelmapVisualization::renderScene()
