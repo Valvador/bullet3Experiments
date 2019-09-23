@@ -13,6 +13,11 @@ public:
 	// Assumes Stride of 12 bytes per vertex. numVertices implies # of 12 byte vertices. Assumes stride of 12 bytes per triangle.
 	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth);
 	static VoxelGridDistanceField* generateDistanceFieldFromMeshAndVoxelGrid(const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
+	
+	// Visualization Requests for now
+	static SparseGrid<Vector3> getVoxelGridGradient(const VoxelGrid* voxelGrid);
+	static SparseGrid<Vector3> getSurfaceProjection(const SparseGrid<Vector3>& gradientGrid,
+		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid);
 
 	// Debug
 	static void debug_MakeBoxVertexIndices(const Vector3& boxSize, const Vector3& boxOffset, std::vector<float>& vertices, std::vector<size_t>& indices);

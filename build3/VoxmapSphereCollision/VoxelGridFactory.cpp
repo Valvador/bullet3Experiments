@@ -71,6 +71,21 @@ namespace VSC
 		return resultDistanceField;
 	}
 
+	SparseGrid<Vector3> VoxelGridFactory::getVoxelGridGradient(const VoxelGrid* voxelGrid)
+	{
+		SparseGrid<Vector3> result;
+		generateVoxelGridGradient(result, voxelGrid);
+		return result;
+	}
+
+	SparseGrid<Vector3> VoxelGridFactory::getSurfaceProjection(const SparseGrid<Vector3>& gradientGrid,
+		const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, const VoxelGrid* voxelGrid)
+	{
+		SparseGrid<Vector3> result;
+		generateSurfaceProjectionPoints(result, gradientGrid, vertices, numVertices, indices, numTriangles, voxWidth, voxelGrid);
+		return result;
+	}
+
 
 	void VoxelGridFactory::fillGridWithTriangleSurfaceVoxels(VoxelGrid* grid, const Vector3& v0, const Vector3& v1, const Vector3& v2)
 	{

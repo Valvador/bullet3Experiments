@@ -542,6 +542,18 @@ void OpenGLGuiHelper::autogenerateGraphicsObjects(btDiscreteDynamicsWorld* rbWor
 			
 	}
 }
+
+void OpenGLGuiHelper::drawPoint3D(float x, float y, float z, float colorR, float colorG, float colorB, float colorAlpha, float size)
+{
+	btAssert(m_data->m_glApp);
+	m_data->m_glApp->drawPoint3D(x, y, z, colorR, colorB, colorG, colorAlpha, size);
+}
+
+void OpenGLGuiHelper::drawLine3D(float startX, float startY, float startZ, float endX, float endY, float endZ, float colorR, float colorG, float colorB, float colorAlpha, float width)
+{
+	btAssert(m_data->m_glApp);
+	m_data->m_glApp->drawLine3D(startX, startY, startZ, endX, endY, endZ, colorR, colorG, colorB, colorAlpha, width);
+}
     
 void OpenGLGuiHelper::drawText3D( const char* txt, float posX, float posY, float posZ, float size, float colorR, float colorG, float colorB, float colorAlpha)
 {

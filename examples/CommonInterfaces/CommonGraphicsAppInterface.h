@@ -69,6 +69,8 @@ struct CommonGraphicsApp
 	virtual void swapBuffer() = 0;
 	virtual void drawText( const char* txt, int posX, int posY) = 0;
 	virtual void drawText3D(const char* txt, float posX, float posZY, float posZ, float size, float colorR = 1.0f, float colorG = 0.2f, float colorB = 0.2f, float colorAlpha = 1.0f)=0;
+	virtual void drawLine3D(float startX, float startY, float startZ, float endX, float endY, float endZ, float colorR = 1.0f, float colorG = 0.2f, float colorB = 0.2f, float colorAlpha = 1.0f, float width = 1.0f) {};
+	virtual void drawPoint3D(float x, float y, float z, float colorR = 1.0f, float colorG = 0.2f, float colorB = 0.2f, float colorAlpha = 1.0f, float size = 1.0f) {};
 	virtual int	registerCubeShape(float halfExtentsX,float halfExtentsY, float halfExtentsZ)=0;
 	virtual int	registerGraphicsSphereShape(float radius, bool usePointSprites=true, int largeSphereThreshold=100, int mediumSphereThreshold=10)=0;
 	virtual void registerGrid(int xres, int yres, float color0[4], float color1[4])=0;

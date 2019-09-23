@@ -211,6 +211,21 @@ struct sth_stash* SimpleOpenGL3App::getFontStash()
 	return m_data->m_fontStash;
 }
 
+void SimpleOpenGL3App::drawLine3D(float startX, float startY, float startZ, float endX, float endY, float endZ, float colorR, float colorG, float colorB, float colorAlpha, float width)
+{
+	double from[] = { startX, startY, startZ, 0.0 };
+	double to[] = { endX, endY, endZ, 0.0f };
+	double color[] = { colorR, colorG, colorB, colorAlpha };
+	m_instancingRenderer->drawLine(from, to, color, width);
+}
+
+void SimpleOpenGL3App::drawPoint3D(float x, float y, float z, float colorR, float colorG, float colorB, float colorAlpha, float size)
+{
+	double pos[] = { x, y, z, 0.0 };
+	double color[] = { colorR, colorG, colorB, colorAlpha };
+	m_instancingRenderer->drawPoint(pos, color, size);
+}
+
 void SimpleOpenGL3App::drawText3D( const char* txt, float worldPosX, float worldPosY, float worldPosZ, float size1, float colorR, float colorG, float colorB, float colorAlpha)
 {
 	float viewMat[16];

@@ -21,7 +21,10 @@ struct VoxelmapVisualization : public CommonRigidBodyBase
 		m_guiHelper->resetCamera(dist, pitch, yaw, targetPos[0], targetPos[1], targetPos[2]);
 	}
 
+	float voxelWidth;
 	VSC::VoxelGrid* resultGrid;
+	VSC::SparseGrid<VSC::Vector3> gridGradient;
+	VSC::SparseGrid<VSC::Vector3> surfaceProjection;
 };
 
 void VoxelmapVisualization::initPhysics()
@@ -36,9 +39,10 @@ void VoxelmapVisualization::initPhysics()
 	std::vector<float> boxVert;
 	std::vector<size_t> boxInd;
 	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
-	float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
+	voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
-
+	gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
+	surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)& boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
 
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
@@ -66,8 +70,9 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 	using namespace VSC;
 	const Vector3int32& min = resultGrid->getGridDescConst().min;
 	const Vector3int32& max = resultGrid->getGridDescConst().max;
-	btVector3 size = btVector3(1, 1, 1);
 
+	// Render Grid
+	const VSC::VoxelGridDesc& gridDesc = resultGrid->getGridDescConst();
 	for (int32_t x = min.x; x <= max.x; x++)
 	{
 		for (int32_t y = min.y; y <= max.y; y++)
@@ -81,10 +86,25 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 						int indexOffset = i + 2;
 						if (*value == i)
 						{
-							btVector3 position = btVector3(x, y, z) * size * 2.0;
+							VSC::Vector3 position = gridDesc.gridCenterToCoord(Vector3int32(x, y, z));;
 							float r, g, b;
 							getRGB(r, g, b, (i + 2) / 5.0f);
-							m_guiHelper->drawText3D(std::to_string(i).c_str(), position.x(), position.y(), position.z(), 1.0f, r,g,b);
+							m_guiHelper->drawText3D(std::to_string(i).c_str(), position.x, position.y, position.z, 1.0f, r,g,b);
+
+							// Gradient
+							if (const VSC::Vector3 * value = gridGradient.getAt(Vector3int32(x, y, z)))
+							{
+								VSC::Vector3 gradient = *value * voxelWidth * 2.0f;
+								VSC::Vector3 startPos = position + gradient * 0.5f;
+								VSC::Vector3 endPos = position - gradient * 0.5f;
+								m_guiHelper->drawLine3D(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z, r, g, b, 1.0f, 1.5f);
+							}
+
+							// Surface PRojection
+							if (const VSC::Vector3 * surfacePt = surfaceProjection.getAt(Vector3int32(x, y, z)))
+							{
+								m_guiHelper->drawPoint3D(surfacePt->x, surfacePt->y, surfacePt->z, r, g, b, 1.0f, 10.0f);
+							}
 						}
 					}
 				}
