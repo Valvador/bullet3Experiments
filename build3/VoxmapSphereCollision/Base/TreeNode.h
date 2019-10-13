@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <vector>
 
 namespace VSC
 {
@@ -11,7 +12,10 @@ private:
 	TreeNode* children[numChildren];
 
 public:
+	int getNumChildren() { return numChildNodes; }
+
 	TreeNode* getParent() { return parent; }
+
 	void setParent(TreeNode* parentNode)
 	{
 		parent = parentNode;
@@ -19,15 +23,15 @@ public:
 
 	TreeNode* getChild(int i)
 	{
-		assert(i < numChildren);
+		assert(i < getNumChildren());
 		return children[i];
 	}
 
 	void addChild(TreeNode* childNode)
 	{
-		assert(i > numChildNodes);
-		assert(i < numChildren);
+		assert(getNumChildren() < numChildren);
 		children[numChildNodes] = childNode;
+		childNode->setParent(this);
 		numChildNodes++;
 	}
 

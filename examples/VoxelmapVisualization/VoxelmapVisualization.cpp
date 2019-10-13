@@ -100,7 +100,7 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 								m_guiHelper->drawLine3D(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z, r, g, b, 1.0f, 1.5f);
 							}
 
-							// Surface PRojection
+							// Surface Projection
 							if (const VSC::Vector3 * surfacePt = surfaceProjection.getAt(Vector3int32(x, y, z)))
 							{
 								m_guiHelper->drawPoint3D(surfacePt->x, surfacePt->y, surfacePt->z, r, g, b, 1.0f, 10.0f);

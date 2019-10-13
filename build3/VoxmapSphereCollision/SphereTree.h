@@ -5,16 +5,21 @@
 namespace VSC
 {
 template <int numChildrenPerNode>
-class SphereTreeNode : protected TreeNode<numChildrenPerNode>
+class SphereTreeNode : public TreeNode<numChildrenPerNode>
 {
 private:
-	int primaryNode;
-	float radius;
-	Vector3 position;
+	int primaryNode = -1;
+	float radius = 0.0f;
+	Vector3 position = Vector3(0);
 
 public:
+	Vector3 getPosition() { return position; }
+	float getRadius() { return radius; }
+
 	void addChild(SphereTreeNode* node)
 	{
+		int currentNumChildren = TreeNode<numChildrenPerNode>::getNumChildren();
+		position = (position * currentNumChildren + node->position) * float(1/ (currentNumChildren + 1));
 		TreeNode<numChildrenPerNode>::addChild(node);
 	}
 
@@ -25,14 +30,51 @@ public:
 
 	void setPrimaryNode(int node)
 	{
-		assert(node < numChildNodes);
+		assert(node < getNumChildren());
 		primaryNode = node;
+	}
+
+	void computeRadius()
+	{
+		radius = 0;
+		for (int i = 0; i < getNumChildren(); i++)
+		{
+			SphereTreeNode<numChildrenPerNode>* child = getChild(i);
+			float distance = sqrtf((child->getPosition() - getPosition()).sqrMagnitude()) + child->getRadius();
+			if (distance > radius)
+			{
+				radius = distance;
+			}
+		}
 	}
 
 	SphereTreeNode<numChildrenPerNode>(float _radius, const Vector3& _position)
 		: position(_position)
 		, radius(_radius)
 	{};
+
+	SphereTreeNode<numChildrenPerNode>()
+		: position(Vector3(0.f))
+		, radius(0.f)
+	{};
+
+	~SphereTreeNode<numChildrenPerNode>()
+	{
+		for (int i = 0; i < getNumChildren(); i++)
+		{
+			delete getChild(i);
+		}
+	}
 };
 
+const static int SphereTreeNodeMax = 4;
+class SphereTree
+{
+	SphereTreeNode<SphereTreeNodeMax>* rootNode;
+public:
+	void clear() { delete rootNode; rootNode = nullptr; }
+
+	SphereTree(SphereTreeNode<SphereTreeNodeMax>* root) : rootNode(root) {};
+	~SphereTree() { assert(rootNode == nullptr); }
+};
 };

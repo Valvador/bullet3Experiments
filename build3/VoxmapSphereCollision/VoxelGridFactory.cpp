@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <stack>
 #include <cmath>
+#include <algorithm>
+#include <unordered_set>
 
 #include "Math/Vector3.h"
 #include "Math/Vector3int32.h"
@@ -69,6 +71,279 @@ namespace VSC
 		}
 
 		return resultDistanceField;
+	}
+
+	struct Vector3Visited
+	{
+		bool visited;
+		Vector3 v;
+		SphereTreeNode<SphereTreeNodeMax>* node;
+
+		Vector3Visited(const Vector3& pos, SphereTreeNode<SphereTreeNodeMax>* treeNode) : visited(false), v(pos), node(treeNode) {};
+	};
+
+	void generateSortedXYZPoints(std::vector<Vector3Visited>& pointsIn,
+		std::vector<Vector3Visited*>& xSortedOut, std::vector<Vector3Visited*>& ySortedOut, std::vector<Vector3Visited*>& zSortedOut)
+	{
+		xSortedOut.reserve(pointsIn.size());
+		ySortedOut.reserve(pointsIn.size());
+		zSortedOut.reserve(pointsIn.size());
+
+		for (auto& vec : pointsIn)
+		{
+			xSortedOut.push_back(&vec);
+			ySortedOut.push_back(&vec);
+			zSortedOut.push_back(&vec);
+		}
+
+		struct sortX
+		{
+			bool operator() (const Vector3Visited* l, const Vector3Visited* r)
+			{
+				return l->v.x < r->v.x;
+			}
+		} xSort;
+
+		struct sortY
+		{
+			bool operator() (const Vector3Visited* l, const Vector3Visited* r)
+			{
+				return l->v.y < r->v.y;
+			}
+		} ySort;
+
+		struct sortZ
+		{
+			bool operator() (const Vector3Visited* l, const Vector3Visited* r)
+			{
+				return l->v.z < r->v.z;
+			}
+		} zSort;
+
+		std::sort(xSortedOut.begin(), xSortedOut.end(), xSort);
+		std::sort(ySortedOut.begin(), ySortedOut.end(), ySort);
+		std::sort(zSortedOut.begin(), zSortedOut.end(), zSort);
+	}
+
+	size_t getClosestIndexOfTwo(size_t i, size_t j, const std::vector<Vector3Visited*>& sortedPoints, const Vector3& target, int searchAxis)
+	{
+		if (std::fabs(target[searchAxis] - sortedPoints[i]->v[searchAxis]) <= std::fabs(target[searchAxis] - sortedPoints[j]->v[searchAxis]))
+		{
+			return i;
+		}
+		else
+		{
+			return j;
+		}
+	}
+
+	size_t findClosestUnvisitedIndexToPoint(const Vector3& target, const std::vector<Vector3Visited*>& sortedPoints, int searchAxis)
+	{
+		// Corner Case, check front and back
+		size_t result = -1;
+		size_t currentMax = sortedPoints.size() - 1;
+		if (target[searchAxis] <= sortedPoints[0]->v[searchAxis] || currentMax <= 0)
+		{
+			result = 0;
+		}
+		if (target[searchAxis] >= sortedPoints[currentMax]->v[searchAxis])
+		{
+			result = currentMax;
+		}
+		
+		if (result == -1)
+		{
+			size_t mid;
+			size_t i = 0, j = currentMax;
+			while (i < j)
+			{
+				mid = (i + j) / 2;
+				if (sortedPoints[mid]->v[searchAxis] == target[searchAxis])
+				{
+					result = mid;
+					break;
+				}
+
+				if (target[searchAxis] < sortedPoints[mid]->v[searchAxis])
+				{
+					if (mid > 0 && target[searchAxis] > sortedPoints[mid - 1]->v[searchAxis])
+					{
+						result = getClosestIndexOfTwo(mid - 1, mid, sortedPoints, target, searchAxis);
+						break;
+					}
+					j = mid;
+				}
+				else
+				{
+					if (mid < (sortedPoints.size() - 1) && target[searchAxis] < sortedPoints[mid + 1]->v[searchAxis])
+					{
+						result = getClosestIndexOfTwo(mid, mid + 1, sortedPoints, target, searchAxis);
+					}
+					i = mid;
+				}
+			}
+		}
+
+		// If the best value is already visisted, we have to filter for the rest!
+		if (sortedPoints[result]->visited)
+		{
+			// Best value already visited, we should now expand search from here
+			size_t i = result + 1;
+			bool iFound = false;
+			while (i < sortedPoints.size())
+			{
+				if (sortedPoints[i]->visited)
+				{
+					i++;
+				}
+				else
+				{
+					iFound = true;
+					break;
+				}
+			}
+			size_t j = result - 1;
+			bool jFound = false;
+			while (j >= 0)
+			{
+				if (sortedPoints[j]->visited)
+				{
+					j--;
+				}
+				else
+				{
+					jFound = true;
+					break;
+				}
+			}
+
+			if (iFound && jFound)
+			{
+				result = getClosestIndexOfTwo(i, j, sortedPoints, target, searchAxis);
+			}
+			else if (iFound)
+			{
+				result = i;
+			}
+			else if (jFound)
+			{
+				result = j;
+			}
+			else
+			{
+				result = -1;
+			}
+
+			return result;
+		}
+		else
+		{
+			return result;
+		}
+	}
+
+	Vector3Visited* getNextUnvisitedPoint(std::vector<Vector3Visited>& points)
+	{
+		for (auto& point : points)
+		{
+			if (!point.visited)
+			{
+				return &point;
+			}
+		}
+		return nullptr;
+	}
+
+	bool debug_allPointsVisited(std::vector<Vector3Visited>& points)
+	{
+		for (auto& point : points)
+		{
+			if (point.visited == false)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
+	static SphereTree generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
+	{
+		std::vector<Vector3Visited> rootPoints; // to keep track of points and sort them to help creation of nodes.
+		std::vector<SphereTreeNode<SphereTreeNodeMax>*> rootNodes;
+		std::vector<SphereTreeNode<SphereTreeNodeMax>*> nextRootNodes;
+
+		rootPoints.reserve(surfaceProjection.countVoxels());
+		rootNodes.reserve(surfaceProjection.countVoxels());
+		// Create the original leaf nodes that have no children;
+		for (auto it = surfaceProjection.cbegin(); it != surfaceProjection.cend(); it++)
+		{
+			SphereTreeNode<SphereTreeNodeMax>* leafNode = new SphereTreeNode<SphereTreeNodeMax>(0.0f, it->second);
+			rootPoints.emplace_back(Vector3Visited(it->second, leafNode)); // Vector3Visited( visited, position, treeNode)
+			rootNodes.push_back(leafNode);
+		}
+
+		std::vector<Vector3Visited*> sortedAxes[3];
+		// Main loop, has to end when we only have 1 top point.
+		while (rootNodes.size() > 1)
+		{
+			assert(rootNodes.size() == rootPoints.size());
+			generateSortedXYZPoints(rootPoints, sortedAxes[0], sortedAxes[1], sortedAxes[2]);
+			while (Vector3Visited* currentTarget = getNextUnvisitedPoint(rootPoints))
+			{
+				SphereTreeNode<SphereTreeNodeMax>* futureRoot = new SphereTreeNode<SphereTreeNodeMax>();
+				futureRoot->addChild(currentTarget->node);
+				futureRoot->setPrimaryNode(0);
+				currentTarget->visited = true; 
+
+				while (futureRoot->getNumChildren() < SphereTreeNodeMax)
+				{
+					float bestDist = std::numeric_limits<float>::max();
+					int bestAxis = -1;
+					size_t indexOnAxis = -1;
+					for (int axis = 0; axis < 3; axis++)
+					{
+						size_t nextOnAxis = findClosestUnvisitedIndexToPoint(currentTarget->v, sortedAxes[axis], axis);
+
+						if (nextOnAxis == -1)
+							continue;
+
+						float newDist = std::fabsf(sortedAxes[axis][nextOnAxis]->v[axis] - currentTarget->v[axis]);
+						if (newDist < bestDist)
+						{
+							bestAxis = axis;
+							bestDist = newDist;
+							indexOnAxis = nextOnAxis;
+						}
+					}
+			
+					// No more points! End early
+					if (bestAxis == -1)
+						break;
+
+					// Add another node to Children
+					Vector3Visited& newChild = *sortedAxes[bestAxis][indexOnAxis];
+					futureRoot->addChild(newChild.node);
+					newChild.visited = true;
+				}
+
+				futureRoot->computeRadius();
+				nextRootNodes.push_back(futureRoot);
+			}
+
+			assert(debug_allPointsVisited(rootPoints));
+			rootNodes.clear();
+			rootPoints.clear();
+			for (auto newRoot : nextRootNodes)
+			{
+				rootPoints.emplace_back(Vector3Visited(newRoot->getPosition(), newRoot)); // Vector3Visited( visited, position, treeNode)
+				rootNodes.push_back(newRoot);
+			}
+		}
+
+		assert(rootNodes.size() == 1);
+		return SphereTree(rootNodes[0]);
 	}
 
 	SparseGrid<Vector3> VoxelGridFactory::getVoxelGridGradient(const VoxelGrid* voxelGrid)
