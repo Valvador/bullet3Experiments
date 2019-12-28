@@ -77,9 +77,9 @@ namespace VSC
 	{
 		bool visited;
 		Vector3 v;
-		SphereTreeNode<SphereTreeNodeMax>* node;
+		SphereTreeNode<SphereTree::SphereTreeNodeMax>* node;
 
-		Vector3Visited(const Vector3& pos, SphereTreeNode<SphereTreeNodeMax>* treeNode) : visited(false), v(pos), node(treeNode) {};
+		Vector3Visited(const Vector3& pos, SphereTreeNode<SphereTree::SphereTreeNodeMax>* treeNode) : visited(false), v(pos), node(treeNode) {};
 	};
 
 	void generateSortedXYZPoints(std::vector<Vector3Visited>& pointsIn,
@@ -137,10 +137,10 @@ namespace VSC
 		}
 	}
 
-	size_t findClosestUnvisitedIndexToPoint(const Vector3& target, const std::vector<Vector3Visited*>& sortedPoints, int searchAxis)
+	int findClosestUnvisitedIndexToPoint(const Vector3& target, const std::vector<Vector3Visited*>& sortedPoints, int searchAxis)
 	{
 		// Corner Case, check front and back
-		size_t result = -1;
+		int result = -1;
 		size_t currentMax = sortedPoints.size() - 1;
 		if (target[searchAxis] <= sortedPoints[0]->v[searchAxis] || currentMax <= 0)
 		{
@@ -202,7 +202,7 @@ namespace VSC
 					break;
 				}
 			}
-			size_t j = result - 1;
+			int j = result - 1;
 			bool jFound = false;
 			while (j >= 0)
 			{
@@ -268,43 +268,43 @@ namespace VSC
 	}
 
 	// Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
-	static SphereTree generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
+	SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 	{
 		std::vector<Vector3Visited> rootPoints; // to keep track of points and sort them to help creation of nodes.
-		std::vector<SphereTreeNode<SphereTreeNodeMax>*> rootNodes;
-		std::vector<SphereTreeNode<SphereTreeNodeMax>*> nextRootNodes;
+		std::vector<SphereTreeNode<SphereTree::SphereTreeNodeMax>*> rootNodes;
+		std::vector<SphereTreeNode<SphereTree::SphereTreeNodeMax>*> nextRootNodes;
 
 		rootPoints.reserve(surfaceProjection.countVoxels());
 		rootNodes.reserve(surfaceProjection.countVoxels());
 		// Create the original leaf nodes that have no children;
 		for (auto it = surfaceProjection.cbegin(); it != surfaceProjection.cend(); it++)
 		{
-			SphereTreeNode<SphereTreeNodeMax>* leafNode = new SphereTreeNode<SphereTreeNodeMax>(0.0f, it->second);
+			SphereTreeNode<SphereTree::SphereTreeNodeMax>* leafNode = new SphereTreeNode<SphereTree::SphereTreeNodeMax>(0.0f, it->second);
 			rootPoints.emplace_back(Vector3Visited(it->second, leafNode)); // Vector3Visited( visited, position, treeNode)
 			rootNodes.push_back(leafNode);
 		}
 
-		std::vector<Vector3Visited*> sortedAxes[3];
 		// Main loop, has to end when we only have 1 top point.
 		while (rootNodes.size() > 1)
 		{
 			assert(rootNodes.size() == rootPoints.size());
+			std::vector<Vector3Visited*> sortedAxes[3];
 			generateSortedXYZPoints(rootPoints, sortedAxes[0], sortedAxes[1], sortedAxes[2]);
 			while (Vector3Visited* currentTarget = getNextUnvisitedPoint(rootPoints))
 			{
-				SphereTreeNode<SphereTreeNodeMax>* futureRoot = new SphereTreeNode<SphereTreeNodeMax>();
+				SphereTreeNode<SphereTree::SphereTreeNodeMax>* futureRoot = new SphereTreeNode<SphereTree::SphereTreeNodeMax>();
 				futureRoot->addChild(currentTarget->node);
 				futureRoot->setPrimaryNode(0);
 				currentTarget->visited = true; 
 
-				while (futureRoot->getNumChildren() < SphereTreeNodeMax)
+				while (futureRoot->getNumChildren() < SphereTree::SphereTreeNodeMax)
 				{
 					float bestDist = std::numeric_limits<float>::max();
 					int bestAxis = -1;
-					size_t indexOnAxis = -1;
+					int indexOnAxis = -1;
 					for (int axis = 0; axis < 3; axis++)
 					{
-						size_t nextOnAxis = findClosestUnvisitedIndexToPoint(currentTarget->v, sortedAxes[axis], axis);
+						int nextOnAxis = findClosestUnvisitedIndexToPoint(currentTarget->v, sortedAxes[axis], axis);
 
 						if (nextOnAxis == -1)
 							continue;
@@ -340,10 +340,11 @@ namespace VSC
 				rootPoints.emplace_back(Vector3Visited(newRoot->getPosition(), newRoot)); // Vector3Visited( visited, position, treeNode)
 				rootNodes.push_back(newRoot);
 			}
+			nextRootNodes.clear();
 		}
 
 		assert(rootNodes.size() == 1);
-		return SphereTree(rootNodes[0]);
+		return new SphereTree(rootNodes[0]);
 	}
 
 	SparseGrid<Vector3> VoxelGridFactory::getVoxelGridGradient(const VoxelGrid* voxelGrid)

@@ -1,6 +1,7 @@
 #include "../build3/VoxmapSphereCollision/VoxelGridFactory.h"
 #include "../CommonInterfaces/CommonRigidBodyBase.h"
 #include <string>
+#include <algorithm>
 
 
 struct VoxelmapVisualization : public CommonRigidBodyBase
@@ -25,7 +26,34 @@ struct VoxelmapVisualization : public CommonRigidBodyBase
 	VSC::VoxelGrid* resultGrid;
 	VSC::SparseGrid<VSC::Vector3> gridGradient;
 	VSC::SparseGrid<VSC::Vector3> surfaceProjection;
+	VSC::SphereTree* sphereTree;
 };
+
+void drawNthLayerSphereTreeNodes(int layer, GUIHelperInterface* guiHelper, VSC::SphereTreeNode<VSC::SphereTree::SphereTreeNodeMax>* treeNode, int currentLayer = 0)
+{
+	if (layer != currentLayer && treeNode->getNumChildren())
+	{
+		for (int i = 0; i < treeNode->getNumChildren(); i++)
+		{
+			drawNthLayerSphereTreeNodes(layer, guiHelper, treeNode->getChild(i), currentLayer + 1);
+		}
+	}
+	else
+	{
+		// This is going to leak a lot of memory
+		btSphereShape* sphere = new btSphereShape(std::max(treeNode->getRadius() * 0.2f, 0.05f));
+		guiHelper->createCollisionShapeGraphicsObject(sphere);
+		btCollisionObject* sphereObject = new btCollisionObject();
+		sphereObject->setCollisionShape(sphere);
+		btTransform tr;
+		tr.setIdentity();
+		VSC::Vector3 origin = treeNode->getPosition();
+		tr.setOrigin(btVector3(origin.x, origin.y, origin.z));
+		btVector3 color(0.0, 0.0, 0.5);
+		sphereObject->setWorldTransform(tr);
+		guiHelper->createCollisionObjectGraphicsObject(sphereObject, color);
+	}
+}
 
 void VoxelmapVisualization::initPhysics()
 {
@@ -43,7 +71,9 @@ void VoxelmapVisualization::initPhysics()
 	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
 	gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
 	surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)& boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
+	sphereTree = VoxelGridFactory::generateSphereTreeFromSurfaceProjections(surfaceProjection);
 
+	drawNthLayerSphereTreeNodes(3, m_guiHelper, sphereTree->getRootNode());
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
@@ -61,6 +91,11 @@ void getRGB(float& r, float& g, float& b, float a)
 	r = finalColor.x();
 	g = finalColor.y();
 	b = finalColor.z();
+}
+
+static void drawCircleFromLines(const VSC::Vector3& position, float radius)
+{
+	// Draw lines to form a circle here.
 }
 
 void VoxelmapVisualization::physicsDebugDraw(int debugFlags)

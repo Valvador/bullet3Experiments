@@ -14,7 +14,7 @@ public:
 	// Assumes Stride of 12 bytes per vertex. numVertices implies # of 12 byte vertices. Assumes stride of 12 bytes per triangle.
 	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth);
 	static VoxelGridDistanceField* generateDistanceFieldFromMeshAndVoxelGrid(const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
-	static SphereTree generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection);
+	static SphereTree* generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection);
 	
 	// Visualization Requests for now
 	static SparseGrid<Vector3> getVoxelGridGradient(const VoxelGrid* voxelGrid);
@@ -46,10 +46,5 @@ private:
 	static void fillDistanceFieldAlongGradientLine(
 		VoxelGridDistanceField* distanceFieldOut, const Vector3int32& startId, const SparseGrid<Vector3>& surfaceProjection, 
 		const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
-
-	// // Sphere Tree Helpers
-	// // // Sorts pointsIn along XYZ in 3 different output containers.
-	static void generateSortedXYZPoints(const std::vector<Vector3>& pointsIn, 
-		std::vector<Vector3>& xSortedOut, std::vector<Vector3>& ySortedOut, std::vector<Vector3>& zSortedOut);
 };
 }; //namespace VSC

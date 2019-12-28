@@ -40,6 +40,6 @@ public:
 		numChildNodes = 0;
 	}
 
-	TreeNode() {};
+	TreeNode() : numChildNodes(0) {};
 };
 };

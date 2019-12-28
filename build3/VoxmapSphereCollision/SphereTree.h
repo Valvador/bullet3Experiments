@@ -18,8 +18,9 @@ public:
 
 	void addChild(SphereTreeNode* node)
 	{
+		assert(node);
 		int currentNumChildren = TreeNode<numChildrenPerNode>::getNumChildren();
-		position = (position * currentNumChildren + node->position) * float(1/ (currentNumChildren + 1));
+		position = (position * currentNumChildren + node->position) * (1.0f / float(currentNumChildren + 1));
 		TreeNode<numChildrenPerNode>::addChild(node);
 	}
 
@@ -67,14 +68,18 @@ public:
 	}
 };
 
-const static int SphereTreeNodeMax = 4;
 class SphereTree
 {
+public:
+	const static int SphereTreeNodeMax = 4;
+private:
 	SphereTreeNode<SphereTreeNodeMax>* rootNode;
 public:
 	void clear() { delete rootNode; rootNode = nullptr; }
+	SphereTreeNode<SphereTreeNodeMax>* getRootNode() const { return rootNode; }
 
 	SphereTree(SphereTreeNode<SphereTreeNodeMax>* root) : rootNode(root) {};
+	SphereTree() : rootNode(nullptr) {};
 	~SphereTree() { assert(rootNode == nullptr); }
 };
 };
