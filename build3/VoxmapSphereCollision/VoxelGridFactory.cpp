@@ -267,6 +267,44 @@ namespace VSC
 		return true;
 	}
 
+	const float samplingEpsilon = 1E-4;
+	void IterateThroughEquidistantAxisPoints(
+		int iterateDirection, int nextOnAxis, std::vector<VSC::Vector3Visited*>* sortedAxes, 
+		int axis, VSC::Vector3Visited* currentTarget, 
+		float& bestDist, int& bestAxis, int& indexOnAxis)
+	{
+		float bestAxisDist = std::numeric_limits<float>::max();
+		int originalOnAxis = nextOnAxis;
+		while (nextOnAxis < sortedAxes[axis].size() && nextOnAxis >= 0)
+		{
+			if (sortedAxes[axis][nextOnAxis]->visited)
+			{
+				nextOnAxis += iterateDirection;
+				continue;
+			}
+
+			float newAxisDist = std::fabsf(sortedAxes[axis][nextOnAxis]->v[axis] - currentTarget->v[axis]);
+			if ((newAxisDist - samplingEpsilon) > bestAxisDist)
+			{
+				break;
+			}
+			else
+			{
+				bestAxisDist = newAxisDist;
+			}
+
+			float newDist = std::fabsf((sortedAxes[axis][nextOnAxis]->v - currentTarget->v).sqrMagnitude());
+			if (newDist < bestDist)
+			{
+				bestAxis = axis;
+				bestDist = newDist;
+				indexOnAxis = nextOnAxis;
+			}
+
+			nextOnAxis += iterateDirection;
+		}
+	}
+
 	// Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
 	SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 	{
@@ -309,13 +347,10 @@ namespace VSC
 						if (nextOnAxis == -1)
 							continue;
 
-						float newDist = std::fabsf(sortedAxes[axis][nextOnAxis]->v[axis] - currentTarget->v[axis]);
-						if (newDist < bestDist)
-						{
-							bestAxis = axis;
-							bestDist = newDist;
-							indexOnAxis = nextOnAxis;
-						}
+						// We found the next sorted point on this axis, but it may not be the closest. Iterate in both directions to
+						// find the closest point.
+						IterateThroughEquidistantAxisPoints(1, nextOnAxis, sortedAxes, axis, currentTarget, bestDist, bestAxis, indexOnAxis);
+						IterateThroughEquidistantAxisPoints(-1, nextOnAxis, sortedAxes, axis, currentTarget, bestDist, bestAxis, indexOnAxis);
 					}
 			
 					// No more points! End early
