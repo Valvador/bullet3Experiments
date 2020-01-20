@@ -107,7 +107,7 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 	const Vector3int32& max = resultGrid->getGridDescConst().max;
 
 	// Render Grid
-	const VSC::VoxelGridDesc& gridDesc = resultGrid->getGridDescConst();
+	const VSC::GridDesc& gridDesc = resultGrid->getGridDescConst();
 	for (int32_t x = min.x; x <= max.x; x++)
 	{
 		for (int32_t y = min.y; y <= max.y; y++)
