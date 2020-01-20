@@ -130,6 +130,7 @@ bool debug_allPointsVisited(std::vector<Vector3Visited>& points)
 	return true;
 }
 
+#define ALLOW_POINT_HOP
 // Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
 SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 {
@@ -183,16 +184,26 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 			futureRoot->setPrimaryNode(0);
 			currentTarget->visited = true;
 
-			for (int i = 1; i < SphereTree::SphereTreeNodeMax && i < broadphaseBuffer.size(); i++)
+			int index = 0;
+			for (int i = 1; i < SphereTree::SphereTreeNodeMax && index < broadphaseBuffer.size(); i++)
 			{
-				Vector3Visited& newChild = *broadphaseBuffer[i];
+				Vector3Visited& newChild = *broadphaseBuffer[index];
 				// If next closest point is visisted, we are probably hopping over objects
 				// should stop here.
 				if (newChild.visited)
-					break;
+				{
+#ifdef ALLOW_POINT_HOP
+					i--;
+					index++;
+					continue;
+#else
+					break
+#endif
+				}
 
 				futureRoot->addChild(newChild.node);
 				newChild.visited = true;
+				index++;
 			}
 
 			futureRoot->computeRadius();
@@ -759,7 +770,6 @@ void updateBestAdjacentTriangleProjectionDistance(
 	}
 }
 
-#define VSC_USE_GRADIENT_FOR_SURFACE_PROJ
 void VoxelGridFactory::findIntermediateClosestSurfacePoints(
 	SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const Vector3int32& voxelId, const VoxelGrid* voxelGrid, 
 	const Vector3& v0, const Vector3& v1, const Vector3& v2)
@@ -779,30 +789,10 @@ void VoxelGridFactory::findIntermediateClosestSurfacePoints(
 			{
 				// Check adjacent voxels, as we care about the triangle projection closest to the "outside" of the shape.
 				// Lets look for closest negative voxel.
-#ifdef VSC_USE_GRADIENT_FOR_SURFACE_PROJ
 				const Vector3 gradientAtId = *gradientGrid.getAt(voxelId);
 				Vector3 testCoord = voxelCenterCoord - gradientAtId * voxelGrid->getGridDescConst().voxWidth;
 				float existingBestDistanceSqr = (testCoord - *currentProjection).sqrMagnitude(); // check current projection against adjacents as we scan
 				float newBestDistanceSqr = (testCoord - closestPoint).sqrMagnitude(); // check this new projection against adjacents as we scan
-#else
-				float existingBestDistanceSqr = std::numeric_limits<float>::max(); // check current projection against adjacents as we scan
-				float newBestDistanceSqr = std::numeric_limits<float>::max(); // check this new projection against adjacents as we scan
-				Vector3int32 offsetId;
-				for (int32_t x = -1; x <= 1; x++)
-				{
-					for (int32_t y = -1; y <= 1; y++)
-					{
-						for (int32_t z = -1; z <= 1; z++)
-						{
-							if (x == y && y == z && x == 0)
-								continue;
-
-							offsetId = voxelId + Vector3int32(x, y, z);
-							updateBestAdjacentTriangleProjectionDistance(existingBestDistanceSqr, newBestDistanceSqr, voxelGrid, offsetId, *currentProjection, closestPoint);
-						}
-					}
-				}
-#endif
 
 				// else, we keep the old value.
 				if (newBestDistanceSqr < existingBestDistanceSqr)
@@ -928,8 +918,8 @@ void VoxelGridFactory::debug_MakeBoxVertexIndices(const Vector3& boxSize, const 
 	// 6 =  1,  1, -1
 	// 7 =  1,  1,  1
 	/*
-		3-----7
-		/|    /|
+      3-----7
+	 /|    /|
 	2-----6 |
 	| 1---|-5
 	|/    |/
