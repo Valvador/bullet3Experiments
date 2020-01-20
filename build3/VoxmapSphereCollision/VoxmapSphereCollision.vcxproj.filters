@@ -57,6 +57,9 @@
     <ClInclude Include="Base\Grid.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="SpatialGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DistanceGridSphereTreeShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpatialGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -131,6 +131,11 @@ public:
 		z += other.z;
 	}
 
+	bool operator==(const Vector3& other) const
+	{
+		return x == other.x && y == other.y && z == other.z;
+	}
+
 	Vector2 xy() const
 	{
 		return Vector2(x, y);

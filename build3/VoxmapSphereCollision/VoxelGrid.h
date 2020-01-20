@@ -1,6 +1,7 @@
 #pragma once
 #include "Base/Grid.h"
 #include "Math/Vector3.h"
+#include "SpatialGrid.h"
 
 namespace VSC
 {
@@ -33,39 +34,22 @@ void VoxelGridBase<T>::clearVoxel(const Vector3int32& pos)
 }
 // VoxelGridBase End
 
-struct VoxelGridDesc
-{
-public:
-	// Defines Width of 1 Voxel
-	float voxWidth;
-	Vector3int32 min;
-	Vector3int32 max;
-
-	VoxelGridDesc(float _voxWidth, const Vector3* verts, size_t numVerticess);
-	void expandGridBy(const Vector3int32& expandBy);
-
-	bool withinGrid(const Vector3int32& id) const;
-	Vector3int32 coordToGrid(const Vector3& coord) const;
-	Vector3 gridCenterToCoord(const Vector3int32& grid) const;
-	void minMaxCoordsOfGridVoxel(const Vector3int32& gridId, Vector3& min, Vector3& max) const;
-};
-
 class VoxelGrid : public VoxelGridBase<int32_t>
 {
 	friend class VoxelGridFactory;
 protected:
 	size_t surfaceCount;
-	VoxelGridDesc gridDesc;
+	GridDesc gridDesc;
 public:
 	// Base API
 	void setVoxel(const Vector3int32& pos, int32_t state);
 
-	VoxelGrid(VoxelGridDesc desc)
+	VoxelGrid(GridDesc desc)
 	: gridDesc(desc)
 	, surfaceCount(0)
 	{};
 
-	const VoxelGridDesc& getGridDescConst() const { return gridDesc; }
+	const GridDesc& getGridDescConst() const { return gridDesc; }
 	size_t countSurfaceVoxels() { return surfaceCount; }
 };
 

@@ -37,6 +37,38 @@ public:
 		}
 	};
 
+	void setMinAxis(const Vector3int32& other)
+	{
+		if (other[0] < x)
+		{
+			x = other[0];
+		}
+		if (other[1] < y)
+		{
+			y = other[1];
+		}
+		if (other[2] < z)
+		{
+			z = other[2];
+		}
+	}
+
+	void setMaxAxis(const Vector3int32& other)
+	{
+		if (other[0] > x)
+		{
+			x = other[0];
+		}
+		if (other[1] > y)
+		{
+			y = other[1];
+		}
+		if (other[2] > z)
+		{
+			z = other[2];
+		}
+	}
+
 	const int32_t& operator[] (int i) const
 	{
 		return ((int32_t*)this)[i];

@@ -41,7 +41,7 @@ private:
 
 	// // VoxelGridDistanceField helpers
 	// // // Populates 'distanceFieldOut' for the surface. Uses gradient to figure out which direction to project the distance.
-	static void fillDistanceFieldSurfaceValues(VoxelGridDistanceField* distanceFieldOut, const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGridDesc& gridDesc);
+	static void fillDistanceFieldSurfaceValues(VoxelGridDistanceField* distanceFieldOut, const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const GridDesc& gridDesc);
 	// // // Populates 'distanceFieldOut' along the gradient line starting at 'startId' until we hit an existing 'distanceField' value.
 	static void fillDistanceFieldAlongGradientLine(
 		VoxelGridDistanceField* distanceFieldOut, const Vector3int32& startId, const SparseGrid<Vector3>& surfaceProjection, 

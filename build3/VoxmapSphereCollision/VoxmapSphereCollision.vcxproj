@@ -134,6 +134,7 @@
     <ClInclude Include="Math\Geometry3D.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector3int32.h" />
+    <ClInclude Include="SpatialGrid.h" />
     <ClInclude Include="SphereTree.h" />
     <ClInclude Include="VoxelGridFactory.h" />
     <ClInclude Include="stdafx.h" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DistanceGridSphereTreeShape.cpp" />
+    <ClCompile Include="SpatialGrid.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
