@@ -132,6 +132,7 @@ bool debug_allPointsVisited(std::vector<Vector3Visited>& points)
 
 #define ALLOW_POINT_HOP
 #define ALLOW_OVERFLOW_BACKFILL // Sometimes we leave individual notes without children due to the filling process. This lets us hold on to orphaned nodes and refil.
+const float leafNodeRadius = 0.00f;
 // Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
 SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 {
@@ -144,7 +145,7 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 	// Create the original leaf nodes that have no children;
 	for (auto it = surfaceProjection.cbegin(); it != surfaceProjection.cend(); it++)
 	{
-		SphereTreeNode<SphereTree::SphereTreeNodeMax>* leafNode = new SphereTreeNode<SphereTree::SphereTreeNodeMax>(0.0f, it->second);
+		SphereTreeNode<SphereTree::SphereTreeNodeMax>* leafNode = new SphereTreeNode<SphereTree::SphereTreeNodeMax>(leafNodeRadius, it->second);
 		rootPoints.emplace_back(Vector3Visited(it->second, leafNode)); // Vector3Visited( visited, position, treeNode)
 		rootNodes.push_back(leafNode);
 	}
@@ -214,6 +215,7 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 			{
 				// Collect points that could not find other nearby unassigned children
 				orphanedNodes.push_back(currentTarget);
+				delete futureRoot;
 			}
 			else
 			{
