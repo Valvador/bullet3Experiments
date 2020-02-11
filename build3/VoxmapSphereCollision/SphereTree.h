@@ -71,7 +71,8 @@ public:
 class SphereTree
 {
 public:
-	const static int SphereTreeNodeMax = 4;
+	const static int SphereTreeNodeMax = 5;
+	const static int SphereTreeNodeGoal = 4;
 private:
 	SphereTreeNode<SphereTreeNodeMax>* rootNode;
 public:

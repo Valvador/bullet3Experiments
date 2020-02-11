@@ -131,6 +131,7 @@ bool debug_allPointsVisited(std::vector<Vector3Visited>& points)
 }
 
 #define ALLOW_POINT_HOP
+#define ALLOW_OVERFLOW_BACKFILL // Sometimes we leave individual notes without children due to the filling process. This lets us hold on to orphaned nodes and refil.
 // Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
 SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 {
@@ -149,6 +150,7 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 	}
 
 	// Main loop, has to end when we only have 1 top point.
+	std::vector<Vector3Visited*> orphanedNodes;
 	std::vector<Vector3Visited*> broadphaseBuffer;
 	while (rootNodes.size() > 1)
 	{
@@ -171,10 +173,11 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 			spatialGrid.addToSpatialGrid(&point);
 		}
 		// Find point to start a new cluster
+		orphanedNodes.clear();
 		while (Vector3Visited* currentTarget = getNextUnvisitedPoint(rootPoints))
 		{
 			broadphaseBuffer.clear();
-			int numBroadPhasePointsToFind = SphereTree::SphereTreeNodeMax * 4;
+			int numBroadPhasePointsToFind = SphereTree::SphereTreeNodeGoal * 4;
 			spatialGrid.gatherNClosestToTarget(*currentTarget, broadphaseBuffer, numBroadPhasePointsToFind);
 			sortByDistance(broadphaseBuffer, *currentTarget);
 
@@ -185,7 +188,7 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 			currentTarget->visited = true;
 
 			int index = 0;
-			for (int i = 1; i < SphereTree::SphereTreeNodeMax && index < broadphaseBuffer.size(); i++)
+			for (int i = 1; i < SphereTree::SphereTreeNodeGoal && index < broadphaseBuffer.size(); i++)
 			{
 				Vector3Visited& newChild = *broadphaseBuffer[index];
 				// If next closest point is visisted, we are probably hopping over objects
@@ -206,9 +209,49 @@ SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const Spa
 				index++;
 			}
 
+#ifdef ALLOW_OVERFLOW_BACKFILL
+			if (futureRoot->getNumChildren() == 1)
+			{
+				// Collect points that could not find other nearby unassigned children
+				orphanedNodes.push_back(currentTarget);
+			}
+			else
+			{
+				futureRoot->computeRadius();
+				nextRootNodes.push_back(futureRoot);
+			}
+#else
 			futureRoot->computeRadius();
 			nextRootNodes.push_back(futureRoot);
+#endif
 		}
+
+#ifdef ALLOW_OVERFLOW_BACKFILL
+		// Go through nodes that weren't assigned to groups and force them into a few "overflow" groups.
+		for (auto soloNode : orphanedNodes)
+		{
+			broadphaseBuffer.clear();
+			int numBroadPhasePointsToFind = SphereTree::SphereTreeNodeGoal * 4;
+			spatialGrid.gatherNClosestToTarget(*soloNode, broadphaseBuffer, numBroadPhasePointsToFind);
+			sortByDistance(broadphaseBuffer, *soloNode);
+
+			for (size_t i = 0; i < broadphaseBuffer.size(); i++)
+			{
+				Vector3Visited& newChild = *broadphaseBuffer[i];
+				// This time we do look specifically FOR visited nodes.
+				if ((&newChild != soloNode) && newChild.visited)
+				{
+					SphereTreeNode<SphereTree::SphereTreeNodeMax>* overflowRoot = static_cast<SphereTreeNode<SphereTree::SphereTreeNodeMax>*>(newChild.node->getParent());
+					if (overflowRoot->getNumChildren() < SphereTree::SphereTreeNodeMax)
+					{
+						overflowRoot->addChild(soloNode->node);
+						overflowRoot->computeRadius();
+						break;
+					}
+				}
+			}
+		}
+#endif
 
 		assert(debug_allPointsVisited(rootPoints));
 		rootNodes.clear();

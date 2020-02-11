@@ -41,7 +41,7 @@ void drawNthLayerSphereTreeNodes(int layer, GUIHelperInterface* guiHelper, VSC::
 	else
 	{
 		// This is going to leak a lot of memory
-		btSphereShape* sphere = new btSphereShape(std::max(treeNode->getRadius(), 0.05f));
+		btSphereShape* sphere = new btSphereShape(std::max(treeNode->getRadius(), 0.02f));
 		guiHelper->createCollisionShapeGraphicsObject(sphere);
 		btCollisionObject* sphereObject = new btCollisionObject();
 		sphereObject->setCollisionShape(sphere);
