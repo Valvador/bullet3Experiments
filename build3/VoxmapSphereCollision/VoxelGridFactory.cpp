@@ -132,7 +132,7 @@ bool debug_allPointsVisited(std::vector<Vector3Visited>& points)
 
 #define ALLOW_POINT_HOP
 #define ALLOW_OVERFLOW_BACKFILL // Sometimes we leave individual notes without children due to the filling process. This lets us hold on to orphaned nodes and refil.
-const float leafNodeRadius = 0.2f; // TODO <- THIS SHOULD ACTUALLY DEPEND ON THE VOXEL WIDTH
+const float leafNodeRadius = 0.1f; // TODO <- THIS SHOULD ACTUALLY DEPEND ON THE VOXEL WIDTH
 // Generates Sphere Tree, final piece of the Voxelmap Pointshell Algorithm
 SphereTree* VoxelGridFactory::generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection)
 {

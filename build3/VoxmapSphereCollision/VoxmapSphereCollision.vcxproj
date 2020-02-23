@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,6 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -129,7 +131,8 @@
   <ItemGroup>
     <ClInclude Include="Base\Grid.h" />
     <ClInclude Include="Base\TreeNode.h" />
-    <ClInclude Include="DistanceGridSphereTreeShape.h" />
+    <ClInclude Include="Collision\DistanceGridSphereTreeCollisionAlgorithm.h" />
+    <ClInclude Include="Collision\DistanceGridSphereTreeShape.h" />
     <ClInclude Include="Math\Geometry2D.h" />
     <ClInclude Include="Math\Geometry3D.h" />
     <ClInclude Include="Math\Vector3.h" />
@@ -141,7 +144,8 @@
     <ClInclude Include="VoxelGrid.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DistanceGridSphereTreeShape.cpp" />
+    <ClCompile Include="Collision\DistanceGridSphereTreeCollisionAlgorithm.cpp" />
+    <ClCompile Include="Collision\DistanceGridSphereTreeShape.cpp" />
     <ClCompile Include="SpatialGrid.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

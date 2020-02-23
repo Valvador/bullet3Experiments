@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Base">
       <UniqueIdentifier>{4e1622dc-fc64-4320-b242-5d6b7842fc1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{9113f6bc-2458-4a93-b342-340e87271d5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{491a65d3-5ea4-4d4b-9499-584bb14d6895}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -45,9 +51,6 @@
     <ClInclude Include="Math\Geometry3D.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceGridSphereTreeShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Base\TreeNode.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
@@ -60,6 +63,12 @@
     <ClInclude Include="SpatialGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Collision\DistanceGridSphereTreeShape.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\DistanceGridSphereTreeCollisionAlgorithm.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -71,11 +80,14 @@
     <ClCompile Include="VoxelGridFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DistanceGridSphereTreeShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpatialGrid.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\DistanceGridSphereTreeShape.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\DistanceGridSphereTreeCollisionAlgorithm.cpp">
+      <Filter>Source Files\Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
