@@ -11,6 +11,17 @@ TestRunner::TestRunner()
 	registerTest(new Geometry2DTest());
 	registerTest(new Geometry3DTest());
 	registerTest(new VoxelmapTest());
+	registerTest(new TransformTest());
+}
+
+TestRunner::~TestRunner()
+{
+	for (auto& test : tests)
+	{
+		delete test.test;
+	}
+
+	tests.clear();
 }
 
 void TestRunner::registerTest(TestRunnerTest* test)

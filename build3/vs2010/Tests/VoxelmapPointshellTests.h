@@ -20,3 +20,10 @@ class VoxelmapTest : public TestRunnerTest
 public:
 	bool runTest() override;
 };
+
+class TransformTest : public TestRunnerTest
+{
+public:
+	static float random(float maxRand);
+	bool runTest() override;
+};

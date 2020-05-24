@@ -4,6 +4,7 @@
 #include "../../VoxmapSphereCollision/Base/Grid.h"
 #include "../../VoxmapSphereCollision/VoxelGrid.h"
 #include "../../VoxmapSphereCollision/VoxelGridFactory.h"
+#include "../../VoxmapSphereCollision/Math/Transform.h"
 #include <assert.h>
 
 using namespace VSC;
@@ -187,5 +188,56 @@ bool VoxelmapTest::runTest()
 			return false;
 		}
 	}
+	return true;
+}
+
+float TransformTest::random(float max)
+{
+	return static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / max));
+}
+
+Vector3 randomVector()
+{
+	return Vector3(TransformTest::random(1000), TransformTest::random(1000), TransformTest::random(1000));
+}
+
+Quaternion randomQuat()
+{
+	Quaternion result = Quaternion(TransformTest::random(1000), randomVector());
+	result.normalize();
+	return result;
+}
+
+Transform randomTransform()
+{
+	return Transform(randomVector(), randomQuat());
+}
+
+bool TransformTest::runTest()
+{
+	std::srand(1);
+
+	// INVERSE TESTS
+	for (int i = 0; i < 100; i++)
+	{
+		Transform randT = randomTransform();
+		Transform finalT = randT * randT.inverse();
+
+		bool positionReset = (finalT.getPosition()).sqrMagnitude() < 1e-5f;
+		bool rotationScalar = (finalT.getRotation().getScalarW() - 1.0) < 1e-5f;
+		bool rotationVector = (finalT.getRotation().getVectorIJK().sqrMagnitude()) < 1e-5f;
+		if (!positionReset || !rotationScalar || !rotationVector)
+		{
+			assert(positionReset);  // Position did not return to origin
+			assert(rotationScalar); // W in Quaternion did not get set to 1
+			assert(rotationVector); // IJK in Quaternion did not get set to 0,0,0
+			return false;
+		}
+	}
+
+	// TODO, test the "pointToWorldSpace" and "pointToLocalSpace"
+
+	// TODO, use real angles for Quaternion test.
+
 	return true;
 }

@@ -26,5 +26,6 @@ private:
 	void registerTest(TestRunnerTest* test);
 public:
 	TestRunner();
+	~TestRunner();
 	bool runTests();
 };

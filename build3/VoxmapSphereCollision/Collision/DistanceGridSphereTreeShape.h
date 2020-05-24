@@ -1,4 +1,5 @@
 #include "VoxelGrid.h"
+#include "SphereTree.h"
 
 namespace VSC
 {
@@ -7,6 +8,7 @@ namespace VSC
 	private:
 		VoxelGrid* roughGrid;
 		VoxelGridDistanceField* fineGrid;
+		SphereTree* sphereTree;
 		// todo, add SphereTree
 	public:
 		DistanceGridSphereTreeShape() {};

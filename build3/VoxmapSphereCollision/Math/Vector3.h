@@ -131,6 +131,13 @@ public:
 		z += other.z;
 	}
 
+	void operator-=(const Vector3& other)
+	{
+		x -= other.x;
+		y -= other.y;
+		z -= other.z;
+	}
+
 	bool operator==(const Vector3& other) const
 	{
 		return x == other.x && y == other.y && z == other.z;
@@ -215,6 +222,11 @@ public:
 	Vector3 normalized() const
 	{
 		return *this * (1.0f / (sqrtf(sqrMagnitude())));
+	}
+
+	void normalize()
+	{
+		(*this) = normalized();
 	}
 
 	float maxValue() const

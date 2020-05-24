@@ -135,6 +135,9 @@
     <ClInclude Include="Collision\DistanceGridSphereTreeShape.h" />
     <ClInclude Include="Math\Geometry2D.h" />
     <ClInclude Include="Math\Geometry3D.h" />
+    <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Transform.h" />
+    <ClInclude Include="Math\Util.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector3int32.h" />
     <ClInclude Include="SpatialGrid.h" />

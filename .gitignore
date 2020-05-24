@@ -304,3 +304,7 @@ VHACD/VHACD/Debug/VHACD.tlog/rc.read.1.tlog
 VHACD/VHACD/Debug/VHACD.tlog/rc.write.1.tlog
 VHACD/VHACD/Debug/VHACD.tlog/VHACD.lastbuildstate
 VHACD/VHACD/Debug/VHACD_dbg.Build.CppClean.log
+*.lib
+*.log
+*.tlog
+*.lastbuildstate
