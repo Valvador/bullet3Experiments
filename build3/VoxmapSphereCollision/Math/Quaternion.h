@@ -21,6 +21,20 @@ public:
 		v(_v)
 	{}
 
+	// Assumes input angle is in radians
+	static Quaternion createRotationQuaternionRadians(float angleRadians, const Vector3& rotationAxis)
+	{
+		Vector3 v = rotationAxis;
+		v.normalize();
+		return Quaternion(cosf(angleRadians * 0.5f), v * sinf(angleRadians * 0.5f));
+	}
+
+	// Assumes input angle is in degrees
+	static Quaternion createRotationQuaternionDegrees(float angleDegrees, const Vector3& rotationAxis)
+	{
+		return createRotationQuaternionRadians(MathUtil::degreesToRadians(angleDegrees), rotationAxis);
+	}
+
 	// Operators
 	void operator+=(const Quaternion& q)
 	{
@@ -82,14 +96,6 @@ public:
 			float nInverse = 1 / n;
 			(*this) *= nInverse;
 		}
-	}
-
-	void convertToUnitRotQuaternion()
-	{
-		float angle = MathUtil::degreesToRadians(w);
-		v.normalize();
-		w = cosf(angle * 0.5);
-		v = v * sinf(angle * 0.5);
 	}
 
 	Quaternion conjugate() const

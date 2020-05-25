@@ -196,14 +196,39 @@ float TransformTest::random(float max)
 	return static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / max));
 }
 
+int TransformTest::random(int max)
+{
+	return (rand() / (RAND_MAX / max));
+}
+
+// Hacky way to compare two vectors despite floating point drift
+// Basically checks if the smallest vector is within 'factor' % of the larger vector.
+bool TransformTest::compareVectors(const Vector3& v0, const Vector3& v1, float factor)
+{
+	float adjustedEps = v0.sqrMagnitude() > v1.sqrMagnitude() ? 
+		sqrt(v0.sqrMagnitude()) * factor: 
+		sqrt(v1.sqrMagnitude()) * factor;
+
+	if (adjustedEps < 1e-5f)
+	{
+		adjustedEps = 1e-5f;
+	}
+
+	if ((v1 - v0).sqrMagnitude() <= adjustedEps)
+	{
+		return true;
+	}
+	return false;
+}
+
 Vector3 randomVector()
 {
-	return Vector3(TransformTest::random(1000), TransformTest::random(1000), TransformTest::random(1000));
+	return Vector3(TransformTest::random(1000.0f), TransformTest::random(1000.0f), TransformTest::random(1000.0f));
 }
 
 Quaternion randomQuat()
 {
-	Quaternion result = Quaternion(TransformTest::random(1000), randomVector());
+	Quaternion result = Quaternion(TransformTest::random(1000.0f), randomVector());
 	result.normalize();
 	return result;
 }
@@ -235,9 +260,81 @@ bool TransformTest::runTest()
 		}
 	}
 
-	// TODO, test the "pointToWorldSpace" and "pointToLocalSpace"
+	// pointToWorldSpace and pointToLocalSpace
+	for (int i = 0; i < 100; i++)
+	{
+		Vector3 randV = randomVector();
+		Transform randTransform = randomTransform();
 
-	// TODO, use real angles for Quaternion test.
+		// Assume the starting vector is world space
+		Vector3 localSpace = randTransform.pointToLocalSpace(randV);
+		Vector3 worldSpace = randTransform.pointToWorldSpace(localSpace);
+
+		if (!TransformTest::compareVectors(worldSpace, randV))
+		{
+			return false;
+		}
+
+		// Assume the starting vector is local space
+		worldSpace = randTransform.pointToWorldSpace(randV);
+		localSpace = randTransform.pointToLocalSpace(worldSpace);
+
+		if (!TransformTest::compareVectors(localSpace, randV))
+		{
+			return false;
+		}
+	}
+
+	// 90 degree rotation of 1, 0, 0 using 0, 1, 0 axis.
+	Vector3 start = Vector3(1, 0, 0);
+	Vector3 rotAxis = Vector3(0, 1, 0);
+	float rotAngle = 90;
+	Quaternion rotQuat = Quaternion::createRotationQuaternionDegrees(rotAngle, rotAxis);
+
+	Vector3 result = rotQuat.rotateVector(start);
+	if (!TransformTest::compareVectors(result, Vector3(0, 0, -1)))
+	{
+		return false;
+	}
+
+	Vector3 result2 = rotQuat.rotateVector(result);
+	if (!TransformTest::compareVectors(result2, Vector3(-1, 0, 0)))
+	{
+		return false;
+	}
+
+	Vector3 result3 = rotQuat.rotateVector(result2);
+	if (!TransformTest::compareVectors(result3, Vector3(0, 0, 1)))
+	{
+		return false;
+	}
+
+	Vector3 result4 = rotQuat.rotateVector(result3);
+	if (!TransformTest::compareVectors(result4, start))
+	{
+		return false;
+	}
+
+	// Random Axes and rotate around in full circles.
+	for (int i = 0; i < 100; i++)
+	{
+		int numToRotate = random(100);
+		Vector3 rotAxis = randomVector();
+		Vector3 startVector = randomVector();
+		float rotAngle = 360.0f / numToRotate;
+		Quaternion rotQuat = Quaternion::createRotationQuaternionDegrees(rotAngle, rotAxis);
+		Vector3 workingVector = startVector;
+		for (int j = 0; j < numToRotate; j++)
+		{
+			workingVector = rotQuat.rotateVector(workingVector);
+		}
+
+		if (!TransformTest::compareVectors(workingVector, startVector))
+		//if ((workingVector - startVector).sqrMagnitude() > 1e-5f)
+		{
+			return false;
+		}
+	}
 
 	return true;
 }
