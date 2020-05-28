@@ -330,7 +330,6 @@ bool TransformTest::runTest()
 		}
 
 		if (!TransformTest::compareVectors(workingVector, startVector))
-		//if ((workingVector - startVector).sqrMagnitude() > 1e-5f)
 		{
 			return false;
 		}

@@ -39,6 +39,7 @@ VoxelGrid* VoxelGridFactory::generateVoxelGridFromMesh(const float* vertices, si
 
 // Brute forcish method that finds "0" voxels in the grid, which are surface voxels, and then finds any triangles that 
 // are part of this voxel grid.
+// vgorbunov TODO - We need to TEST this method.
 VoxelGridDistanceField* VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(
 	const SparseGrid<Vector3>& surfaceProjection, const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid)
 {

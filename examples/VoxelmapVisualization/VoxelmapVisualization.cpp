@@ -27,6 +27,7 @@ struct VoxelmapVisualization : public CommonRigidBodyBase
 	VSC::SparseGrid<VSC::Vector3> gridGradient;
 	VSC::SparseGrid<VSC::Vector3> surfaceProjection;
 	VSC::SphereTree* sphereTree;
+	VSC::VoxelGridDistanceField* distanceField;
 };
 
 void drawNthLayerSphereTreeNodes(int layer, GUIHelperInterface* guiHelper, VSC::SphereTreeNode<VSC::SphereTree::SphereTreeNodeMax>* treeNode, int currentLayer = 0)
@@ -71,6 +72,7 @@ void VoxelmapVisualization::initPhysics()
 	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
 	gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
 	surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)& boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
+	distanceField = VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(surfaceProjection, gridGradient, resultGrid);
 	sphereTree = VoxelGridFactory::generateSphereTreeFromSurfaceProjections(surfaceProjection);
 
 	drawNthLayerSphereTreeNodes(3, m_guiHelper, sphereTree->getRootNode());
@@ -98,6 +100,7 @@ static void drawCircleFromLines(const VSC::Vector3& position, float radius)
 	// Draw lines to form a circle here.
 }
 
+static bool drawDistanceField = true;
 void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 {
 	btTransform startTransform;
@@ -124,7 +127,15 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 							VSC::Vector3 position = gridDesc.gridCenterToCoord(Vector3int32(x, y, z));;
 							float r, g, b;
 							getRGB(r, g, b, (i + 2) / 5.0f);
-							m_guiHelper->drawText3D(std::to_string(i).c_str(), position.x, position.y, position.z, 1.0f, r,g,b);
+							if (drawDistanceField)
+							{
+								const float* distance = distanceField->getVoxel(Vector3int32(x, y, z));
+								m_guiHelper->drawText3D(std::to_string(*distance).c_str(), position.x, position.y, position.z, 1.0f, r, g, b);
+							}
+							else
+							{
+								m_guiHelper->drawText3D(std::to_string(i).c_str(), position.x, position.y, position.z, 1.0f, r, g, b);
+							}
 
 							// Gradient
 							if (const VSC::Vector3 * value = gridGradient.getAt(Vector3int32(x, y, z)))

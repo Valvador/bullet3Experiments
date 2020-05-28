@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="Base\Grid.h" />
     <ClInclude Include="Base\TreeNode.h" />
+    <ClInclude Include="Collision\CollisionShape.h" />
     <ClInclude Include="Collision\DistanceGridSphereTreeCollisionAlgorithm.h" />
     <ClInclude Include="Collision\DistanceGridSphereTreeShape.h" />
     <ClInclude Include="Math\Geometry2D.h" />
