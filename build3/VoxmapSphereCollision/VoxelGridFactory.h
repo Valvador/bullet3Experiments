@@ -11,6 +11,8 @@ namespace VSC
 class VoxelGridFactory
 {
 public:
+	static int getGridExpansionValue() { return 4; }
+
 	// Assumes Stride of 12 bytes per vertex. numVertices implies # of 12 byte vertices. Assumes stride of 12 bytes per triangle.
 	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth);
 	static VoxelGridDistanceField* generateDistanceFieldFromMeshAndVoxelGrid(const SparseGrid<Vector3>& surfaceProjection, 

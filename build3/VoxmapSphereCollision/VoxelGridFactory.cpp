@@ -666,7 +666,7 @@ void VoxelGridFactory::fillGridVoxelDistanceLayers(VoxelGrid* grid)
 	// Expand grid by 2 in every direction.
 	Vector3int32 oldMin = grid->gridDesc.min;
 	Vector3int32 oldMax = grid->gridDesc.max;
-	grid->gridDesc.expandGridBy(Vector3int32(2)); 
+	grid->gridDesc.expandGridBy(Vector3int32(getGridExpansionValue()));
 	const Vector3int32 newMin = grid->gridDesc.min;
 	const Vector3int32 newMax = grid->gridDesc.max;
 

@@ -119,14 +119,14 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 			{
 				if (const int32_t * value = resultGrid->getVoxel(Vector3int32(x, y, z)))
 				{
-					for (int i = -2; i <= 2; i++)
+					for (int i = -VoxelGridFactory::getGridExpansionValue(); i <= VoxelGridFactory::getGridExpansionValue(); i++)
 					{
-						int indexOffset = i + 2;
+						int indexOffset = i + VoxelGridFactory::getGridExpansionValue();
 						if (*value == i)
 						{
 							VSC::Vector3 position = gridDesc.gridCenterToCoord(Vector3int32(x, y, z));;
 							float r, g, b;
-							getRGB(r, g, b, (i + 2) / 5.0f);
+							getRGB(r, g, b, (i + VoxelGridFactory::getGridExpansionValue()) / float(VoxelGridFactory::getGridExpansionValue() * 2 + 1));
 							if (drawDistanceField)
 							{
 								const float* distance = distanceField->getVoxel(Vector3int32(x, y, z));
