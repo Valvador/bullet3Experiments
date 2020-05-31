@@ -229,9 +229,9 @@ public:
 		(*this) = normalized();
 	}
 
-	float maxValue() const
+	float maxAbsValue() const
 	{
-		return std::fmaxf(std::fmaxf(x, y), z);
+		return std::fmaxf(std::fmaxf(std::fabs(x), std::fabs(y)), std::fabs(z));
 	}
 };
 };

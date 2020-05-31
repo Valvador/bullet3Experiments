@@ -67,7 +67,7 @@ void VoxelmapVisualization::initPhysics()
 	using namespace VSC;
 	std::vector<float> boxVert;
 	std::vector<size_t> boxInd;
-	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.2f), Vector3(0.0f), boxVert, boxInd);
+	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.11f), Vector3(0.0f), boxVert, boxInd);
 	voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
 	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
 	gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
@@ -130,7 +130,7 @@ void VoxelmapVisualization::physicsDebugDraw(int debugFlags)
 							if (drawDistanceField)
 							{
 								const float* distance = distanceField->getVoxel(Vector3int32(x, y, z));
-								m_guiHelper->drawText3D(std::to_string(*distance).c_str(), position.x, position.y, position.z, 1.0f, r, g, b);
+								m_guiHelper->drawText3D(std::to_string(*distance).substr(0,5).c_str(), position.x, position.y, position.z, 1.0f, r, g, b);
 							}
 							else
 							{
