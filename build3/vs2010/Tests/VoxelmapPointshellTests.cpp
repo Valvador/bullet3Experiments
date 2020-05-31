@@ -337,3 +337,16 @@ bool TransformTest::runTest()
 
 	return true;
 }
+
+bool VoxelDistanceFieldAndSphereMapTests::runTest()
+{
+	std::vector<float> boxVert;
+	std::vector<size_t> boxInd;
+	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.11f), Vector3(0.0f), boxVert, boxInd);
+	float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
+	VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
+	SparseGrid<Vector3> gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
+	SparseGrid<Vector3> surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
+	VoxelGridDistanceField* distanceField = VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(surfaceProjection, gridGradient, resultGrid);
+	SphereTree* sphereTree = VoxelGridFactory::generateSphereTreeFromSurfaceProjections(surfaceProjection);
+}

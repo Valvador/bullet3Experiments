@@ -12,6 +12,7 @@ TestRunner::TestRunner()
 	registerTest(new Geometry3DTest());
 	registerTest(new VoxelmapTest());
 	registerTest(new TransformTest());
+	registerTest(new VoxelDistanceFieldAndSphereMapTests());
 }
 
 TestRunner::~TestRunner()

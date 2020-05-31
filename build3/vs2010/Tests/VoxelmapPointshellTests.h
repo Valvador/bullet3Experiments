@@ -32,3 +32,9 @@ public:
 
 	bool runTest() override;
 };
+
+class VoxelDistanceFieldAndSphereMapTests : public TestRunnerTest
+{
+public:
+	bool runTest() override;
+};
