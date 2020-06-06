@@ -14,7 +14,7 @@ public:
 	static int getGridExpansionValue() { return 4; }
 
 	// Assumes Stride of 12 bytes per vertex. numVertices implies # of 12 byte vertices. Assumes stride of 12 bytes per triangle.
-	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth);
+	static VoxelGrid* generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, size_t expandBy = getGridExpansionValue());
 	static VoxelGridDistanceField* generateDistanceFieldFromMeshAndVoxelGrid(const SparseGrid<Vector3>& surfaceProjection, 
 		const SparseGrid<Vector3>& gradientGrid, const VoxelGrid* voxelGrid);
 	static SphereTree* generateSphereTreeFromSurfaceProjections(const SparseGrid<Vector3>& surfaceProjection);
@@ -30,7 +30,7 @@ private:
 	// Helpers
 	// // VoxelGrid helpers
 	static void fillGridWithTriangleSurfaceVoxels(VoxelGrid* grid, const Vector3& v0, const Vector3& v1, const Vector3& v2);
-	static void fillGridVoxelDistanceLayers(VoxelGrid* grid);
+	static void fillGridVoxelDistanceLayers(VoxelGrid* grid, size_t expandBy);
 
 	// // Intermediate Structure Helpers (For Distance Fields and Sphere Shells)
 	// // // Populates 'gradientGrid', which contains gradient value per voxel from from negative to positive "depths" of object

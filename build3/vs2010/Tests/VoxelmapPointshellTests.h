@@ -33,8 +33,15 @@ public:
 	bool runTest() override;
 };
 
+namespace VSC
+{
+class VoxelGrid;
+}
+
 class VoxelDistanceFieldAndSphereMapTests : public TestRunnerTest
 {
+private:
+	bool checkBlockVoxelGridValues(VSC::VoxelGrid* testGrid, float voxWidth, const VSC::Vector3& boxSize);
 public:
 	bool runTest() override;
 };

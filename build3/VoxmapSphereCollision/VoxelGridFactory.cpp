@@ -16,7 +16,7 @@
 namespace VSC
 {
 // Assumes Vertices have stride of 12 Bytes, 4 per axis 
-VoxelGrid* VoxelGridFactory::generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth)
+VoxelGrid* VoxelGridFactory::generateVoxelGridFromMesh(const float* vertices, size_t numVertices, const size_t* indices, size_t numTriangles, float voxWidth, size_t expandBy)
 {
 	Vector3* verts = (Vector3*)vertices;
 	GridDesc gridDesc(voxWidth, verts, numVertices);
@@ -32,7 +32,7 @@ VoxelGrid* VoxelGridFactory::generateVoxelGridFromMesh(const float* vertices, si
 		// Fill "Surface Voxels"
 		fillGridWithTriangleSurfaceVoxels(gridOut, v0, v1, v2);
 	}
-	fillGridVoxelDistanceLayers(gridOut);
+	fillGridVoxelDistanceLayers(gridOut, expandBy);
 
 	return gridOut;
 }
@@ -659,14 +659,14 @@ static void sixAxisScanlineFill(VoxelGrid* grid)
 	}
 }
 
-void VoxelGridFactory::fillGridVoxelDistanceLayers(VoxelGrid* grid)
+void VoxelGridFactory::fillGridVoxelDistanceLayers(VoxelGrid* grid, size_t expandBy)
 {
 	assert(grid->countSurfaceVoxels() > 0);
 
 	// Expand grid by 2 in every direction.
 	Vector3int32 oldMin = grid->gridDesc.min;
 	Vector3int32 oldMax = grid->gridDesc.max;
-	grid->gridDesc.expandGridBy(Vector3int32(getGridExpansionValue()));
+	grid->gridDesc.expandGridBy(Vector3int32(expandBy));
 	const Vector3int32 newMin = grid->gridDesc.min;
 	const Vector3int32 newMax = grid->gridDesc.max;
 

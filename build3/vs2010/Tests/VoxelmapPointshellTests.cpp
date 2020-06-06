@@ -338,15 +338,270 @@ bool TransformTest::runTest()
 	return true;
 }
 
+bool VoxelDistanceFieldAndSphereMapTests::checkBlockVoxelGridValues(VoxelGrid* testGrid, float voxWidth, const Vector3& boxSize)
+{
+	assert(boxSize.x == boxSize.y && boxSize.y == boxSize.z);
+
+	int centralValue = (boxSize.maxAbsValue() / voxWidth) / 2.0f;
+
+	int maxLayer = testGrid->getGridDescConst().max.z;
+	int minLayer = testGrid->getGridDescConst().min.z;
+	int layerTraverse = maxLayer - (maxLayer - minLayer) / 2.0f;
+	for (int i = 0; i < layerTraverse; i++)
+	{
+		int testValue = centralValue - i;
+		for (int x = -i; x <= i; x++)
+		{
+			for (int y = -i; y <= i; y++)
+			{
+				for (int z = -i; z <= i; z++)
+				{
+					if (std::abs(z) == i || std::abs(y) == i || std::abs(x) == i)
+					{
+						if (const int32_t* result = testGrid->getVoxel(Vector3int32(x, y, z)))
+						{
+							if (*result != testValue)
+							{
+								return false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+bool testSurfaceProjection(const SparseGrid<Vector3>& surfaceProjection, float voxWidth, Vector3& blockSize)
+{
+	assert(blockSize.x == blockSize.y && blockSize.y == blockSize.z);
+	int depth = (blockSize.maxAbsValue() / voxWidth) / 2.0f;
+	float remainder = (blockSize.maxAbsValue() / 2.0f);
+
+	for (int x = depth; x >= -depth; x--)
+	{
+		for (int y = depth; y >= -depth; y--)
+		{
+			for (int z = depth; z >= -depth; z--)
+			{
+				if (std::abs(x) == depth || std::abs(z) == depth || std::abs(y) == depth)
+				{
+					// We are on the surface voxels.
+					Vector3int32 id(x, y, z);
+					const Vector3* value = surfaceProjection.getAt(id);
+					if (!value)
+						return false;
+
+					// Check various expected cases.
+					if (std::abs(x) == std::abs(y) && std::abs(y) == std::abs(z) && std::abs(x) == depth)
+					{
+						// 3 face corners
+						Vector3 expectedValue =  Vector3( x / std::abs(x), y / std::abs(y), z / std::abs(z)) * remainder;
+						if (!value->fuzzyEquals(expectedValue, 1E-4f))
+						{
+							return false;
+						}
+					}
+					else if (std::abs(x) == std::abs(y) && std::abs(x) == depth)
+					{
+						// 2 face corners, x y
+						Vector3 expectedValue = Vector3(x / std::abs(x), y / std::abs(y), 0) * remainder + Vector3(0,0, value->z);
+						if (!value->fuzzyEquals(expectedValue, 1E-4f))
+						{
+							return false;
+						}
+					}
+					else if (std::abs(x) == std::abs(z) && std::abs(x) == depth)
+					{
+						// 2 face corners, x z
+						Vector3 expectedValue = Vector3(x / std::abs(x), 0, z / std::abs(z)) * remainder + Vector3(0, value->y, 0);
+						if (!value->fuzzyEquals(expectedValue, 1E-4f))
+						{
+							return false;
+						}
+					}
+					else if (std::abs(z) == std::abs(y) && std::abs(y) == depth)
+					{
+						// 2 face corners, z y
+						Vector3 expectedValue = Vector3(0, y / std::abs(y), z / std::abs(z)) * remainder + Vector3(value->x, 0, 0);
+						if (!value->fuzzyEquals(expectedValue, 1E-4f))
+						{
+							return false;
+						}
+					}
+					else
+					{
+						// Simple cases.
+						Vector3 expectedValue = (std::abs(x) == depth) ?
+							Vector3(x / std::abs(x) * remainder, value->y, value->z) :
+							(std::abs(y) == depth) ? 
+							    (Vector3(value->x, y / std::abs(y) * remainder, value->z)) :
+							    Vector3(value->x, value->y, z / std::abs(z) * remainder);
+
+						if (!value->fuzzyEquals(expectedValue, 1E-4f))
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+	}
+	// centralValue 
+
+	return true;
+}
+
+bool checkDistanceFields(VoxelGridDistanceField* distanceField, float voxWidth, Vector3& blockSize)
+{
+	assert(blockSize.x == blockSize.y && blockSize.y == blockSize.z);
+	int depth = (blockSize.maxAbsValue() / voxWidth) / 2.0f;
+
+	// Assume centered around 0, 0, 0.
+	Vector3int32 centerVoxel = Vector3int32(0, 0, 0);
+	const float* centerValue = distanceField->getVoxel(centerVoxel);
+	if (!centerValue)
+		return false;
+
+	float expectedCenter = depth * voxWidth;// +remainder;
+	if (std::fabs((*centerValue) - expectedCenter) > 1e-4f)
+	{
+		return false;
+	}
+
+	// Go up and down X.
+	for (int x = 0; x <= depth; x++)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(x, 0, 0));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(x) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+	for (int x = 0; x >= -depth; x--)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(x, 0, 0));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(x) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+
+	// Go up and down Y.
+	for (int y = 0; y <= depth; y++)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(0, y, 0));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(y) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+	for (int y = 0; y >= -depth; y--)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(0, y, 0));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(y) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+
+	// Go up and down Z.
+	for (int z = 0; z <= depth; z++)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(0, 0, z));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(z) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+	for (int z = 0; z >= -depth; z--)
+	{
+		const float* testValue = distanceField->getVoxel(centerVoxel + Vector3int32(0, 0, z));
+		if (!testValue)
+			return false;
+
+		float sideExpectedValue = expectedCenter - std::abs(z) * voxWidth;
+		if (std::fabs((*testValue) - sideExpectedValue) > 1e-4f)
+		{
+			return false;
+		}
+	}
+
+	// This could use some improvement. Going to be very lazy here.
+	return true;
+}
+
 bool VoxelDistanceFieldAndSphereMapTests::runTest()
 {
 	std::vector<float> boxVert;
 	std::vector<size_t> boxInd;
-	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.11f), Vector3(0.0f), boxVert, boxInd);
+	Vector3 blockSize = Vector3(1.2f);
+	VoxelGridFactory::debug_MakeBoxVertexIndices(blockSize, Vector3(0.0f), boxVert, boxInd);
 	float voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
-	VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
+	VoxelGrid* resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, 4 /*expandBy*/);
 	SparseGrid<Vector3> gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
 	SparseGrid<Vector3> surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
 	VoxelGridDistanceField* distanceField = VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(surfaceProjection, gridGradient, resultGrid);
 	SphereTree* sphereTree = VoxelGridFactory::generateSphereTreeFromSurfaceProjections(surfaceProjection);
+
+	/*  Our Test Box
+         Voxel Grid Expected
+	     -3-2-1 0 1 2 3
+		 3|-----------|
+		 2| 1 1 1 1 1 |
+		 1| 1 2 2 2 1 |
+		 0| 1 2 3 2 1 |
+		-1| 1 2 2 2 1 |
+		-2| 1 1 1 1 1 |
+		-3|-----------|
+	*/
+	if (!checkBlockVoxelGridValues(resultGrid, voxelWidth, blockSize))
+	{
+		return false;
+	}
+	/*
+	     Gradient Expected
+		 -3-2-1 0 1 2 3
+		 3|-----------|
+		 2| \   |   / |
+		 1|   \ | /   |
+		 0|-----c-----|
+		-1|   / | \   |
+		-2| /   |   \ |
+		-3|-----------|
+	
+	
+	*/
+	if (!testSurfaceProjection(surfaceProjection, voxelWidth, blockSize))
+	{
+		return false;
+	}
+	if (!checkDistanceFields(distanceField, voxelWidth, blockSize))
+	{
+		return false;
+	}
+
+	return true;
 }

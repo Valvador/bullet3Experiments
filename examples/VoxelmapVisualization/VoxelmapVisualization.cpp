@@ -67,15 +67,15 @@ void VoxelmapVisualization::initPhysics()
 	using namespace VSC;
 	std::vector<float> boxVert;
 	std::vector<size_t> boxInd;
-	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.11f), Vector3(0.0f), boxVert, boxInd);
-	voxelWidth = 0.2f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
-	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth);
+	VoxelGridFactory::debug_MakeBoxVertexIndices(Vector3(1.20f), Vector3(0.0f), boxVert, boxInd);
+	voxelWidth = 0.1f; // With box size 1.2f, we should have center voxel empty, but immediately surrounded voxels full.
+	resultGrid = VoxelGridFactory::generateVoxelGridFromMesh((const float*)&boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, 0);
 	gridGradient = VoxelGridFactory::getVoxelGridGradient(resultGrid);
 	surfaceProjection = VoxelGridFactory::getSurfaceProjection(gridGradient, (const float*)& boxVert[0], boxVert.size() / 3, &boxInd[0], boxInd.size() / 3, voxelWidth, resultGrid);
 	distanceField = VoxelGridFactory::generateDistanceFieldFromMeshAndVoxelGrid(surfaceProjection, gridGradient, resultGrid);
 	sphereTree = VoxelGridFactory::generateSphereTreeFromSurfaceProjections(surfaceProjection);
 
-	drawNthLayerSphereTreeNodes(3, m_guiHelper, sphereTree->getRootNode());
+	//drawNthLayerSphereTreeNodes(3, m_guiHelper, sphereTree->getRootNode());
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
 }
 
