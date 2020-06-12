@@ -18,7 +18,6 @@ namespace VSC
 			,sphereTree(sTree)
 		{}
 
-		DistanceGridSphereTreeShape() 
-		{}
+		virtual CollisionShapeType getShapeType() const override { return CollisionShapeType::DistanceGridSphereTree; }
 	};
 }

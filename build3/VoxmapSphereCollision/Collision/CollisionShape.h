@@ -13,6 +13,12 @@ struct AxisAlignedBoundingBox
 	AxisAlignedBoundingBox(){};
 };
 
+enum CollisionShapeType
+{
+	DistanceGridSphereTree,
+	None
+};
+
 class CollisionShape
 {
 private:
@@ -25,5 +31,7 @@ public:
 
 	const AxisAlignedBoundingBox& getLocalBoundingBox() { return localBox; }
 	void setLocalBoundingBox(const AxisAlignedBoundingBox& box) { localBox = box; }
+
+	virtual CollisionShapeType getShapeType() const = 0;
 };
 } // namespace VSC
