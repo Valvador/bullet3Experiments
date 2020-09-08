@@ -5,6 +5,6 @@ namespace VSC
 {
 bool DistanceGridSphereTreeCollisionAlgorithm::doCollide()
 {
-
+    return false;
 }
 };

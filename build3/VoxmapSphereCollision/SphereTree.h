@@ -1,3 +1,4 @@
+#pragma once
 #include "Base/TreeNode.h"
 #include "Math/Vector3.h"
 
